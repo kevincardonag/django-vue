@@ -1,0 +1,207 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>{{ request.tenant.name }}</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://fonts.googleapis.com/css?family=Rubik:400,700|Crimson+Text:400,400i" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'tenant_template/fonts/icomoon/style.css' %}">
+
+    <link rel="stylesheet" href="{% static 'tenant_template/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'tenant_template/css/magnific-popup.css' %}">
+    <link rel="stylesheet" href="{% static 'tenant_template/css/jquery-ui.css' %}">
+    <link rel="stylesheet" href="{% static 'tenant_template/css/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'tenant_template/css/owl.theme.default.min.css' %}">
+
+
+    <link rel="stylesheet" href="{% static 'tenant_template/css/aos.css' %}">
+
+    <link rel="stylesheet" href="{% static 'tenant_template/css/style.css' %}">
+
+    <link rel="stylesheet" href="{% static 'tenant_template/css/cart/carrito.css' %}">
+    <!--<link rel="stylesheet" href="{% static 'tenant_template/css/cart/main.css' %}">-->
+
+</head>
+
+<body>
+
+<!-- INICIA LISTA DE COMPRA -->
+<div id="show_carrito" class="wrap-header-cart js-panel-cart">
+    <div class="s-full js-hide-cart close_carrito"></div>
+    <div class="header-cart flex-col-l p-l-65 p-r-25">
+        <div class="header-cart-title flex-w flex-sb-m p-b-8">
+            <span class="mtext-103 cl2">Carrito</span>
+            <div class="close_carrito fs-35 lh-10 cl2 p-lr-5 pointer hov-cl1 trans-04 js-hide-cart">
+                <i class="fas fa-times"></i>
+            </div>
+        </div>
+        <div class="header-cart-content flex-w js-pscroll">
+            <ul class="header-cart-wrapitem w-full barra_carrito" id="ul_car">
+
+            </ul>
+            <div class="w-full">
+                <div class="header-cart-total w-full p-tb-40" id="total_cart"></div>
+                <div class="header-cart-buttons flex-w w-full">
+                    <a href="/cart/" id="show-cat-btn" style="border-radius: 35px" class="buy-now btn btn-sm height-auto px-4 py-3 btn-primary">Ver Carrito</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- TERMINA LISTA DE COMPRA -->
+
+<div class="site-wrap">
+
+
+    <div class="site-navbar py-2">
+
+        <div class="search-wrap">
+            <div class="container">
+                <a href="#" class="search-close js-search-close"><span class="icon-close2"></span></a>
+                <form action="#" method="post">
+                    <input type="text" class="form-control" placeholder="Search keyword and hit enter...">
+                </form>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="d-flex align-items-center justify-content-between">
+                <div class="logo">
+                    <div class="site-logo">
+                        <a href="index.html" class="js-logo-clone">{{ request.tenant.name }}</a>
+                    </div>
+                </div>
+                <div class="main-nav d-none d-lg-block">
+                    <nav class="site-navigation text-right text-md-center" role="navigation">
+                        <ul class="site-menu js-clone-nav d-none d-lg-block">
+                            <li class="{% if request.path == '/' %}active{% endif %}"><a href="/">Inicio</a></li>
+                            <li class="{% if request.path == '/shop/' %}active{% endif %}"><a
+                                    href="{% url 'clients:shop' %}">Tienda</a></li>
+                            <li class="{% if request.path == '/about/' %}active{% endif %}"><a
+                                    href="{% url 'clients:about' %}">Nosotros</a></li>
+                            <li class="{% if request.path == '/contact/' %}active{% endif %}"><a
+                                    href="{% url 'clients:contact' %}">Contacto</a></li>
+                            {% if not request.user.is_authenticated %}
+                                <li><a href="{% url 'login' %}">Iniciar Sesión</a></li>
+                            {% else %}
+                                <li><a href="{% url 'sales:index' %}">Administración</a></li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                </div>
+                <div class="icons">
+                    <a href="#" class="icons-btn d-inline-block js-search-open"><span class="icon-search"></span></a>
+                    <button id="carrito" class="icons-btn d-inline-block bag" data-tip="Abrir carrito de compras"
+                            data-tip-position="left" data-tip-text>
+                        <span class="icon-shopping-bag"></span>
+                        <span class="number" id="pending_products"></span>
+                    </button>
+
+                    <a href="#" class="site-menu-toggle js-menu-toggle ml-3 d-inline-block d-lg-none"><span
+                            class="icon-menu"></span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% block content %}
+    {% endblock %}
+    <footer class="site-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-lg-3 mb-4 mb-lg-0">
+
+                    <div class="block-7">
+                        <h3 class="footer-heading mb-4">About Us</h3>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eius quae reiciendis distinctio
+                            voluptates
+                            sed dolorum excepturi iure eaque, aut unde.</p>
+                    </div>
+
+                </div>
+                <div class="col-lg-3 mx-auto mb-5 mb-lg-0">
+                    <h3 class="footer-heading mb-4">Quick Links</h3>
+                    <ul class="list-unstyled">
+                        <li><a href="#">Supplements</a></li>
+                        <li><a href="#">Vitamins</a></li>
+                        <li><a href="#">Diet &amp; Nutrition</a></li>
+                        <li><a href="#">Tea &amp; Coffee</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-md-6 col-lg-3">
+                    <div class="block-5 mb-5">
+                        <h3 class="footer-heading mb-4">Contact Info</h3>
+                        <ul class="list-unstyled">
+                            <li class="address">203 Fake St. Mountain View, San Francisco, California, USA</li>
+                            <li class="phone"><a href="tel://23923929210">+2 392 3929 210</a></li>
+                            <li class="email">emailaddress@domain.com</li>
+                        </ul>
+                    </div>
+
+
+                </div>
+            </div>
+            <div class="row pt-5 mt-5 text-center">
+                <div class="col-md-12">
+                    <p>
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        Copyright &copy;
+                        <script>document.write(new Date().getFullYear());</script>
+                        All rights reserved | This template is made
+                        with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://colorlib.com"
+                                                                                 target="_blank"
+                                                                                 class="text-primary">Colorlib</a>
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </footer>
+</div>
+
+<div id="ajax-base-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function getCookie(name) {
+        var value = "; " + document.cookie;
+        var parts = value.split("; " + name + "=");
+        if (parts.length == 2) return parts.pop().split(";").shift();
+    }
+</script>
+
+<script src="{% static 'tenant_template/js/jquery-3.3.1.min.js' %}"></script>
+<script src="{% static 'tenant_template/js/jquery-ui.js' %}"></script>
+<script src="{% static 'tenant_template/js/popper.min.js' %}"></script>
+<script src="{% static 'tenant_template/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'tenant_template/js/owl.carousel.min.js' %}"></script>
+<script src="{% static 'tenant_template/js/jquery.magnific-popup.min.js' %}"></script>
+<script src="{% static 'tenant_template/js/aos.js' %}"></script>
+
+<script src="{% static 'tenant_template/js/main.js' %}"></script>
+
+<script src="{% static 'tenant_template/js/main.js' %}"></script>
+
+<!--Cart-->
+<script src="{% static 'tenant_template/js/cart/jquery.validate.min.js' %}"></script>
+<script src="{% static 'tenant_template/js/cart/device-uuid.js' %}"></script>
+<script src="{% static 'tenant_template/js/cart/gsdk-bootstrap-wizard.js' %}"></script>
+<script src="{% static 'tenant_template/js/cart/jquery.bootstrap.wizard.js' %}"></script>
+<script src="{% static 'tenant_template/js/cart/sweetalert.min.js' %}"></script>
+<script src="{% static 'tenant_template/js/cart/cart.js' %}"></script>
+<script src="{% static 'tenant_template/js/cart/main.js' %}"></script>
+<!--End Cart-->
+
+{% block javascript %}
+{% endblock javascript %}
+</body>
+
+</html>

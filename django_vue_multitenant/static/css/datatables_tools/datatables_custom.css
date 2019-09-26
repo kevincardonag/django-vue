@@ -1,0 +1,30 @@
+.html5buttons {
+    float: right;
+}
+
+.dataTables_length {
+    float: left;
+}
+
+.dataTables_filter label {
+    margin-right: 5px;
+}
+
+@media (max-width: 420px) {
+    #datatable-rady_filter {
+        text-align: center;
+    }
+     .html5buttons, #datatable-rady_length, #datatable-rady_filter {
+         float: none;
+     }
+}
+
+#datatable-rady_info {
+    white-space: initial;
+}
+
+.dataTable thead th:after, .dataTable thead th:before{
+    top: 25% !important;
+    width: 10px !important;
+    right: 8px !important;
+}

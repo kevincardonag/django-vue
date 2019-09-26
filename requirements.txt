@@ -1,0 +1,18 @@
+black==19.3b0
+Django==2.2.3
+django-anymail==6.1.0
+django-cors-headers==3.0.2
+django-pdb==0.6.2
+django-restframework==0.0.1
+flake8==3.7.8
+Pillow==6.1.0
+pre-commit==1.17.0
+psycopg2==2.8.3
+psycopg2cffi==2.8.1
+pycodestyle==2.5.0
+pycparser==2.19
+django-tenants==2.2.3
+django-webpack-loader == 0.6.0
+pytz == 2018.7
+django-bootstrap3==11.1.0
+django-menu-generator==1.0.4

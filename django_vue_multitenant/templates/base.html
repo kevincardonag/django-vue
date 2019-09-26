@@ -1,0 +1,165 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>{% block title %}Iniciar Sesión{% endblock %}</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="{% static 'template/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+          rel="stylesheet">
+    <link href="{% static 'libraries/iziToast/iziToast.min.css' %}" rel="stylesheet">
+    <!-- Custom styles for this template-->
+    <link href="{% static 'template/css/sb-admin-2.min.css' %}" rel="stylesheet">
+    <body id="page-top">
+    {% block css %}
+
+    {% endblock %}
+</head>
+
+<body id="page-top">
+{% block main %}
+
+{% endblock %}
+
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+</a>
+
+<!-- Logout Modal-->
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">¿Listo para salir?</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Selcciona salir si estas listo para cerrar tu sesión</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="ajax-base-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap core JavaScript-->
+<script src="{% static 'template/vendor/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'template/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+<!-- Core plugin JavaScript-->
+<script src="{% static 'template/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="{% static 'template/js/sb-admin-2.min.js' %}"></script>
+
+<!-- Page level plugins -->
+<!--<script src="{% static 'template/vendor/chart.js/Chart.min.js' %}"></script>
+
+  &lt;!&ndash; Page level custom scripts &ndash;&gt;
+  <script src="{% static 'template/js/demo/chart-area-demo.js' %}"></script>
+  <script src="{% static 'template/js/demo/chart-pie-demo.js' %}"></script>-->
+<script>
+    $(document).on('click', '.ajax-modal', async function () {
+        let data = await fetch($(this).data('url'));
+        data = await  data.text();
+        $('#ajax-base-modal').find('.modal-content').html(data);
+        $('#ajax-base-modal').modal();
+        $('#ajax-base-modal').find('form').parsley();
+    });
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-XXXXXXXX-X']);
+    _gaq.push(['_trackPageview']);
+
+    (function () {
+        var ga = document.createElement('script');
+        ga.type = 'text/javascript';
+        ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(ga, s);
+    })();
+
+</script>
+
+<script type="text/javascript" src="{% static 'libraries/js/parsley.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'libraries/iziToast/iziToast.min.js' %}"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0/dist/Chart.min.js"></script>
+<script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/sweetalert2@8.13.4/dist/sweetalert2.all.min.js"></script>
+
+<script type="text/javascript">
+    const toastOptions = {
+        'success': {
+            color: 'green',
+            icon: 'fas fa-smile-beam',
+            position: 'topRight',
+        },
+        'error': {
+            color: 'red',
+            icon: 'fas fa-times',
+            position: 'topRight',
+        },
+        'warning': {
+            color: 'yellow',
+            icon: 'fas fa-exclamation-triangle',
+            position: 'topRight',
+        }
+    };
+    const toasterMessages = [{% for msg in messages %}
+        {
+            message: "{{ msg }}",
+            type: "{{ msg.tags }}",
+        },
+    {% endfor %}]
+    $(document).ready(function () {
+        toasterMessages.map(e => {
+            iziToast.show(Object.assign(e, toastOptions[e.type]))
+        });
+    });
+    $(document).on('click', '.delete', function () {
+        form = $(this).closest('form')
+        Swal.fire({
+            title: 'Estas seguro de que deseas eliminarlo?',
+            text: "Esta acción no se puede revertir",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: "Cancelar",
+            confirmButtonText: 'Si, seguro!'
+        }).then((result) => {
+            if (result.value) {
+                form.submit();
+            }
+        })
+    });
+
+</script>
+{% block javascript %}
+
+{% endblock %}
+
+
+</body>
+
+</html>
