@@ -20,10 +20,11 @@ Instalar los requirements en el virtualenv:
 pip install -r requirements.txt
 Crear las migraciones:
 
-python manage.py makemigrations
-Correr las migraciones, OJO: para multitenant se debe correr migrate_schemas en vez de migrate:
+python manage.py makemigrations  --settings=config.settings.dev_your_namec
 
-python manage.py migrate_schemas
+Correr las migraciones, OJO: para multitenant se debe correr migrate_schemas en vez de migrate:
+python manage.py migrate_schemas --settings=config.settings.dev_your_namec
+
 Cargar los archivos .sql contenidos en el directorio data_and_scripts
 
 Correr el siguiente comando el cual creará un tenant público con un usuario por defecto (email: desarrollo1@radyconsultores.com, password: rady1234), a la vez actualiza los permisos, grupos y notificaciones:

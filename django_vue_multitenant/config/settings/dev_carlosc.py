@@ -4,7 +4,7 @@ from .installed_apps import *
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 DOMAIN = "localhost"
-PORT = "8080"
+PORT = "8000"
 
 ALLOWED_HOSTS = ['*']
 # Database
