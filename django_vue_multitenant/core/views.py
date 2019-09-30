@@ -6,12 +6,17 @@ from django.urls import reverse
 from django.views import View
 from django.views.generic.detail import SingleObjectMixin
 from django.utils.translation import ugettext as _
-
+from plans.models import Plan
 from .mixins import MessageMixin, GetToPostMixin
 
 
 class LandingTemplateView(TemplateView):
     template_name = "landing/index.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(LandingTemplateView, self).get_context_data(**kwargs)
+        context['plans'] = Plan.objects.all()
+        return context
 
 
 class SwitchActiveView(MessageMixin, SingleObjectMixin, GetToPostMixin, View):

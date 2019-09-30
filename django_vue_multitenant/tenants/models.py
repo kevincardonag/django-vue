@@ -2,9 +2,10 @@ from django.db import models
 from django_tenants.models import TenantMixin, DomainMixin
 from django.utils.translation import ugettext_lazy as _
 from django_tenants.utils import get_public_schema_name
+from django.db.models import Model
 
 from core.behaviors import ActiveSwitchable
-
+from plans.models import Plan
 
 class Pizzeria(ActiveSwitchable, TenantMixin):
     """
@@ -41,3 +42,13 @@ class Domain(DomainMixin):
 
     def __str__(self):
         return self.domain
+
+
+class PizzeriaRequest(Model):
+    name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    phone = models.CharField(max_length=10)
+    email = models.EmailField(max_length=100)
+    comment = models.TextField(max_length=3000)
+    plan = models.ForeignKey(Plan, null=True, on_delete=models.CASCADE)
+
