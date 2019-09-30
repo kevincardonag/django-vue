@@ -27,7 +27,7 @@ python manage.py migrate_schemas --settings=config.settings.dev_your_namec
 
 Cargar los archivos .sql contenidos en el directorio data_and_scripts
 
-Correr el siguiente comando el cual creará un tenant público con un usuario por defecto (email: desarrollo1@radyconsultores.com, password: rady1234), a la vez actualiza los permisos, grupos y notificaciones:
+Correr el siguiente comando el cual creará un tenant público con un usuario por defecto (email: admin@admin.com, password: admin1234), a la vez actualiza los permisos, grupos y notificaciones:
 
 python manage.py shell < data_and_scripts/initial_setup.py
 Ingresar a la carpeta data_and_scripts y sincronizar todos los archivos .sql en la base de datos

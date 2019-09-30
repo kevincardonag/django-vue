@@ -7,7 +7,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>{% trans 'SUPERPIZZAS' %}</title>
+    <title>{% trans 'SuperPizzas' %}</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -320,7 +320,7 @@ Header
                                         {{plan.name}}
                                     </h4>
                                     <p align="center">{{plan.description}}</p>
-                                    <a href="#" class="btn">Escoger Plan</a>
+                                    <button data-url="{% url 'tenants:create_request' pk=plan.pk %}" class="btn ajax-modal">Escoger Plan</button>
                                 </div>
                             </div>
                         </div>
@@ -471,7 +471,13 @@ Header
 
     <div class="container">
         <div class="copyright">
-            &copy; Copyright <strong>{% trans 'SUPERPIZZAS' %}</strong>. All Rights Reserved
+            &copy; Copyright <strong>{% trans 'SuperPizzas' %}</strong>. All Rights Reserved
+        </div>
+    </div>
+    <div id="ajax-base-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+            </div>
         </div>
     </div>
 </footer><!-- #footer -->
@@ -518,6 +524,16 @@ Header
         toasterMessages.map(e => {
             iziToast.show(Object.assign(e, toastOptions[e.type]))
         });
+    });
+</script>
+
+<script>
+    $(document).on('click', '.ajax-modal', async function () {
+        let data = await fetch($(this).data('url'));
+        data = await  data.text();
+        $('#ajax-base-modal').find('.modal-content').html(data);
+        $('#ajax-base-modal').modal();
+        $('#ajax-base-modal').find('form').parsley();
     });
 </script>
 
