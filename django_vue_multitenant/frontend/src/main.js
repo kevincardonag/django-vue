@@ -9,7 +9,6 @@ new Vue({
   delimiters: ['[[', ']]'],
   data: {
           message: 'Hello Vue!',
-          foo: foo,
   },
   render: h => h(App)
 }).$mount('#app')
