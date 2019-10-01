@@ -36,7 +36,7 @@ class PizzeriaListView(TemplateDataMixin, DatatablesListView):
     raise_exception = True
     page_title = _("Listar Pizzerias")
     section_title = _("Listar Pizzerias")
-    model_name = _("Notaría")
+    model_name = _("Pizzería")
     #create_reversible_url = 'tenants:create'
     fields = ["is_active", "name", "address", "phones", "email", "has_physical_delivers"]
     column_names_and_defs = [_("Estado"), _("Nombre"), _("Dirección"), _("Telefonos"), _("Email"),
