@@ -26,9 +26,14 @@ class PlanListView(LoginRequiredMixin, TemplateDataMixin, DatatablesListView):
     model_name = _("Plan")
     fields = ["name", "description", "price"]
     create_reversible_url = 'plans:create'
-    column_names_and_defs = [_("Nombre"), _("Descripción"), _("Precio"),]
+    column_names_and_defs = [_("Nombre"), _("Descripción"), _("Precio")]
     options_list = [
-
+        {
+            "label_opcion": _('Editar'),
+            "url_opcion": "plans:detail",
+            "parametros_url": ["id"],
+            "icono": 'fa-eyes',
+        }
     ]
 
 
