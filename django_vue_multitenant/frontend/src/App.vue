@@ -1,23 +1,27 @@
 <template>
-  <v-app>
+  <v-app dark>
     <NavBar></NavBar>
 
     <v-content>
-<!--      <HelloWorld/>-->
+     <LandingPage/>
     </v-content>
+    <Footer></Footer>
   </v-app>
 </template>
 
 <script>
 import NavBar from './components/NavBar';
+import LandingPage from './components/LandingPage';
+import Footer from './components/Footer';
 
 export default {
   name: 'App',
   components: {
     NavBar,
+    LandingPage,
+    Footer,
   },
   data: () => ({
-    categorias:['Pizza1','Pizza2','Pizza3']
   }),
 };
 </script>
