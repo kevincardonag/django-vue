@@ -19,37 +19,37 @@
             <p class="font-weight-medium font-italic display-3 text-center green--text  --text-darken-2">Favoritas</p>
             <v-row>
                 <v-col
-                v-for="card in cards"
+                v-for="(card, index) in cards"
                 :key="card.title"
                 :cols="card.flex"
                 >
-                <v-card>
-                    <v-img
-                    :src="card.src"
-                    class="white--text"
-                    height="300px"
-                    gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
-                    >
-                    <v-card-title
-                        class="fill-height align-end"
-                        v-text="card.title"
-                    ></v-card-title>
-                    </v-img>
+                    <v-card>
+                        <v-img
+                        :src="card.src"
+                        class="white--text"
+                        height="300px"
+                        gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
+                        >
+                        <v-card-title
+                            class="fill-height align-end"
+                            v-text="card.title"
+                        ></v-card-title>
+                        </v-img>
 
-                    <v-card-actions>
-                    <v-list-item class="grow">
-                        
+                        <v-card-actions>
+                        <v-list-item class="grow">
+                            
 
-                        <v-list-item-content>
-                        <v-list-item-title>$ {{card.precio}}</v-list-item-title>
-                        </v-list-item-content>
+                            <v-list-item-content>
+                            <v-list-item-title>$ {{card.precio}}</v-list-item-title>
+                            </v-list-item-content>
 
-                        <v-btn icon>
-                            <v-icon>fa-cart-plus</v-icon>
-                        </v-btn>
-                    </v-list-item>
-                    </v-card-actions>
-                </v-card>
+                            <v-btn icon @click="addItemCart(index)">
+                                <v-icon>fa-cart-plus</v-icon>
+                            </v-btn>
+                        </v-list-item>
+                        </v-card-actions>
+                    </v-card>
                 </v-col>
             </v-row>
         </v-container>
@@ -66,11 +66,40 @@ export default {
             {src: require('../../static/img/carousel/pizza3.jpg'),},
         ],
         cards: [
-            { title: 'Hawaianaa', src: require('../../static/img/favoritas/pizza1.jpg'), precio:'27000', flex: 12 },
-            { title: 'Pollo', src: require('../../static/img/favoritas/pizza2.jpg'), precio:'35000', flex: 6 },
-            { title: 'Morcilla', src: require('../../static/img/favoritas/pizza3.jpg'), precio:'40000', flex: 6 },
+            { title: 'Hawaianaa', src: require('../../static/img/favoritas/pizza1.jpg'), precio:27000, flex: 12 },
+            { title: 'Peperoni', src: require('../../static/img/favoritas/pizza2.jpg'), precio:35000, flex: 6 },
+            { title: 'Chorizo', src: require('../../static/img/favoritas/pizza3.jpg'), precio:40000, flex: 6 },
         ],
       }
     },
+    methods:{
+
+        addItemCart(index){
+
+            const item={
+                title:this.cards[index].title,
+                precio:this.cards[index].precio
+            }
+
+            let car=JSON.parse(localStorage.getItem('carrito'));
+            
+            if (!car) {
+
+                car={
+                    productos:[],
+                    total:0,
+                };
+
+            }
+            car.productos.push(item);
+            
+            car.total=item.precio;
+            
+            localStorage.carrito=JSON.stringify(car);
+            
+        }
+
+    }
+
 }
 </script>

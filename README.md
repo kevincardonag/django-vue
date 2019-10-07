@@ -31,3 +31,7 @@ Correr el siguiente comando el cual creará un tenant público con un usuario po
 
 python manage.py shell < data_and_scripts/initial_setup.py
 Ingresar a la carpeta data_and_scripts y sincronizar todos los archivos .sql en la base de datos
+
+Para correr  front end entrar a la carpeta frontend "cd /frontend" y ejecutar el siguiente comando "npm run serve"
+
+tras esto correr el servidor de Django usando "python manage.py runserver --settings=config.settings.dev_your_namec" en la carpeta django_vue_multitenant
