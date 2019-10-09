@@ -1,7 +1,7 @@
 <template>
     <v-app>
         <v-container
-        class="pa-2"
+        class="pa-8"
         fluid
         >
             <v-row>
@@ -27,7 +27,8 @@
                         <v-img
                         :src="card.src"
                         class="white--text"
-                        height="300px"
+                        min-height="200"
+                        max -height="300"
                         gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
                         >
                         <v-card-title
@@ -56,6 +57,8 @@
     </v-app>
 </template>
 <script>
+
+import {mapActions} from 'vuex';
 export default {
     data () {
       return {
@@ -72,6 +75,11 @@ export default {
         ],
       }
     },
+    mounted() {
+
+        this.fetchCarrito();
+        
+    },
     methods:{
 
         addItemCart(index){
@@ -81,23 +89,13 @@ export default {
                 precio:this.cards[index].precio
             }
 
-            let car=JSON.parse(localStorage.getItem('carrito'));
+            this.addCarrito(item);
             
-            if (!car) {
+        },
 
-                car={
-                    productos:[],
-                    total:0,
-                };
-
-            }
-            car.productos.push(item);
-            
-            car.total=item.precio;
-            
-            localStorage.carrito=JSON.stringify(car);
-            
-        }
+        ...mapActions('car',[
+            'addCarrito','fetchCarrito'
+        ]),
 
     }
 

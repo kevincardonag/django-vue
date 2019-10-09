@@ -39,6 +39,20 @@
                     </v-list-item-icon>
 
                 </v-list-item>
+                <!-- <v-list-item
+                v-for="(producto, index) in car.productos" 
+                :key="index"
+                >
+                
+                    <v-list-item-content>
+                        <v-list-item-title>{{ producto.title }}</v-list-item-title>
+                    </v-list-item-content>
+
+                    <v-list-item-icon>
+                        <v-list-item-title>$ {{ producto.precio }}</v-list-item-title>
+                    </v-list-item-icon>
+
+                </v-list-item> -->
             </v-list>
   
             <v-divider></v-divider>
@@ -58,7 +72,7 @@
             <v-card-actions>
                 
                 <v-btn outlined small color="warning" @click="removeCar">Vaciar</v-btn>
-                <v-btn outlined small color="primary"  @click="menu = false">Pagar</v-btn>
+                <v-btn outlined small color="primary"  @click="pagar">Pagar</v-btn>
 
             </v-card-actions>
 
@@ -67,16 +81,16 @@
 </template>
 <script>
 
+import {mapGetters,mapActions} from 'vuex'
 export default {
     
     data: () => ({
         
-        carrito:{
-            productos:[],
-            total:null,
-        },
-        
-        total:90000,
+        // carrito:{
+        //     productos:[],
+        //     total:null,
+        // },
+        // total:90000,
         productos:[
             {title:'Pizza1',precio:3000},
             {title:'Pizza2',precio:3000},
@@ -89,28 +103,32 @@ export default {
     }),
 
     mounted() {
-
-        if (localStorage.carrito) {
-
-            this.carrito = JSON.parse(localStorage.carrito);
-            
-        }
-
+        
     },
 
     computed:{
 
+        // ...mapGetters(['allCarrito']),
+        ...mapGetters('car',{
+            carrito:'allCarrito'
+        }),
+        
         cantidad:function(){
 
             return this.carrito.productos.length
 
         },
 
-    },
-
+    },  
+    
 
     methods:{
 
+        // ...mapActions(['fetchCarrito']),
+        ...mapActions('car',[
+            'removeAllCarrito'
+        ]),
+        
         removeCar(){
             this.$swal.fire({
             title: 'Esta seguro ?',
@@ -120,11 +138,18 @@ export default {
             cancelButtonText: 'No'
             }).then((result) => {
             if (result.value) {
-                localStorage.removeItem('carrito');
+                // localStorage.removeItem('carrito');
+                
+                this.removeAllCarrito();
                 this.menu=false;
             }
             })
 
+        },
+
+        pagar(){
+            // this.$store.car.commit('increment');
+            // console.log(this.$store.car.state.count );
         }
 
     }
