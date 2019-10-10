@@ -12,9 +12,12 @@ const getters={
 
 const actions={
     fetchCarrito({commit}){
+
         if (localStorage.carrito) {
+
             const response=JSON.parse(localStorage.carrito);
             commit('setCarrito',response);
+
         }
     },
 
@@ -32,7 +35,7 @@ const actions={
         }
         car.productos.push(producto);
         
-        car.total=producto.precio;
+        car.total+=producto.precio;
         
         localStorage.carrito=JSON.stringify(car);
 
@@ -43,8 +46,10 @@ const actions={
     removeAllCarrito({commit}){
 
         const carrito={
+
             productos:[],
             total:0,
+
         };
 
         localStorage.removeItem('carrito');
@@ -56,9 +61,12 @@ const actions={
 const mutations={
 
     setCarrito:(state, carrito) => (state.carrito = carrito ),
+
     pushCarrito:(state, producto) => {
+
         state.carrito.productos.push(producto);
         state.carrito.total+=producto.precio;
+
     },
 
     

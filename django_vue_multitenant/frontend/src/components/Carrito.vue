@@ -39,20 +39,6 @@
                     </v-list-item-icon>
 
                 </v-list-item>
-                <!-- <v-list-item
-                v-for="(producto, index) in car.productos" 
-                :key="index"
-                >
-                
-                    <v-list-item-content>
-                        <v-list-item-title>{{ producto.title }}</v-list-item-title>
-                    </v-list-item-content>
-
-                    <v-list-item-icon>
-                        <v-list-item-title>$ {{ producto.precio }}</v-list-item-title>
-                    </v-list-item-icon>
-
-                </v-list-item> -->
             </v-list>
   
             <v-divider></v-divider>
@@ -86,11 +72,6 @@ export default {
     
     data: () => ({
         
-        // carrito:{
-        //     productos:[],
-        //     total:null,
-        // },
-        // total:90000,
         productos:[
             {title:'Pizza1',precio:3000},
             {title:'Pizza2',precio:3000},
@@ -108,7 +89,6 @@ export default {
 
     computed:{
 
-        // ...mapGetters(['allCarrito']),
         ...mapGetters('car',{
             carrito:'allCarrito'
         }),
@@ -124,7 +104,6 @@ export default {
 
     methods:{
 
-        // ...mapActions(['fetchCarrito']),
         ...mapActions('car',[
             'removeAllCarrito'
         ]),
@@ -138,7 +117,6 @@ export default {
             cancelButtonText: 'No'
             }).then((result) => {
             if (result.value) {
-                // localStorage.removeItem('carrito');
                 
                 this.removeAllCarrito();
                 this.menu=false;

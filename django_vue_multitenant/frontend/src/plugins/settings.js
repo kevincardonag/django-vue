@@ -5,8 +5,6 @@ import Vuex from 'vuex'
 import car from '@/vuex/car'
 import Vuetify from 'vuetify/lib';
  
- 
-// Vue.use(VueSweetalert2);
 
 Vue.use(Vuetify);
 
@@ -18,14 +16,6 @@ export const store= new Vuex.Store({
     modules: {
         car,
     },
-    // state: {
-    //     count: 0
-    // },
-    // mutations: {
-    //     increment (state) {
-    //         state.count++
-    //     }
-    // }
 });
 
 export const vuetify= new Vuetify({
