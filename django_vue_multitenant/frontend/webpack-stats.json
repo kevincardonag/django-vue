@@ -1,1 +1,1 @@
-{"status":"done","publicPath":"http://0.0.0.0:8080/","chunks":{"app":[{"name":"app.js","publicPath":"http://0.0.0.0:8080/app.js","path":"/home/kevin/Escritorio/tendencias de software/django-vue/django_vue_multitenant/frontend/dist/app.js"}]}}
+{"status":"done","publicPath":"http://localhost:8080/","chunks":{"clientlp":[{"name":"clientlp.js","publicPath":"http://localhost:8080/clientlp.js","path":"c:\\Users\\andre\\Documents\\maestria\\semestre2\\tendencias\\proyecto\\django-vue\\django_vue_multitenant\\frontend\\dist\\clientlp.js"}]}}
