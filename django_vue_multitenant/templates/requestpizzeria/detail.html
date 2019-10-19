@@ -1,0 +1,16 @@
+<div class="modal-header">
+    <h4 class="modal-title" id="modalLabel">Detalle de solicitud</h4>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+
+</div>
+<div class="modal-body">
+    <p><b>Nombre:</b> {{ object.name }}</p>
+    <p><b>Apellido:</b> {{ object.last_name }}</p>
+    <p><b>Teléfono:</b> {{ object.phone }}</p>
+    <p><b>Email:</b> {{ object.email }}</p>
+    <p><b>Comentario:</b><br> {{ object.comment }}</p>
+    <!-- poner aqui la url de crear los tenants -->
+    <button data-url="" class="btn btn-primary ajax-modal">Aceptar y convertir en franquicia</button>
+</div>

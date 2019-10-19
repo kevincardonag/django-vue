@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.views.generic import CreateView
 from django.views.generic import UpdateView
@@ -12,6 +13,7 @@ from plans.forms import PlanForm
 from plans.models import Plan
 from core.datatables_tools.datatables_tools import DatatablesListView
 from core.mixins import TemplateDataMixin
+from django.http.response import JsonResponse
 
 
 class PlanListView(LoginRequiredMixin, TemplateDataMixin, DatatablesListView):
@@ -30,9 +32,17 @@ class PlanListView(LoginRequiredMixin, TemplateDataMixin, DatatablesListView):
     options_list = [
         {
             "label_opcion": _('Editar'),
-            "url_opcion": "plans:detail",
+            "url_opcion": "plans:update",
             "parametros_url": ["id"],
-            "icono": 'fa-eyes',
+            "icono": 'fa-pencil-alt',
+            "confirm_modal": 'ajax-base-modal',
+        },
+        {
+            "label_opcion": _('Eiminar'),
+            "url_opcion": "plans:delete",
+            "parametros_url": ["id"],
+            "icono": 'fa-trash',
+            "object_modal_delete": 'dd',
         }
     ]
 
@@ -74,12 +84,18 @@ class PlanDeleteView(LoginRequiredMixin, MessageMixin, DeleteView):
         Vista para borrar los planes
     """
     model = Plan
-    delete_message = "Plan eliminado con exito"
 
-    def get_success_url(self):
-        return reverse('plans:index')
+    def post(self, request, *args, **kwargs):
+        if self.request.is_ajax():
+            try:
+                plan = get_object_or_404(Plan, pk=kwargs['pk'])
+                plan.delete()
+                return JsonResponse({'status': 1, 'message': 'El plan fue eliminado con éxito', 'type': 'success'})
+            except Exception:
+                return JsonResponse({'status': 0, 'message': 'Ha ocurrido un error', 'type': 'error'})
 
 
 class PlanDetailView(LoginRequiredMixin, DetailView):
     model = Plan
     template_name = 'plans/detail.html'
+
