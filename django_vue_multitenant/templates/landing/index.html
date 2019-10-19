@@ -510,7 +510,7 @@ Header
 <script>
     $(document).on('click', '.ajax-modal', async function () {
         let data = await fetch($(this).data('url'));
-        data = await  data.text();v
+        data = await  data.text();
         $('#ajax-base-modal').find('.modal-content').html(data);
         $('#ajax-base-modal').modal();
         $('#ajax-base-modal').find('form').parsley();
