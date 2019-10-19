@@ -8,6 +8,8 @@
     {% with "datatables_tools/"|add:object.get_model_name|lower|add:"_modal.html" as template_object %}
         {% include template_object %}
     {% endwith %}</li>
+{% elif object_modal_delete %}
+    <li><a href="#" class="delete font-bold" data-url="{{ url }}"><i class="fas {{ icon }}"></i> {{ name }}</a></li>
 {% else %}
    <li>
        <a href="{{ url }}" class="font-bold"><i class="fa {{ icon }}"></i> {{ name }}</a>

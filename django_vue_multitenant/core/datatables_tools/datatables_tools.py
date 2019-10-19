@@ -118,7 +118,9 @@ class DatatablesListView(TemplateView):
                                                        'tooltip': option_conf.get('tooltip', None),
                                                        'object_modal': option_conf.get('object_modal', None),
                                                        'object': object,
-                                                       'confirm_modal': option_conf.get('confirm_modal', None)}))
+                                                       'confirm_modal': option_conf.get('confirm_modal', None),
+                                                       'object_modal_delete': option_conf.get('object_modal_delete', None)
+                                                       }))
             else:
                 continue
         return rendered_urls
