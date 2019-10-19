@@ -40,7 +40,7 @@ class PizzeriaListView(TemplateDataMixin, DatatablesListView):
     #create_reversible_url = 'tenants:create'
     fields = ["is_active", "name", "address", "phones", "email", "has_physical_delivers"]
     column_names_and_defs = [_("Estado"), _("Nombre"), _("Dirección"), _("Telefonos"), _("Email"),
-                             _("Acepta envios"),]
+                             _("Acepta envios")]
     options_list = [
 
     ]

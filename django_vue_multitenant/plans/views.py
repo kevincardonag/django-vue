@@ -30,9 +30,10 @@ class PlanListView(LoginRequiredMixin, TemplateDataMixin, DatatablesListView):
     options_list = [
         {
             "label_opcion": _('Editar'),
-            "url_opcion": "plans:detail",
+            "url_opcion": "plans:update",
             "parametros_url": ["id"],
-            "icono": 'fa-eyes',
+            "icono": 'fa-pencil-alt',
+            "confirm_modal": 'ajax-base-modal',
         }
     ]
 
