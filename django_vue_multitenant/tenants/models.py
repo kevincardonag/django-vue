@@ -7,19 +7,20 @@ from django.db.models import Model
 from core.behaviors import ActiveSwitchable
 from plans.models import Plan
 
+
 class Pizzeria(ActiveSwitchable, TenantMixin):
     """
     Modelo que representa las pizzerias como Tenants, hereda de TenantMixin
     """
     name = models.CharField(max_length=100, verbose_name=_("Nombre de la pizzeria"))
     address = models.CharField(max_length=100, verbose_name=_("Dirección de la pizzeria"))
+    plan = models.OneToOneField(Plan, on_delete=models.CASCADE, null=True, blank=True)
     #department = models.ForeignKey('core.Department', verbose_name=_("Departamento"))
     #city = ChainedForeignKey(City, chained_field='department', chained_model_field='department', show_all=False,verbose_name=_("Ciudad"))
     phones = models.CharField(max_length=100, verbose_name=_("Teléfono(s) de la pizzeria"))
     email = models.EmailField(verbose_name=_("Correo electrónico principal de la pizzeria"),
                               help_text=_("Puede ser el correo del notario"))
     logo = models.ImageField(upload_to="pizzeria_logos/", blank=True, null=True, verbose_name=_("Logo de la pizzeria"))
-
     subdomain = models.CharField(max_length=50, unique=True, verbose_name=_("Subdominio"))
 
     auto_create_schema = True

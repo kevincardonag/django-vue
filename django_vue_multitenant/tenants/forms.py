@@ -1,7 +1,7 @@
 from django import forms
 from parsley.decorators import parsleyfy
 
-from tenants.models import PizzeriaRequest
+from tenants.models import PizzeriaRequest, Pizzeria
 
 
 @parsleyfy
@@ -21,3 +21,20 @@ class PizzeriaRequestForm(forms.ModelForm):
             'email': 'Email',
             'comment': 'Comentario',
         }
+
+@parsleyfy
+class PizzeriaForm(forms.ModelForm):
+
+    domain = forms.CharField(label='Dominio', max_length=100)
+
+    def __init__(self, *args, **kwargs):
+        super(PizzeriaForm, self).__init__(*args, **kwargs)
+
+    class Meta:
+        model = Pizzeria
+        fields = ['name', 'plan']
+        labels = {
+            'name': 'Nombre',
+            'plan': 'Plan selecionado',
+        }
+

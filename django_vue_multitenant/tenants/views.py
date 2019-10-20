@@ -1,4 +1,10 @@
+import datetime
+import random
+import string
+
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
+from django.contrib.auth.models import Group
+from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext as _
 from django.views.generic import CreateView
@@ -7,17 +13,64 @@ from django.urls import reverse
 from core.datatables_tools.datatables_tools import DatatablesListView
 from core.mixins import TemplateDataMixin, MessageMixin
 from core.views import SwitchActiveView
-from tenants.models import Pizzeria, PizzeriaRequest
-from tenants.forms import PizzeriaRequestForm
+from django_tenants.utils import tenant_context
+
+from users.models import UserProfile
+from tenants.models import Pizzeria, PizzeriaRequest, Domain
+from tenants.forms import PizzeriaRequestForm, PizzeriaForm
 from plans.models import Plan
 
 
+class PizzeriaCreateView(MessageMixin, CreateView):
+    model = Pizzeria
+    form_class = PizzeriaForm
+    template_name = 'franchises/franchise/create.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(PizzeriaCreateView, self).get_context_data(**kwargs)
+        context['request_object'] = get_object_or_404(PizzeriaRequest, pk=self.kwargs['pk'])
+        return context
+
+    def form_valid(self, form):
+        instance = form.instance
+        request = get_object_or_404(PizzeriaCreateView, pk=self.kwargs['pk'])
+        instance.request = request
+        instance.schema_name = instance.name.lower().replace(" ", '_')
+        instance.paid_until = datetime.now() + datetime.timedelta(days=30)
+        instance = form.save()
+        domain = Domain()
+        domain.domain = form.cleaned_data['domain'].lower().replace(" ", "_") + ".localhost"
+        domain.is_primary = True
+        domain.tenant = instance
+        domain.save()
+        with tenant_context(instance):
+            password = "".join([random.choice(string.ascii_lowercase[:26]) for i in range(8)])
+            user = UserProfile.objects.create_user('admin', request.email, password)
+            groups = {
+                'admin': [],
+                'vendedor': [],
+                'client': [],
+            }
+            for key, value in groups.items():
+                created, group = Group.objects.get_or_create(name=key)
+            group = Group.objects.get(name="admin")
+            user.is_staff = True
+            user.is_superuser = True
+            user.save()
+            user.groups.add(group)
+
+        send_mail(subject="Bienvenido a superdroguerias",
+                  message="Su solicitud de franquicia ha sido creado con exito. utilice el usario 'admin' y"
+                          " la contraseña " + password + " para loguearse.",
+                  from_email="administracion@superdroguerias.com", recipient_list=[request.email])
+        return super(PizzeriaCreateView, self).form_valid(form)
+
+    def get_success_url(self):
+        return reverse('franchises:index')
+
+
 class PizzeriaSwitchActiveView(PermissionRequiredMixin, SwitchActiveView):
-    """
-    Autor: Milton Lenis
-    Fecha: Marzo 28 2017
-    Vista para cambiar el estado entre activo e inactivo de una notaría
-    """
+
     model = Pizzeria
     success_message = _("El estado de la notaría ha sido actualizado correctamente")
     redirect_url = 'tenants:list'
@@ -26,11 +79,6 @@ class PizzeriaSwitchActiveView(PermissionRequiredMixin, SwitchActiveView):
 
 
 class PizzeriaListView(TemplateDataMixin, DatatablesListView):
-    """
-    Autor: Milton Lenis
-    Fecha: Marzo 27 2017
-    Vista para listar notarías
-    """
     model = Pizzeria
     #permission_required = 'tenants.list_notaria'
     raise_exception = True
