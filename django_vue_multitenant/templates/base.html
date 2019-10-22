@@ -137,7 +137,9 @@
         });
     });
     $(document).on('click', '.delete', function () {
-        form = $(this).closest('form')
+        let url = $(".delete").data("url");
+        let token = '{{csrf_token}}';
+
         Swal.fire({
             title: 'Estas seguro de que deseas eliminarlo?',
             text: "Esta acción no se puede revertir",
@@ -149,10 +151,27 @@
             confirmButtonText: 'Si, seguro!'
         }).then((result) => {
             if (result.value) {
-                form.submit();
+                $.ajax({
+                    headers: {"X-CSRFToken": token},
+                    type: "POST",
+                    url: url,
+                    data: {data: 'ok'}
+            }).done(function (data) {
+                    let message_ = [{message: data.message, type: data.type},];
+                    createMessage(message_);
+                    setTimeout(function(){
+                        data.status ? location.reload(true) : null;
+                    }, 550);
+                });
             }
         })
     });
+    function createMessage(message){
+        message.map(e => {
+            iziToast.show(Object.assign(e, toastOptions[e.type]));
+        });
+    }
+
 
 </script>
 {% block javascript %}

@@ -21,7 +21,7 @@ class Pizzeria(ActiveSwitchable, TenantMixin):
     email = models.EmailField(verbose_name=_("Correo electrónico principal de la pizzeria"),
                               help_text=_("Puede ser el correo del notario"))
     logo = models.ImageField(upload_to="pizzeria_logos/", blank=True, null=True, verbose_name=_("Logo de la pizzeria"))
-    subdomain = models.CharField(max_length=50, unique=True, verbose_name=_("Subdominio"))
+    #subdomain = models.CharField(max_length=50, unique=True, verbose_name=_("Subdominio"))
 
     auto_create_schema = True
     auto_drop_schema = True
@@ -46,10 +46,14 @@ class Domain(DomainMixin):
 
 
 class PizzeriaRequest(Model):
-    name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
-    phone = models.CharField(max_length=10)
-    email = models.EmailField(max_length=100)
-    comment = models.TextField(max_length=3000)
+    representative_full_name = models.CharField(
+        max_length=100,
+        verbose_name=_("Nombre completo representante legal"),
+        null=True
+    )
+    phone = models.CharField(max_length=10, verbose_name=_("Telefono representante legal"))
+    email = models.EmailField(max_length=100, verbose_name=_("Email representante legal"))
+    comment = models.TextField(max_length=3000, verbose_name=_("Comentario"))
+    company_name = models.CharField(max_length=10, verbose_name=_("Nombre de la compañia"), null=True)
     plan = models.ForeignKey(Plan, null=True, on_delete=models.CASCADE)
 

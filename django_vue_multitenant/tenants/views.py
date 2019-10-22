@@ -3,11 +3,12 @@ import random
 import string
 
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
+from django.http import JsonResponse
 from django.contrib.auth.models import Group
 from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext as _
-from django.views.generic import CreateView
+from django.views.generic import CreateView, DeleteView, DetailView
 from django.urls import reverse
 
 from core.datatables_tools.datatables_tools import DatatablesListView
@@ -33,10 +34,10 @@ class PizzeriaCreateView(MessageMixin, CreateView):
 
     def form_valid(self, form):
         instance = form.instance
-        request = get_object_or_404(PizzeriaCreateView, pk=self.kwargs['pk'])
+        request = get_object_or_404(PizzeriaRequest, pk=self.kwargs['pk'])
         instance.request = request
         instance.schema_name = instance.name.lower().replace(" ", '_')
-        instance.paid_until = datetime.now() + datetime.timedelta(days=30)
+        instance.paid_until = datetime.datetime.now() + datetime.timedelta(days=30)
         instance = form.save()
         domain = Domain()
         domain.domain = form.cleaned_data['domain'].lower().replace(" ", "_") + ".localhost"
@@ -88,7 +89,7 @@ class PizzeriaListView(TemplateDataMixin, DatatablesListView):
     #create_reversible_url = 'tenants:create'
     fields = ["is_active", "name", "address", "phones", "email", "has_physical_delivers"]
     column_names_and_defs = [_("Estado"), _("Nombre"), _("Dirección"), _("Telefonos"), _("Email"),
-                             _("Acepta envios"),]
+                             _("Acepta envios")]
     options_list = [
 
     ]
@@ -153,5 +154,46 @@ class RequestPizzeriaListView(TemplateDataMixin, DatatablesListView):
     fields = ["name", "last_name", "email", "phone"]
     column_names_and_defs = [_("Nombre"), _("Apellido"), _("Correo"), _("Teléfono"), ]
     options_list = [
-
+        {
+            "label_opcion": _('Consultar'),
+            "url_opcion": "tenants:detail_request_tenant",
+            "parametros_url": ["id"],
+            "icono": 'fa-eye',
+            "confirm_modal": 'ajax-base-modal',
+        },
+        {
+            "label_opcion": _('Eliminar'),
+            "url_opcion": "tenants:delete_request_tenant",
+            "parametros_url": ["id"],
+            "icono": 'fa-trash',
+            "object_modal_delete": 'dd',
+        }
     ]
+
+
+class RequestPizzeriaDeleteView(LoginRequiredMixin, MessageMixin, DeleteView):
+    """
+        Autor: Caros Almario
+        Fecha: Septiembre 29 2019
+        Vista para borrar las solicitudes de pizzeria
+    """
+    model = PizzeriaRequest
+
+    def post(self, request, *args, **kwargs):
+        if self.request.is_ajax():
+            try:
+                request_pizzeria = get_object_or_404(PizzeriaRequest, pk=kwargs['pk'])
+                request_pizzeria.delete()
+                return JsonResponse({'status': 1, 'message': 'La solicitud fue eliminada con éxito', 'type': 'success'})
+            except Exception:
+                return JsonResponse({'status': 0, 'message': 'Ha ocurrido un error', 'type': 'error'})
+
+
+class RequestPizzeriaDetailView(LoginRequiredMixin, DetailView):
+    model = PizzeriaRequest
+    template_name = 'requestpizzeria/detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(RequestPizzeriaDetailView, self).get_context_data(**kwargs)
+        context['form'] = PizzeriaForm
+        return context

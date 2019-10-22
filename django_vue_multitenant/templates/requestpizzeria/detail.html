@@ -1,0 +1,24 @@
+{% load bootstrap3 %}
+{% load i18n %}
+
+<div class="modal-header">
+    <h4 class="modal-title" id="modalLabel">Detalle de solicitud</h4>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+
+</div>
+<div class="modal-body">
+    <p><b>Nombre:</b> {{ object.name }}</p>
+    <p><b>Apellido:</b> {{ object.last_name }}</p>
+    <p><b>Teléfono:</b> {{ object.phone }}</p>
+    <p><b>Email:</b> {{ object.email }}</p>
+    <p><b>Comentario:</b><br> {{ object.comment }}</p>
+    <form data-parsley-validate action="{% url 'tenants:create_pizzeria' pk=object.pk %}" method="post">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary">{% trans 'Aceptar y convertir en franquicia' %}</button>
+        </div>
+    </form>
+</div>

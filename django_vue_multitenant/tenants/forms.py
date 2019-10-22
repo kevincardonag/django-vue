@@ -13,14 +13,8 @@ class PizzeriaRequestForm(forms.ModelForm):
 
     class Meta:
         model = PizzeriaRequest
-        fields = ['name', 'last_name', 'phone', 'email', 'comment']
-        labels = {
-            'name': 'Nombre',
-            'last_name': 'Apellido',
-            'phone': 'Teléfono',
-            'email': 'Email',
-            'comment': 'Comentario',
-        }
+        fields = ['representative_full_name', 'phone', 'email', 'comment', "company_name"]
+
 
 @parsleyfy
 class PizzeriaForm(forms.ModelForm):
@@ -32,9 +26,6 @@ class PizzeriaForm(forms.ModelForm):
 
     class Meta:
         model = Pizzeria
-        fields = ['name', 'plan']
-        labels = {
-            'name': 'Nombre',
-            'plan': 'Plan selecionado',
-        }
+        fields = ['name']
+        labels = {'name': 'Nombre tenant'}
 
