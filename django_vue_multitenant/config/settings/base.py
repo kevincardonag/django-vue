@@ -16,7 +16,7 @@ import os
 from django.core.exceptions import ImproperlyConfigured
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
+DEBUG = True
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
@@ -142,4 +142,11 @@ DATABASE_ROUTERS = (
 
 LOGIN_REDIRECT_URL = '/admin'
 LOGOUT_REDIRECT_URL = 'login'
+
+if DEBUG:
+    EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+    EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'sent_emails')
+else:
+    # aqui van los correo de produccion
+    pass
 

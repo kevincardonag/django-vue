@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load bootstrap3 %}
+{% load static %}
 {% load i18n %}
 {% block main %}
     <!-- Outer Row -->
@@ -11,12 +12,22 @@
           <div class="card-body p-0">
             <!-- Nested Row within Card Body -->
             <div class="row">
-              <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+              <div class="col-lg-6">
+                  {% if request.tenant.name == 'public' %}
+                      <img src="{% static 'landing_template/img/login-1.jpg' %}" width="600" height="550">
+                  {% else %}
+                      <img src="{% static 'landing_template/img/login-2.png' %}">
+                  {% endif %}
+              </div>
               <div class="col-lg-6">
                 <div class="p-5">
                   <div class="text-center">
                     <h1 class="h4 text-gray-900 mb-4">
-                        {% if request.tenant %}
+                        {% if request.tenant.name == 'public' %}
+                            {% blocktrans with tenant=request.tenant.name %}
+                                Bienvenido a la administración. Por favor inicia sesión
+                            {% endblocktrans %}
+                        {% else %}
                             {% blocktrans with tenant=request.tenant.name %}
                                 Bienvenido a la administración de {{ tenant }}
                             {% endblocktrans %}
@@ -27,31 +38,35 @@
                     <fieldset>
                                 {% csrf_token %}
                                 {% bootstrap_form form %}
-                            </fieldset>
+                    </fieldset>
                     <div class="form-group">
                       <div class="custom-control custom-checkbox small">
                         <input type="checkbox" class="custom-control-input" id="customCheck">
-                        <label class="custom-control-label" for="customCheck">Remember Me</label>
+                        <label class="custom-control-label" for="customCheck">Recuerdame</label>
                       </div>
                     </div>
                     <button type="submit" class="btn btn-primary btn-user btn-block">
-                      Login
+                      Iniciar sesión
                     </button>
                     <hr>
-                    <a href="index.html" class="btn btn-google btn-user btn-block">
-                      <i class="fab fa-google fa-fw"></i> Login with Google
-                    </a>
-                    <a href="index.html" class="btn btn-facebook btn-user btn-block">
-                      <i class="fab fa-facebook-f fa-fw"></i> Login with Facebook
-                    </a>
+                    {% if not request.tenant.name == 'public' %}
+                        <a href="index.html" class="btn btn-google btn-user btn-block">
+                          <i class="fab fa-google fa-fw"></i> Ingresar con Google
+                        </a>
+                        <a href="index.html" class="btn btn-facebook btn-user btn-block">
+                          <i class="fab fa-facebook-f fa-fw"></i> Ingresar con Facebook
+                        </a>
+                    {% endif %}
                   </form>
                   <hr>
                   <div class="text-center">
-                    <a class="small" href="forgot-password.html">Forgot Password?</a>
+                    <a class="small" href="{% url 'password_reset' %}">¿Ovidaste la contraseña?</a>
                   </div>
-                  <div class="text-center">
-                    <a class="small" href="register.html">Create an Account!</a>
-                  </div>
+                    {% if not request.tenant.name == 'public' %}
+                      <div class="text-center">
+                        <a class="small" href="register.html">Create an Account!</a>
+                      </div>
+                    {% endif %}
                 </div>
               </div>
             </div>
