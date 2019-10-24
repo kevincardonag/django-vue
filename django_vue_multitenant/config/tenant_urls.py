@@ -10,10 +10,10 @@ from django.views.generic import TemplateView
 from core.views import LandingTemplateView
 
 urlpatterns = [
-    #path('admin/', admin.site.urls),
-    #path("", TemplateView.as_view(template_name="application.html"), name="app",),
     path('admin/', include('tenants.urls', namespace='tenants')),
-    path('', LandingTemplateView.as_view(), name='index'),
     path('login/', auth_views.LoginView.as_view(), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path('users/', include('users.urls', namespace='users')),
+    path('accounts/', include('django.contrib.auth.urls')),
+    path('', include('client.urls', namespace='clients')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

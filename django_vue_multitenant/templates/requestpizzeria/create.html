@@ -1,4 +1,5 @@
 {% load bootstrap3 %}
+{% load humanize %}
 <div class="modal-header">
     <h4 class="modal-title" id="modalLabel">Solicitud de Franquicia de Pizzería</h4>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -11,7 +12,7 @@
             {% csrf_token %}
             <div class="row">
                 <div class="col-md-12 ">
-                        <h4>{{ plan.name }} - ${{ plan.price }}</h4>
+                        <h4>{{ plan.name }} - ${{ plan.price|floatformat|intcomma }}</h4>
                 </div>
             </div>
             <div class="row">
