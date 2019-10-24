@@ -1,5 +1,11 @@
+import datetime
+import random
+import string
+
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 from django.http import JsonResponse
+from django.contrib.auth.models import Group
+from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext as _
 from django.views.generic import CreateView, DeleteView, DetailView
@@ -8,40 +14,89 @@ from django.urls import reverse
 from core.datatables_tools.datatables_tools import DatatablesListView
 from core.mixins import TemplateDataMixin, MessageMixin
 from core.views import SwitchActiveView
-from tenants.models import Pizzeria, PizzeriaRequest
-from tenants.forms import PizzeriaRequestForm
+from django_tenants.utils import tenant_context
+
+from users.models import UserProfile
+from tenants.models import Pizzeria, PizzeriaRequest, Domain
+from tenants.forms import PizzeriaRequestForm, PizzeriaForm
 from plans.models import Plan
 
 
+class PizzeriaCreateView(MessageMixin, CreateView):
+    model = Pizzeria
+    form_class = PizzeriaForm
+    template_name = 'franchises/franchise/create.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(PizzeriaCreateView, self).get_context_data(**kwargs)
+        context['request_object'] = get_object_or_404(PizzeriaRequest, pk=self.kwargs['pk'])
+        return context
+
+    def form_valid(self, form):
+        instance = form.instance
+        request = get_object_or_404(PizzeriaRequest, pk=self.kwargs['pk'])
+        instance.request = request
+        instance.schema_name = instance.name.lower().replace(" ", '_')
+        instance.paid_until = datetime.datetime.now() + datetime.timedelta(days=30)
+        instance.phones = request.phone
+        instance.email = request.email
+        instance.address = request.address
+        instance = form.save()
+        domain = Domain()
+        domain.domain = form.cleaned_data['domain'].lower().replace(" ", "_") + ".localhost"
+        domain.is_primary = True
+        domain.tenant = instance
+        domain.save()
+        with tenant_context(instance):
+            password = "".join([random.choice(string.ascii_lowercase[:26]) for i in range(8)])
+            user = UserProfile.objects.create(
+                first_name='admin',
+                last_name="admin",
+                email=request.email,
+                password=password
+            )
+            groups = {
+                'admin': [],
+                'vendedor': [],
+                'client': [],
+            }
+            for key, value in groups.items():
+                created, group = Group.objects.get_or_create(name=key)
+            group = Group.objects.get(name="admin")
+            user.is_staff = True
+            user.is_superuser = True
+            user.save()
+            user.groups.add(group)
+
+        send_mail(subject="Bienvenido a superdroguerias",
+                  message="Su solicitud de franquicia ha sido creado con exito. utilice el usario 'admin' y"
+                          " la contraseña " + password + " para loguearse.",
+                  from_email="administracion@superdroguerias.com", recipient_list=[request.email])
+
+        request.is_active = False
+        request.save()
+        return super(PizzeriaCreateView, self).form_valid(form)
+
+    def get_success_url(self):
+        return reverse('tenants:index')
+
+
 class PizzeriaSwitchActiveView(PermissionRequiredMixin, SwitchActiveView):
-    """
-    Autor: Milton Lenis
-    Fecha: Marzo 28 2017
-    Vista para cambiar el estado entre activo e inactivo de una notaría
-    """
+
     model = Pizzeria
     success_message = _("El estado de la notaría ha sido actualizado correctamente")
     redirect_url = 'tenants:list'
-    #permission_required = 'tenants.change_notaria'
     raise_exception = True
 
 
 class PizzeriaListView(TemplateDataMixin, DatatablesListView):
-    """
-    Autor: Milton Lenis
-    Fecha: Marzo 27 2017
-    Vista para listar notarías
-    """
     model = Pizzeria
-    #permission_required = 'tenants.list_notaria'
     raise_exception = True
     page_title = _("Listar Pizzerias")
     section_title = _("Listar Pizzerias")
     model_name = _("Pizzería")
-    #create_reversible_url = 'tenants:create'
     fields = ["is_active", "name", "address", "phones", "email", "has_physical_delivers"]
-    column_names_and_defs = [_("Estado"), _("Nombre"), _("Dirección"), _("Telefonos"), _("Email"),
-                             _("Acepta envios")]
+    column_names_and_defs = [_("Estado"), _("Nombre"), _("Dirección"), _("Telefonos"), _("Email")]
     options_list = [
 
     ]
@@ -103,8 +158,8 @@ class RequestPizzeriaListView(TemplateDataMixin, DatatablesListView):
     page_title = _("Solicitudes")
     section_title = _("Solicitudes de franquicias")
     model_name = _("Solicitud")
-    fields = ["name", "last_name", "email", "phone"]
-    column_names_and_defs = [_("Nombre"), _("Apellido"), _("Correo"), _("Teléfono"), ]
+    fields = ["representative_full_name", "company_name", "email", "phone",  "address"]
+    column_names_and_defs = [_("Nombre representante"), _("company_name"), _("Correo"), _("Teléfono"), _("Dirección"),]
     options_list = [
         {
             "label_opcion": _('Consultar'),
@@ -121,6 +176,10 @@ class RequestPizzeriaListView(TemplateDataMixin, DatatablesListView):
             "object_modal_delete": 'dd',
         }
     ]
+
+    def dispatch(self, request, *args, **kwargs):
+        self.queryset = PizzeriaRequest.objects.filter(is_active=True)
+        return super(RequestPizzeriaListView, self).dispatch(request, *args, **kwargs)
 
 
 class RequestPizzeriaDeleteView(LoginRequiredMixin, MessageMixin, DeleteView):
@@ -145,3 +204,7 @@ class RequestPizzeriaDetailView(LoginRequiredMixin, DetailView):
     model = PizzeriaRequest
     template_name = 'requestpizzeria/detail.html'
 
+    def get_context_data(self, **kwargs):
+        context = super(RequestPizzeriaDetailView, self).get_context_data(**kwargs)
+        context['form'] = PizzeriaForm
+        return context
