@@ -19,7 +19,6 @@
     <link href="{% static 'libraries/iziToast/iziToast.min.css' %}" rel="stylesheet">
     <!-- Custom styles for this template-->
     <link href="{% static 'template/css/sb-admin-2.min.css' %}" rel="stylesheet">
-    <body id="page-top">
     {% block css %}
 
     {% endblock %}
@@ -49,7 +48,7 @@
             <div class="modal-body">Selcciona salir si estas listo para cerrar tu sesión</div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-
+                <a class="btn btn-primary" href="{% url 'logout' %}">Salir</a>
             </div>
         </div>
     </div>
