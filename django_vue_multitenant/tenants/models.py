@@ -55,7 +55,7 @@ class PizzeriaRequest(Model):
     phone = models.CharField(max_length=10, verbose_name=_("Telefono representante legal"))
     email = models.EmailField(max_length=100, verbose_name=_("Email representante legal"))
     comment = models.TextField(max_length=3000, verbose_name=_("Comentario"))
-    company_name = models.CharField(max_length=10, verbose_name=_("Nombre de la compañia"), null=True)
+    company_name = models.CharField(max_length=100, verbose_name=_("Nombre de la compañia"), null=True)
     address = models.CharField(max_length=100, verbose_name=_("Dirección de la pizzeria"), null=True)
     plan = models.ForeignKey(Plan, null=True, on_delete=models.CASCADE)
 
