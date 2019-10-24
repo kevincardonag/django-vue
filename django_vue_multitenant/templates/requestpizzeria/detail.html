@@ -9,11 +9,11 @@
 
 </div>
 <div class="modal-body">
-    <p><b>Nombre:</b> {{ object.name }}</p>
-    <p><b>Apellido:</b> {{ object.last_name }}</p>
-    <p><b>Teléfono:</b> {{ object.phone }}</p>
-    <p><b>Email:</b> {{ object.email }}</p>
-    <p><b>Comentario:</b><br> {{ object.comment }}</p>
+    <p><b>{% trans "Nombre representante legal" %}:</b> {{ object.representative_full_name }}</p>
+    <p><b>{% trans "Nombre de la compañia" %}</b> {{ object.company_name }}</p>
+    <p><b>{% trans "Teléfono" %}:</b> {{ object.phone }}</p>
+    <p><b>{% trans "Email" %}:</b> {{ object.email }}</p>
+    <p><b>{% trans "Comentario" %}:</b><br> {{ object.comment }}</p>
     <form data-parsley-validate action="{% url 'tenants:create_pizzeria' pk=object.pk %}" method="post">
         {% csrf_token %}
         {% bootstrap_form form %}

@@ -38,6 +38,9 @@ class PizzeriaCreateView(MessageMixin, CreateView):
         instance.request = request
         instance.schema_name = instance.name.lower().replace(" ", '_')
         instance.paid_until = datetime.datetime.now() + datetime.timedelta(days=30)
+        instance.phones = request.phone
+        instance.email = request.email
+        instance.address = request.address
         instance = form.save()
         domain = Domain()
         domain.domain = form.cleaned_data['domain'].lower().replace(" ", "_") + ".localhost"
@@ -46,7 +49,12 @@ class PizzeriaCreateView(MessageMixin, CreateView):
         domain.save()
         with tenant_context(instance):
             password = "".join([random.choice(string.ascii_lowercase[:26]) for i in range(8)])
-            user = UserProfile.objects.create_user('admin', request.email, password)
+            user = UserProfile.objects.create(
+                first_name='admin',
+                last_name="admin",
+                email=request.email,
+                password=password
+            )
             groups = {
                 'admin': [],
                 'vendedor': [],
@@ -64,10 +72,13 @@ class PizzeriaCreateView(MessageMixin, CreateView):
                   message="Su solicitud de franquicia ha sido creado con exito. utilice el usario 'admin' y"
                           " la contraseña " + password + " para loguearse.",
                   from_email="administracion@superdroguerias.com", recipient_list=[request.email])
+
+        request.is_active = False
+        request.save()
         return super(PizzeriaCreateView, self).form_valid(form)
 
     def get_success_url(self):
-        return reverse('franchises:index')
+        return reverse('tenants:index')
 
 
 class PizzeriaSwitchActiveView(PermissionRequiredMixin, SwitchActiveView):
@@ -75,21 +86,17 @@ class PizzeriaSwitchActiveView(PermissionRequiredMixin, SwitchActiveView):
     model = Pizzeria
     success_message = _("El estado de la notaría ha sido actualizado correctamente")
     redirect_url = 'tenants:list'
-    #permission_required = 'tenants.change_notaria'
     raise_exception = True
 
 
 class PizzeriaListView(TemplateDataMixin, DatatablesListView):
     model = Pizzeria
-    #permission_required = 'tenants.list_notaria'
     raise_exception = True
     page_title = _("Listar Pizzerias")
     section_title = _("Listar Pizzerias")
     model_name = _("Pizzería")
-    #create_reversible_url = 'tenants:create'
     fields = ["is_active", "name", "address", "phones", "email", "has_physical_delivers"]
-    column_names_and_defs = [_("Estado"), _("Nombre"), _("Dirección"), _("Telefonos"), _("Email"),
-                             _("Acepta envios")]
+    column_names_and_defs = [_("Estado"), _("Nombre"), _("Dirección"), _("Telefonos"), _("Email")]
     options_list = [
 
     ]
@@ -151,8 +158,8 @@ class RequestPizzeriaListView(TemplateDataMixin, DatatablesListView):
     page_title = _("Solicitudes")
     section_title = _("Solicitudes de franquicias")
     model_name = _("Solicitud")
-    fields = ["name", "last_name", "email", "phone"]
-    column_names_and_defs = [_("Nombre"), _("Apellido"), _("Correo"), _("Teléfono"), ]
+    fields = ["representative_full_name", "company_name", "email", "phone",  "address"]
+    column_names_and_defs = [_("Nombre representante"), _("company_name"), _("Correo"), _("Teléfono"), _("Dirección"),]
     options_list = [
         {
             "label_opcion": _('Consultar'),
@@ -169,6 +176,10 @@ class RequestPizzeriaListView(TemplateDataMixin, DatatablesListView):
             "object_modal_delete": 'dd',
         }
     ]
+
+    def dispatch(self, request, *args, **kwargs):
+        self.queryset = PizzeriaRequest.objects.filter(is_active=True)
+        return super(RequestPizzeriaListView, self).dispatch(request, *args, **kwargs)
 
 
 class RequestPizzeriaDeleteView(LoginRequiredMixin, MessageMixin, DeleteView):

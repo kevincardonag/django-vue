@@ -46,6 +46,7 @@ class Domain(DomainMixin):
 
 
 class PizzeriaRequest(Model):
+    is_active = models.BooleanField(verbose_name=_("Solicitud activa"), default=True)
     representative_full_name = models.CharField(
         max_length=100,
         verbose_name=_("Nombre completo representante legal"),
@@ -55,5 +56,6 @@ class PizzeriaRequest(Model):
     email = models.EmailField(max_length=100, verbose_name=_("Email representante legal"))
     comment = models.TextField(max_length=3000, verbose_name=_("Comentario"))
     company_name = models.CharField(max_length=10, verbose_name=_("Nombre de la compañia"), null=True)
+    address = models.CharField(max_length=100, verbose_name=_("Dirección de la pizzeria"), null=True)
     plan = models.ForeignKey(Plan, null=True, on_delete=models.CASCADE)
 

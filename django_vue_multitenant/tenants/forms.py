@@ -13,7 +13,7 @@ class PizzeriaRequestForm(forms.ModelForm):
 
     class Meta:
         model = PizzeriaRequest
-        fields = ['representative_full_name', 'phone', 'email', 'comment', "company_name"]
+        fields = ['representative_full_name', 'phone', 'email', 'comment', "company_name", "address"]
 
 
 @parsleyfy
@@ -27,5 +27,5 @@ class PizzeriaForm(forms.ModelForm):
     class Meta:
         model = Pizzeria
         fields = ['name']
-        labels = {'name': 'Nombre tenant'}
+        labels = {'name': 'Nombre Schema'}
 
