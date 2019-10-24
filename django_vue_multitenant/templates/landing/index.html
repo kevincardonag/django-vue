@@ -70,12 +70,12 @@ Header
 
         <nav class="main-nav float-right d-none d-lg-block">
             <ul>
-                <li class="active"><a href="#intro">Inicio</a></li>
-                <li><a href="#about">Acerca de Nosotros</a></li>
-                <li><a href="#services">Servicios</a></li>
-                <li><a href="#why-us">Por que escogernos?</a></li>
-                <li><a href="#pricing">precios</a></li>
-                <li><a href="#footer">Contactanos</a></li>
+                <li class="active"><a href="#intro">{% trans 'Inicio' %}</a></li>
+                <li><a href="#about">{% trans 'Acerca de Nosotros' %}</a></li>
+                <li><a href="#services">{% trans 'Servicios' %}</a></li>
+                <li><a href="#why-us">{% trans 'Por que escogernos?' %}</a></li>
+                <li><a href="#pricing">{% trans 'Precios' %}</a></li>
+                <li><a href="#footer">{% trans 'Contactanos' %}</a></li>
             </ul>
         </nav><!-- .main-nav -->
 
@@ -89,9 +89,9 @@ Header
     <div class="container d-flex h-100">
         <div class="row justify-content-center align-self-center">
             <div class="col-md-6 intro-info order-md-first order-last">
-                <h2>{% trans 'SUPERPIZZAS' %}<br>¡La mejor experiencia culinaria que puedes<span> ofrecer!</span></h2>
+                <h2>{% trans 'SUPERPIZZAS' %}<br>{% trans '¡La mejor experiencia culinaria que puedes' %}<span> {% trans 'ofrecer!' %}</span></h2>
                 <div>
-                    <a href="#about" class="btn-get-started scrollto">Empezar</a>
+                    <a href="#about" class="btn-get-started scrollto">{% trans 'Empezar' %}</a>
                 </div>
             </div>
 
@@ -121,12 +121,9 @@ Header
 
                 <div class="col-lg-7 col-md-6">
                     <div class="about-content">
-                        <h2>Quienes somos?</h2>
-                        <h3>Estamos aquí para impulsar y hacer crecer tu idea de negocio de comidas rapidas</h3>
-                        <h4>Nuestras pizzas tienen una receta unica con mas de 10 años en el mercado
-                            a lo largo del territorio Colombiano, ademas de realizar ésta labor, tenemos un sistema de franquicias
-                            que esta puesta al alcance de un clic con el fin de impulsar y hacer crecer tu idea de negocio
-                            culinario</h4>
+                        <h2>{% trans 'Quienes somos?' %}</h2>
+                        <h3>{% trans 'Estamos aquí para impulsar y hacer crecer tu idea de negocio de comidas rapidas' %}</h3>
+                        <h4>{% trans 'Nuestras pizzas tienen una receta unica con mas de 10 años en el mercado                            a lo largo del territorio Colombiano, ademas de realizar ésta labor, tenemos un sistema de franquicias                             que esta puesta al alcance de un clic con el fin de impulsar y hacer crecer tu idea de negocio                            culinario' %}</h4>
                     </div>
                 </div>
             </div>
@@ -142,8 +139,8 @@ Header
         <div class="container">
 
             <header class="section-header">
-                <h3>Servicios</h3>
-                <p>Ideas pensadas para el benifico de tu pizzeria</p>
+                <h3>{% trans 'Servicios' %}</h3>
+                <p>{% trans 'Ideas pensadas para el benifico de tu pizzeria' %}</p>
             </header>
 
             <div class="row">
@@ -152,18 +149,16 @@ Header
                     <div class="box">
                         <div class="icon" style="background: #fceef3;"><i class="ion-bonfire"
                                                                           style="color: #ff689b;"></i></div>
-                        <h4 class="title"><a href="">Multiples ingredientes</a></h4>
-                        <p class="description">Dejamos que tus clientes tengan libertad de escoger sus
-                            ingredientes favoritos para armar la pizza que desean</p>
+                        <h4 class="title"><a href="">{% trans 'Multiples ingredientes' %}</a></h4>
+                        <p class="description">{% trans 'Dejamos que tus clientes tengan libertad de escoger sus ingredientes favoritos para armar la pizza que desean' %}</p>
                     </div>
                 </div>
                 <div class="col-md-6 col-lg-4 wow bounceInUp" data-wow-duration="1.4s">
                     <div class="box">
                         <div class="icon" style="background: #fff0da;"><i class="ion-ios-bookmarks-outline"
                                                                           style="color: #e98e06;"></i></div>
-                        <h4 class="title"><a href="">Planes y promociones</a></h4>
-                        <p class="description">Permitimos que nuestros clientes generen los planes y promociones de sus pizzerias
-                        para darle a sus clientes lo que desean</p>
+                        <h4 class="title"><a href="">{% trans 'Planes y promociones' %}</a></h4>
+                        <p class="description">{% trans 'Permitimos que nuestros clientes generen los planes y promociones de sus pizzerias para darle a sus clientes lo que desean' %}</p>
                     </div>
                 </div>
 
@@ -171,8 +166,8 @@ Header
                     <div class="box">
                         <div class="icon" style="background: #e6fdfc;"><i class="ion-stats-bars"
                                                                           style="color: #3fcdc7;"></i></div>
-                        <h4 class="title"><a href="">Analisis de datos</a></h4>
-                        <p class="description">Ofrecemos la recopilación y analisis de los datos de su negocio</p>
+                        <h4 class="title"><a href="">{% trans 'Analisis de datos' %}</a></h4>
+                        <p class="description">{% trans 'Ofrecemos la recopilación y analisis de los datos de su negocio' %}</p>
                     </div>
                 </div>
             </div>
@@ -186,9 +181,8 @@ Header
         <div class="container-fluid">
 
             <header class="section-header">
-                <h3>¿Por que escogernos?</h3>
-                <p>Somos la franquicia de pizzas numero uno del pais, nuestra misión es generar valor a nuestra sociedad
-                desde productos de calidad que acerquen a las familias y amigos</p>
+                <h3>{% trans '¿Por que escogernos?' %}</h3>
+                <p>{% trans 'Somos la franquicia de pizzas numero uno del pais, nuestra misión es generar valor a nuestra sociedad                desde productos de calidad que acerquen a las familias y amigos' %}</p>
             </header>
 
             <div class="row">
@@ -201,33 +195,27 @@ Header
 
                 <div class="col-lg-6">
                     <div class="why-us-content">
-                        <p>Estamos comprometidos con la generación de valor para nuestra sociedad, tanto para las personas que busquen
-                        emprender e iniciar sus negocios a traves de nuestras franquicias de pizzas, como con las familias y amigos amantes
-                        de las pizzas que desean encontrar un espacio para compartir</p>
+                        <p>{% trans 'Estamos comprometidos con la generación de valor para nuestra sociedad, tanto para las personas que busquen                        emprender e iniciar sus negocios a traves de nuestras franquicias de pizzas, como con las familias y amigos amantes                        de las pizzas que desean encontrar un espacio para compartir' %}</p>
                         <p>
-                            Queremos llevar nuestro producto a todo el mundo, para que cada pais pueda experimentar nuestra
-                            cultura, experiencia y sabores
+                            {% trans 'Queremos llevar nuestro producto a todo el mundo, para que cada pais pueda experimentar nuestra cultura, experiencia y sabores' %}
                         </p>
 
                         <div class="features wow bounceInUp clearfix">
                             <i class="fa fa-diamond" style="color: #f058dc;"></i>
-                            <h4>Crecimiento</h4>
-                            <p> Estamos en una etapa solida de crecimiento y expanción
-                                generando constantemente nuevas franquicias y amantes de las pizzas </p>
+                            <h4>{% trans 'Crecimiento' %}</h4>
+                            <p> {% trans 'Estamos en una etapa solida de crecimiento y expanción generando constantemente nuevas franquicias y amantes de las pizzas' %} </p>
                         </div>
 
                         <div class="features wow bounceInUp clearfix">
                             <i class="fa fa-object-group" style="color: #ffb774;"></i>
-                            <h4>Nuestra plataforma tecnologica</h4>
-                            <p>Tenemos como valor agregado una plataforma digital solida que permite a nuestra comunidad
-                            ser mucho mas agiles tanto comprando pizzas como mejorando la experiencia de administración de nuestras franquicias</p>
+                            <h4>{% trans 'Nuestra plataforma tecnologica' %}</h4>
+                            <p>{% trans 'Tenemos como valor agregado una plataforma digital solida que permite a nuestra comunidad ser mucho mas agiles tanto comprando pizzas como mejorando la experiencia de administración de nuestras franquicias' %}</p>
                         </div>
 
                         <div class="features wow bounceInUp clearfix">
                             <i class="fa fa-language" style="color: #589af1;"></i>
-                            <h4>Multilenguaje</h4>
-                            <p>Nuestra expansión nos dicta el camino y para eso nuestra plataforma
-                                ha adaptado un sistema para adaptarse a cualquier lenguaje.</p>
+                            <h4>{% trans 'Multilenguaje' %}</h4>
+                            <p>{% trans 'Nuestra expansión nos dicta el camino y para eso nuestra plataforma ha adaptado un sistema para adaptarse a cualquier lenguaje.' %}</p>
                         </div>
 
                     </div>
@@ -243,22 +231,22 @@ Header
 
                 <div class="col-lg-3 col-6 text-center">
                     <span data-toggle="counter-up">100</span>
-                    <p>Franquicias</p>
+                    <p>{% trans 'Franquicias' %}</p>
                 </div>
 
                 <div class="col-lg-3 col-6 text-center">
                     <span data-toggle="counter-up">1000000</span>
-                    <p>pizzas vendidas</p>
+                    <p>{% trans 'pizzas vendidas' %}</p>
                 </div>
 
                 <div class="col-lg-3 col-6 text-center">
                     <span data-toggle="counter-up">10</span>
-                    <p>Paises</p>
+                    <p>{% trans 'Paises' %}</p>
                 </div>
 
                 <div class="col-lg-3 col-6 text-center">
                     <span data-toggle="counter-up">500</span>
-                    <p>Trabajadores en franquicias</p>
+                    <p>{% trans 'Trabajadores en franquicias' %}</p>
                 </div>
 
             </div>
@@ -274,13 +262,12 @@ Header
                 </div>
 
                 <div class="col-lg-6 wow fadeInUp pt-4 pt-lg-0 order-2 order-lg-1">
-                    <h4>Proximamente tambien para movil nuestros servicios.</h4>
+                    <h4>{% trans 'Proximamente tambien para movil nuestros servicios.' %}</h4>
                     <p>
-                        Nuestro equipo de desarrolladores esta trabajando para traerte la mejor experiencia en la compra de pizzas
-                        y manejo de franquicias via movil
+                        {% trans 'Nuestro equipo de desarrolladores esta trabajando para traerte la mejor experiencia en la compra de pizzas y manejo de franquicias via movil' %}
                     </p>
                     <p>
-                        El lanzamiento sera en Enero de 2020
+                        {% trans 'El lanzamiento sera en Enero de 2020' %}
                     </p>
                     <p>
 
@@ -296,8 +283,8 @@ Header
         <div class="container">
 
             <header class="section-header">
-                <h3>Precios</h3>
-                <p>Tenemos una variedad de planes para las personas que desean iniciar su negocio de pizzas</p>
+                <h3>{% trans 'Precios' %}</h3>
+                <p>{% trans 'Tenemos una variedad de planes para las personas que desean iniciar su negocio de pizzas' %}</p>
             </header>
 
             <div class="row flex-items-xs-middle flex-items-xs-center">
@@ -312,7 +299,7 @@ Header
                                         {{plan.name}}
                                     </h4>
                                     <p align="center">{{plan.description}}</p>
-                                    <button data-url="{% url 'tenants:create_request' pk=plan.pk %}" class="btn ajax-modal">Escoger Plan</button>
+                                    <button data-url="{% url 'tenants:create_request' pk=plan.pk %}" class="btn ajax-modal">{% trans 'Escoger Plan' %}</button>
                                 </div>
                             </div>
                         </div>
@@ -331,34 +318,33 @@ Header
             <header class="section-header">
                 <h3>
                     {% trans "preguntas frecuentes" %}</h3>
-                <p>Recopilamos las preguntas mas frecuentes para las personas interesadas en nuestras franquicias</p>
+                <p>{% trans 'Recopilamos las preguntas mas frecuentes para las personas interesadas en nuestras franquicias' %}</p>
             </header>
 
             <ul id="faq-list" class="wow fadeInUp">
                 <li>
-                    <a data-toggle="collapse" class="collapsed" href="#faq1">Como adquiero una franquicia? <i class="ion-android-remove"></i></a>
+                    <a data-toggle="collapse" class="collapsed" href="#faq1">{% trans 'Como adquiero una franquicia?' %} <i class="ion-android-remove"></i></a>
                     <div id="faq1" class="collapse" data-parent="#faq-list">
                         <p>
-                            Para adquirir una franquicia debes seleccionar el plan que mas estes interesado en la sección de planes
-                            y seguir los pasos.
+                            {% trans 'Para adquirir una franquicia debes seleccionar el plan que mas estes interesado en la sección de planes y seguir los pasos.' %}
                         </p>
                     </div>
                 </li>
 
                 <li>
-                    <a data-toggle="collapse" href="#faq2" class="collapsed">Como puedo pagar mi plan de franquicias? <i class="ion-android-remove"></i></a>
+                    <a data-toggle="collapse" href="#faq2" class="collapsed">{% trans 'Como puedo pagar mi plan de franquicias?' %} <i class="ion-android-remove"></i></a>
                     <div id="faq2" class="collapse" data-parent="#faq-list">
                         <p>
-                            El plan de franquicias se factura automaticamente tras el registro de una tarjeta de credito.
+                            {% trans 'El plan de franquicias se factura automaticamente tras el registro de una tarjeta de credito.' %}
                         </p>
                     </div>
                 </li>
 
                 <li>
-                    <a data-toggle="collapse" href="#faq3" class="collapsed">Puedo cambiar los planes y sabores de mis pizzas? <i class="ion-android-remove"></i></a>
+                    <a data-toggle="collapse" href="#faq3" class="collapsed">{% trans 'Puedo cambiar los planes y sabores de mis pizzas?' %} <i class="ion-android-remove"></i></a>
                     <div id="faq3" class="collapse" data-parent="#faq-list">
                         <p>
-                            La variedad de ingredientes y planes estaran sujetos al plan de la franquicia escogido.
+                            {% trans 'La variedad de ingredientes y planes estaran sujetos al plan de la franquicia escogido.' %}
                         </p>
                     </div>
                 </li>
@@ -385,12 +371,12 @@ Header
                         <div class="col-sm-6">
 
                             <div class="footer-info">
-                                <p>Super Pizzas franquicias S.A.S</p>
+                                <p>{% trans 'Super Pizzas franquicias S.A.S' %}</p>
                             </div>
 
                             <div class="footer-newsletter">
-                                <h4>Nuestro boletin</h4>
-                                <p>Acabamos de abrir nuestra quinta franquicia en Cali</p>
+                                <h4>{% trans 'Nuestro boletin' %}</h4>
+                                <p>{% trans 'Acabamos de abrir nuestra quinta franquicia en Cali' %}</p>
                                 <form action="" method="post">
                                     <input type="email" name="email"><input type="submit" value="Subscribe">
                                 </form>
@@ -401,22 +387,22 @@ Header
                         <div class="col-sm-6">
                             <div class="footer-links">
                                 <ul>
-                                    <li><a href="#">Inicio</a></li>
-                                    <li><a href="#">Acercade Nosotros</a></li>
-                                    <li><a href="#">Servicios</a></li>
-                                    <li><a href="#">Terminos de Servicios</a></li>
-                                    <li><a href="#">Poliica de privacidad</a></li>
+                                    <li><a href="#">{% trans 'Inicio' %}</a></li>
+                                    <li><a href="#">{% trans 'Acercade Nosotros' %}</a></li>
+                                    <li><a href="#">{% trans 'Servicios' %}</a></li>
+                                    <li><a href="#">{% trans 'Terminos de Servicios' %}</a></li>
+                                    <li><a href="#">{% trans 'Poliica de privacidad' %}</a></li>
                                 </ul>
                             </div>
 
                             <div class="footer-links">
-                                <h4>Contactanos</h4>
+                                <h4>{% trans 'Contactanos' %}</h4>
                                 <p>
-                                    Centro empresarial universitario - Universidad del Valle <br>
-                                    Santiago de Cali<br>
-                                    Colombia <br>
-                                    <strong>Telefono:</strong> +57 1234567<br>
-                                    <strong>Email:</strong> info@superpizzas.com<br>
+                                    {% trans 'Centro empresarial universitario - Universidad del Valle' %} <br>
+                                    {% trans 'Santiago de Cali' %}<br>
+                                    {% trans 'Colombia' %} <br>
+                                    <strong>{% trans 'Telefono:' %}</strong> +57 1234567<br>
+                                    <strong>{% trans 'Email:' %}</strong> info@superpizzas.com<br>
                                 </p>
                             </div>
                             <div class="social-links">
@@ -435,9 +421,8 @@ Header
 
                     <div class="form">
 
-                        <h4>Solicita tu franquicia</h4>
-                        <p>Llena el formulario y solicitanos tu franquicia, una vez lleno el formulario nos pondremos en
-                            contacto contigo.</p>
+                        <h4>{% trans 'Solicita tu franquicia' %}</h4>
+                        <p>{% trans 'Llena el formulario y solicitanos tu franquicia, una vez lleno el formulario nos pondremos en contacto contigo.' %}</p>
 
                     </div>
 
