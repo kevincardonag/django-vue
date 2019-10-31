@@ -72,6 +72,7 @@ export default {
             { title: 'Hawaianaa', src: require('../../static/img/favoritas/pizza1.jpg'), precio:27000, flex: 12 },
             { title: 'Peperoni', src: require('../../static/img/favoritas/pizza2.jpg'), precio:35000, flex: 6 },
             { title: 'Chorizo', src: require('../../static/img/favoritas/pizza3.jpg'), precio:40000, flex: 6 },
+            { title: 'Pollo', src: require('../../static/img/favoritas/pizza3.jpg'), precio:40000, flex: 6 },
         ],
       }
     },
