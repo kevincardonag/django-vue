@@ -1,0 +1,17 @@
+{% load bootstrap3 %}
+{% load i18n %}
+<div class="modal-header">
+    <h4 class="modal-title" id="modalLabel">{% trans 'Crear Ingrediente' %}</h4>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <form data-parsley-validate action="{% url 'products:create_ingredients' %}" method="post">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        <div class="text-center">
+            <button type="submit" class="btn btn-success">{% trans 'Guardar' %}</button>
+        </div>
+    </form>
+</div>
