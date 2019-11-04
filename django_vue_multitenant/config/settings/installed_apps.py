@@ -19,6 +19,7 @@ SHARED_APPS = [
     'menu_generator',
     "parsley",
     "plans",
+    "products",
 ]
 
 TENANT_APPS = [
