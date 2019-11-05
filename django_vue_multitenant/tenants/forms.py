@@ -1,7 +1,7 @@
 from django import forms
 from parsley.decorators import parsleyfy
 
-from tenants.models import PizzeriaRequest
+from tenants.models import PizzeriaRequest, Pizzeria
 
 
 @parsleyfy
@@ -13,11 +13,19 @@ class PizzeriaRequestForm(forms.ModelForm):
 
     class Meta:
         model = PizzeriaRequest
-        fields = ['name', 'last_name', 'phone', 'email', 'comment']
-        labels = {
-            'name': 'Nombre',
-            'last_name': 'Apellido',
-            'phone': 'Teléfono',
-            'email': 'Email',
-            'comment': 'Comentario',
-        }
+        fields = ['representative_full_name', 'phone', 'email', 'comment', "company_name", "address"]
+
+
+@parsleyfy
+class PizzeriaForm(forms.ModelForm):
+
+    domain = forms.CharField(label='Dominio', max_length=100)
+
+    def __init__(self, *args, **kwargs):
+        super(PizzeriaForm, self).__init__(*args, **kwargs)
+
+    class Meta:
+        model = Pizzeria
+        fields = ['name']
+        labels = {'name': 'Nombre Schema'}
+
