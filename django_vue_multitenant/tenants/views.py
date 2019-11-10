@@ -53,7 +53,6 @@ class PizzeriaCreateView(MessageMixin, CreateView):
                 first_name='admin',
                 last_name="admin",
                 email=request.email,
-                password=password
             )
             groups = {
                 'admin': [],
@@ -64,6 +63,7 @@ class PizzeriaCreateView(MessageMixin, CreateView):
                 created, group = Group.objects.get_or_create(name=key)
             group = Group.objects.get(name="admin")
             user.is_staff = True
+            user.set_password(password)
             user.is_superuser = True
             user.save()
             user.groups.add(group)

@@ -19,7 +19,7 @@ SHARED_APPS = [
     'menu_generator',
     "parsley",
     "plans",
-    "products",
+
 ]
 
 TENANT_APPS = [
@@ -27,6 +27,7 @@ TENANT_APPS = [
     'django.contrib.contenttypes',
     'webpack_loader',
     'users',
+    "products",
 ]
 
 INSTALLED_APPS = SHARED_APPS + [app for app in TENANT_APPS if app not in SHARED_APPS]

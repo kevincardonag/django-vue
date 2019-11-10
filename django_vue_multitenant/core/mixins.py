@@ -44,6 +44,12 @@ class TemplateDataMixin(object):
             model_name = self.model.__name__
         return model_name.lower()
 
+    def _get_class_modal(self):
+        class_modal_create = getattr(self, 'class_modal_create', None)
+        if not class_modal_create:
+            class_modal_create = "ajax-modal"
+        return class_modal_create
+
     def _get_and_reverse_create_url(self):
         return reverse(self.create_reversible_url)
 
@@ -52,7 +58,8 @@ class TemplateDataMixin(object):
         context.update({
             'page_title': self._get_value('page_title'),
             'section_title': self._get_value('section_title'),
-            'model_name': self._get_model_name()
+            'model_name': self._get_model_name(),
+            'class_modal_create': self._get_class_modal(),
         })
         if self.create_reversible_url:
             context.update({

@@ -61,6 +61,13 @@
     </div>
 </div>
 
+<div id="ajax-base-modal-large" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+
 <!-- Bootstrap core JavaScript-->
 <script src="{% static 'template/vendor/jquery/jquery.min.js' %}"></script>
 <script src="{% static 'template/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
@@ -79,11 +86,11 @@
   <script src="{% static 'template/js/demo/chart-pie-demo.js' %}"></script>-->
 <script>
     $(document).on('click', '.ajax-modal', async function () {
-        let data = await fetch($(this).data('url'));
-        data = await  data.text();
-        $('#ajax-base-modal').find('.modal-content').html(data);
-        $('#ajax-base-modal').modal();
-        $('#ajax-base-modal').find('form').parsley();
+        loadHtml('ajax-base-modal', this);
+    });
+
+    $(document).on('click', '.ajax-modal-large', async function () {
+        loadHtml('ajax-base-modal-large', this);
     });
     var _gaq = _gaq || [];
     _gaq.push(['_setAccount', 'UA-XXXXXXXX-X']);
@@ -97,6 +104,15 @@
         var s = document.getElementsByTagName('script')[0];
         s.parentNode.insertBefore(ga, s);
     })();
+
+    async function loadHtml(modal, el){
+        let data = await fetch($(el).data('url'));
+        data = await  data.text();
+        $('#'+modal).find('.modal-content').html(data);
+        $('#'+modal).modal();
+        $('#'+modal).find('form').parsley();
+    }
+
 
 </script>
 
