@@ -122,3 +122,6 @@ django_vue_multitenant/*/migrations/*
 .idea/
 
 django_vue_multitenant/media/.idea/
+django_vue_multitenant/media/
+
+
