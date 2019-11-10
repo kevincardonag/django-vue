@@ -119,7 +119,9 @@ class DatatablesListView(TemplateView):
                                                        'object_modal': option_conf.get('object_modal', None),
                                                        'object': object,
                                                        'confirm_modal': option_conf.get('confirm_modal', None),
-                                                       'object_modal_delete': option_conf.get('object_modal_delete', None)
+                                                       'object_modal_delete': option_conf.get('object_modal_delete',
+                                                                                              None),
+                                                       'class_target_modal': option_conf.get('class_target_modal', None)
                                                        }))
             else:
                 continue

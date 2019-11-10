@@ -11,5 +11,14 @@ MENUS = {
                 #('menu_generator.validators.user_has_permission', "tenants.list_pizzerias"),
             ]
         },
+        {
+            "name": _("Productos"),
+            "url": "products:index",
+            "icon": "fas fa-fw fa-hand-holding",
+            "validators": [
+                #'menu_generator.validators.is_authenticated',
+                #('menu_generator.validators.user_has_permission', "tenants.list_pizzerias"),
+            ]
+        },
     ]
 }
