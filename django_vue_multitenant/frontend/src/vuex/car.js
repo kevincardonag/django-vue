@@ -35,10 +35,10 @@ const actions={
         }
         car.productos.push(producto);
         
-        car.total+=producto.precio;
+        car.total+=producto.price;
         
         localStorage.carrito=JSON.stringify(car);
-
+        
         commit('pushCarrito',producto);
 
     },
@@ -64,8 +64,20 @@ const mutations={
 
     pushCarrito:(state, producto) => {
 
-        state.carrito.productos.push(producto);
-        state.carrito.total+=producto.precio;
+        // state.carrito.productos.push(producto);
+        let newproduct=true;
+        for (let index = 0; index < state.carrito.productos.length; index++) {
+            if (producto.id==state.carrito.productos[index].id) {
+                state.carrito.productos[index].cantidad+=1;
+                state.carrito.productos[index].price_total=state.carrito.productos[index].cantidad*state.carrito.productos[index].price;
+                newproduct=false;
+                break;
+            }
+        }
+        if (newproduct) {
+            state.carrito.productos.push(producto);
+        }
+        state.carrito.total+=producto.price;
 
     },
 

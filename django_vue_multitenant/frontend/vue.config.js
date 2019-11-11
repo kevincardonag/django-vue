@@ -3,9 +3,9 @@ const BundleTracker = require("webpack-bundle-tracker");
 module.exports = {
     baseUrl: "http://localhost:8080/",
     outputDir: './dist/',
-
+    
     chainWebpack: config => {
-
+        
         config.optimization
             .splitChunks(false);
 
@@ -23,6 +23,7 @@ module.exports = {
             .hotOnly(true)
             .watchOptions({poll: 1000})
             .https(false)
+            .disableHostCheck(true)
             .headers({"Access-Control-Allow-Origin": ["\*"]})
     },
     pages: {

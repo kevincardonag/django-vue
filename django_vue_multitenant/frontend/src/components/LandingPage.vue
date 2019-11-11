@@ -19,13 +19,13 @@
             <p class="font-weight-medium font-italic display-3 text-center green--text  --text-darken-2">Favoritas</p>
             <v-row>
                 <v-col
-                v-for="(card, index) in cards"
-                :key="card.title"
-                :cols="card.flex"
+                v-for="(fav, index) in favorites"
+                :key="fav.title"
+                :cols="fav.flex"
                 >
                     <v-card>
                         <v-img
-                        :src="card.src"
+                        :src="fav.src"
                         class="white--text"
                         min-height="200"
                         max-height="300"
@@ -33,7 +33,7 @@
                         >
                         <v-card-title
                             class="fill-height align-end"
-                            v-text="card.title"
+                            v-text="fav.name"
                         ></v-card-title>
                         </v-img>
 
@@ -42,7 +42,7 @@
                             
 
                             <v-list-item-content>
-                            <v-list-item-title>$ {{card.precio}}</v-list-item-title>
+                            <v-list-item-title>$ {{fav.price}}</v-list-item-title>
                             </v-list-item-content>
 
                             <v-btn icon @click="addItemCart(index)">
@@ -57,7 +57,7 @@
     </v-app>
 </template>
 <script>
-
+import axios from 'axios'
 import {mapActions} from 'vuex';
 export default {
     data () {
@@ -68,27 +68,51 @@ export default {
             {src: require('../../static/img/carousel/pizza2.jpg'),},
             {src: require('../../static/img/carousel/pizza3.jpg'),},
         ],
-        cards: [
-            { title: 'Hawaianaa', src: require('../../static/img/favoritas/pizza1.jpg'), precio:27000, flex: 12 },
-            { title: 'Peperoni', src: require('../../static/img/favoritas/pizza2.jpg'), precio:35000, flex: 6 },
-            { title: 'Chorizo', src: require('../../static/img/favoritas/pizza3.jpg'), precio:40000, flex: 6 },
-            { title: 'Pollo', src: require('../../static/img/favoritas/pizza3.jpg'), precio:40000, flex: 6 },
+        favorites: [
+            { name: 'Hawaianaa', src: require('../../static/img/favoritas/pizza1.jpg'), price:27000, flex: 12 },
+            { name: 'Peperoni', src: require('../../static/img/favoritas/pizza2.jpg'), price:35000, flex: 6 },
+            { name: 'Chorizo', src: require('../../static/img/favoritas/pizza3.jpg'), price:40000, flex: 6 },
+            { name: 'Pollo', src: require('../../static/img/favoritas/pizza3.jpg'), price:40000, flex: 6 },
         ],
       }
     },
     mounted() {
-
         this.fetchCarrito();
-        
+
+        axios.get('http://pizzachimba.localhost:8000/apiREST/products/',
+                {
+                    params: {
+                        favorites:true,
+                    }
+                }
+        )
+        .then(response => {
+            const favorites=response.data;
+            favorites.forEach((element,index) => {
+                if (!favorites[index]['flex']) {
+                    
+                    favorites[index]['flex']=12
+                }
+            });
+            this.favorites=favorites;
+            console.log(favorites)
+        })
+        .catch(response => {
+            console.log(error);
+        });
     },
     methods:{
 
         addItemCart(index){
 
             const item={
-                title:this.cards[index].title,
-                precio:this.cards[index].precio
+                id:this.favorites[index].id,
+                name:this.favorites[index].name,
+                price:this.favorites[index].price,
+                price_total:this.favorites[index].price,
+                cantidad:1
             }
+            
 
             this.addCarrito(item);
             
