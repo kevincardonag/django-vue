@@ -148,7 +148,7 @@ class ProductDeleteView(LoginRequiredMixin, MessageMixin, DeleteView):
             try:
                 plan = get_object_or_404(Product, pk=kwargs['pk'])
                 plan.delete()
-                return JsonResponse({'status': 1, 'message': 'El Ingrediente fue eliminado con éxito', 'type': 'success'})
+                return JsonResponse({'status': 1, 'message': 'El Producto fue eliminado con éxito', 'type': 'success'})
             except Exception:
                 return JsonResponse({'status': 0, 'message': 'Ha ocurrido un error', 'type': 'error'})
 

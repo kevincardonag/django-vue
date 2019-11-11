@@ -6,7 +6,7 @@
     </button>
 </div>
 <div class="modal-body">
-    <form data-parsley-validate action="{% url 'products:update_product' pk=object.pk %}" method="post">
+    <form data-parsley-validate action="{% url 'products:update_product' pk=object.pk %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
             <div class="row">
                 <div class="col-md-4">
@@ -25,7 +25,19 @@
                     {% bootstrap_field form.name %}
                 </div>
                  <div class="col-md-6">
-                    {% bootstrap_field form.image %}
+                     <div class="row">
+                         <div class="col-md-12">
+                             {% bootstrap_field form.image %}
+                         </div>
+                     </div>
+                     {% if object.image %}
+                         <div class="row">
+                             <div class="col-md-12">
+                                 <img src="{{ object.image.url }}" width="150" height="100">
+                             </div>
+                         </div>
+                     {% endif %}
+
                 </div>
             </div>
             <div class="row">
@@ -40,7 +52,7 @@
             </div>
 
         <div class="text-center">
-            <button type="submit" class="btn btn-success">Guardar plan</button>
+            <button type="submit" class="btn btn-success">Actualizar</button>
         </div>
     </form>
 </div>

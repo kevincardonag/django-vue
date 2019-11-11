@@ -14,7 +14,8 @@ class IngredientForm(ModelForm):
 class ProductForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
-        ingredient = ModelMultipleChoiceField(queryset=Ingredient.objects.all(), widget=CheckboxSelectMultiple())
+        ingredient = ModelMultipleChoiceField(queryset=Ingredient.objects.all(), widget=CheckboxSelectMultiple(),
+                                              label="Ingredientes")
         super(ProductForm, self).__init__(*args, **kwargs)
         self.fields['description'].widget.attrs.update({'rows': 3, 'cols': 5})
         self.fields['ingredient'] = ingredient
