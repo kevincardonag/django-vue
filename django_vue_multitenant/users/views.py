@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.http import JsonResponse
+from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.views import PasswordChangeView, PasswordResetView
 
 from core.datatables_tools.datatables_tools import DatatablesListView
@@ -37,16 +38,33 @@ class UsersListView(LoginRequiredMixin, TemplateDataMixin, DatatablesListView):
     page_title = _("Usuarios")
     section_title = _("Listado de Usuarios")
     model_name = _("Usuario")
+    create_reversible_url = 'users:create'
     fields = ["first_name", "last_name", "email"]
+    class_modal_create = "ajax-modal-large"
     column_names_and_defs = [_("Nombre"), _("Apellido"), _("Correo")]
     options_list = [
         {
             "label_opcion": _('Editar'),
-            "url_opcion": 'products:update_ingredients',
+            "url_opcion": 'users:update',
             "parametros_url": ["id"],
             "icono": 'fa-pencil-alt',
-            "confirm_modal": 'ajax-base-modal',
+            "confirm_modal": 'ajax-base-modal-large',
+            "class_target_modal": 'ajax-modal-large'
         },
+        {
+           "label_opcion": _('Consultar'),
+           "url_opcion": 'users:detail',
+           "parametros_url": ["id"],
+           "icono": 'fa-eye',
+           "confirm_modal": 'ajax-base-modal',
+        },
+        {
+           "label_opcion": _('Eiminar'),
+           "url_opcion": "users:delete",
+           "parametros_url": ["id"],
+           "icono": 'fa-trash',
+           "object_modal_delete": 'dd',
+        }
     ]
 
 
@@ -87,5 +105,11 @@ class UserDeleteView(LoginRequiredMixin, MessageMixin, DeleteView):
     model = UserProfile
     delete_message = "Usuario eliminado con éxito"
 
-    def get_success_url(self):
-        return reverse('users:index')
+    def post(self, request, *args, **kwargs):
+        if self.request.is_ajax():
+            try:
+                user = get_object_or_404(UserProfile, pk=kwargs['pk'])
+                user.delete()
+                return JsonResponse({'status': 1, 'message': 'El Usuario fue eliminado con éxito', 'type': 'success'})
+            except Exception:
+                return JsonResponse({'status': 0, 'message': 'Ha ocurrido un error', 'type': 'error'})

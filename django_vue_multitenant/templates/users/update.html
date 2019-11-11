@@ -8,9 +8,34 @@
 <form data-parsley-validate action="{% url 'users:update' pk=object.pk %}" method="post">
     {% csrf_token %}
     <div class="modal-body">
-        {% bootstrap_form form %}
+        <div class="row">
+                <div class="col-md-6">
+                    {% bootstrap_field form.first_name %}
+                </div>
+                <div class="col-md-6">
+                    {% bootstrap_field form.last_name %}
+                </div>
+         </div>
+         <div class="row">
+            <div class="col-md-6">
+                {% bootstrap_field form.email %}
+            </div>
+            <div class="col-md-6">
+                {% bootstrap_field form.group %}
+            </div>
+         </div>
+         <div class="row">
+             <div class="col-md-12">
+                {% bootstrap_field form.password %}
+             </div>
+         </div>
+         <div class="row">
+             <div class="col-md-12">
+                {% bootstrap_field form.password_confirm %}
+             </div>
+         </div>
     </div>
-    <div class="modal-footer">
+    <div class="modal-footer text-center">
         <button type="submit" class="btn btn-success">Actualizar Usuario</button>
     </div>
 </form>
