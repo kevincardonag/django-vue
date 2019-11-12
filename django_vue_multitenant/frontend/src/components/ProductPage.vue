@@ -67,6 +67,7 @@
                             </template>
                         </v-toolbar>
                     </template>
+
                     <template v-slot:default="props">
                         <v-row>
                             <v-col
@@ -78,7 +79,7 @@
                             lg="3"
                             >
                             <v-card>
-                                <!-- <v-card-title><h4>{{ item.name }}</h4></v-card-title> -->
+                                
                                 <v-img
                                 :src="item.image"
                                 class="white--text"
@@ -145,7 +146,7 @@
                                         
 
                                         <v-list-item-content>
-                                        <v-list-item-title>$ {{item.price}}</v-list-item-title>
+                                        <v-list-item-title>$ {{item.price.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}}</v-list-item-title>
                                         </v-list-item-content>
 
                                         <v-btn icon @click="addItemCart(index)">
@@ -266,8 +267,9 @@ export default {
             console.log(error);
         });
     },
-
+    
     computed: {
+        
         numberOfPages () {
             return Math.ceil(this.products.length / this.itemsPerPage)
         },
@@ -292,6 +294,8 @@ export default {
             const item={
                 id:this.products[index].id,
                 name:this.products[index].name,
+                description:this.products[index].description,
+                image:this.products[index].image,
                 price:this.products[index].price,
                 price_total:this.products[index].price,
                 cantidad:1

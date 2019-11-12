@@ -9,4 +9,5 @@ urlpatterns = [
       #path('', PizzeriaListView.as_view(), name='tenant_list'),
       path('', views.landingpage, name='clientlandingpage'),
       path('pizzas/', views.productpage, name='clientpizzas'),
+      path('pagar/', views.pagarpage, name='clientpizzas'),
 ]

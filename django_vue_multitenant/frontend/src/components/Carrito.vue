@@ -58,7 +58,7 @@
             <v-card-actions>
                 
                 <v-btn outlined small color="warning" @click="removeCar">Vaciar</v-btn>
-                <v-btn outlined small color="primary"  @click="pagar">Pagar</v-btn>
+                <v-btn outlined small color="primary"  :href="pagar_links">Pagar</v-btn>
 
             </v-card-actions>
 
@@ -72,6 +72,7 @@ export default {
     
     data: () => ({
         
+        pagar_links:`${window.location.protocol}//${window.location.host}/pagar`,
         productos:[
             {name:'Pizza1',price:3000},
             {name:'Pizza2',price:3000},
@@ -124,11 +125,6 @@ export default {
             })
 
         },
-
-        pagar(){
-            // this.$store.car.commit('increment');
-            // console.log(this.$store.car.state.count );
-        }
 
     }
 

@@ -29,6 +29,7 @@ module.exports = {
     pages: {
         clientlp: 'src/landing.js',
         clientproductp: 'src/product.js',
+        pagar: 'src/pagar.js',
     }
 
 };

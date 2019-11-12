@@ -14,3 +14,7 @@ def landingpage(request):
 def productpage(request):
     return  render(request=request,
                    template_name='client/product.html')
+
+def pagarpage(request):
+    return  render(request=request,
+                   template_name='client/pagar.html')

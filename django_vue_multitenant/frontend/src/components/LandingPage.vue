@@ -42,7 +42,7 @@
                             
 
                             <v-list-item-content>
-                            <v-list-item-title>$ {{fav.price}}</v-list-item-title>
+                            <v-list-item-title>$ {{fav.price.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}}</v-list-item-title>
                             </v-list-item-content>
 
                             <v-btn icon @click="addItemCart(index)">
