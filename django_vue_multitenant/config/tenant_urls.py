@@ -16,6 +16,8 @@ urlpatterns = [
     path('users/', include('users.urls', namespace='users')),
     path('accounts/', include('django.contrib.auth.urls')),
     path('', include('client.urls', namespace='clients')),
+    # path('client/', include('client.urls', namespace='clients2')),
     path('products', include('products.urls', namespace='products')),
+
     path('apiREST/', include('api_rest.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

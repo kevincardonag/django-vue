@@ -27,7 +27,8 @@ module.exports = {
             .headers({"Access-Control-Allow-Origin": ["\*"]})
     },
     pages: {
-        clientlp: 'src/main.js',
+        clientlp: 'src/landing.js',
+        clientproductp: 'src/product.js',
     }
 
 };

@@ -25,7 +25,7 @@
                 >
                     <v-card>
                         <v-img
-                        :src="fav.src"
+                        :src="fav.image"
                         class="white--text"
                         min-height="200"
                         max-height="300"
