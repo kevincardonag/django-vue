@@ -8,100 +8,154 @@
 
                 <v-data-iterator
                     :items="products"
-                    :items-per-page.sync="productsPerPage"
-                    :footer-props="{ productsPerPageOptions }"
+                    :items-per-page.sync="itemsPerPage"
+                    :footer-props="{ itemsPerPageOptions }"
                     :single-expand="expand"
-                >
-                    <template v-slot:default="props">
-                    <v-row>
-                        <v-col
-                        v-for="(item,index) in props.items"
-                        :key="item.name"
-                        cols="12"
-                        sm="6"
-                        md="4"
-                        lg="3"
+                    :search="search"
+                    :sort-by="sortBy.toLowerCase()"
+                    :sort-desc="sortDesc"
+                >   
+                    <template v-slot:header>
+                        <v-toolbar
+                            dark
+                            color="green"
+                            class="mb-1"
                         >
-                        <v-card>
-                            <!-- <v-card-title><h4>{{ item.name }}</h4></v-card-title> -->
-                            <v-img
-                            :src="item.image"
-                            class="white--text"
-                            height="200"
-                            gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
-                            >
-
-                                <v-card-title
-                                    class="fill-height align-end"
-                                    v-text="item.name"
-                                ></v-card-title>
-
-                            </v-img>
-
-                            <v-divider></v-divider>
-
-                            <v-list dense>
-
-                                <v-list-item class="grow">
-                                
-                                    <v-list-item-content>
-                                        <v-list-item-title class="my-4 subtitle-1 black--text">Descripción</v-list-item-title>
-                                        <div >{{item.description}}</div>
-                                    </v-list-item-content>
-
-                                </v-list-item>
-
-                                <v-list-item class="grow">
-                                
-                                    <v-list-item-content>
-                                        <v-list-item-title class="subtitle-1 black--text">Ingredientes</v-list-item-title>
-                                    </v-list-item-content>
-
-                                    <v-spacer></v-spacer>
-
+                            <v-text-field
+                            v-model="search"
+                            clearable
+                            flat
+                            solo-inverted
+                            hide-details
+                            prepend-inner-icon="search"
+                            label="Buscar"
+                            ></v-text-field>
+                            <template v-if="$vuetify.breakpoint.mdAndUp">
+                                <v-spacer></v-spacer>
+                                <v-select
+                                    v-model="sortBy"
+                                    flat
+                                    solo-inverted
+                                    hide-details
+                                    :items="keys"
+                                    prepend-inner-icon="search"
+                                    label="Sort by"
+                                ></v-select>
+                                <v-spacer></v-spacer>
+                                <v-btn-toggle
+                                    v-model="sortDesc"
+                                    mandatory
+                                >
                                     <v-btn
-                                        icon
-                                        @click="show(props,item)"
+                                    large
+                                    depressed
+                                    color="green"
+                                    :value="false"
                                     >
-                                        <v-icon>{{ props.isExpanded(item) ? 'fa-chevron-up' : 'fa-chevron-down' }}</v-icon>
+                                    <v-icon>fa-arrow-up</v-icon>
                                     </v-btn>
+                                    <v-btn
+                                    large
+                                    depressed
+                                    color="green"
+                                    :value="true"
+                                    >
+                                    <v-icon>fa-arrow-down</v-icon>
+                                    </v-btn>
+                                </v-btn-toggle>
+                            </template>
+                        </v-toolbar>
+                    </template>
+                    <template v-slot:default="props">
+                        <v-row>
+                            <v-col
+                            v-for="(item,index) in props.items"
+                            :key="item.name"
+                            cols="12"
+                            sm="6"
+                            md="4"
+                            lg="3"
+                            >
+                            <v-card>
+                                <!-- <v-card-title><h4>{{ item.name }}</h4></v-card-title> -->
+                                <v-img
+                                :src="item.image"
+                                class="white--text"
+                                height="200"
+                                gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
+                                >
 
-                                </v-list-item>
-                            </v-list>
+                                    <v-card-title
+                                        class="fill-height align-end"
+                                        v-text="item.name"
+                                    ></v-card-title>
 
-                            <v-expand-transition>
-                                <div v-if="props.isExpanded(item)" >
-                                    <v-divider></v-divider>
+                                </v-img>
 
-                                    <v-list dense>
-                                        <v-list-item
-                                        v-for="(ingredient, index) in item.ingredient"
-                                        :key="index"
-                                        >
-                                            <v-list-item-content class="align-end">{{ ingredient }}</v-list-item-content>
-                                        </v-list-item>
-                                    </v-list>
-                                </div>
-                            </v-expand-transition>
-                            
-                            <v-divider></v-divider>
-                            <v-card-actions>
-                                <v-list-item class="grow">
+                                <v-divider></v-divider>
+
+                                <v-list dense>
+
+                                    <v-list-item class="grow">
                                     
+                                        <v-list-item-content>
+                                            <v-list-item-title class="my-4 subtitle-1 black--text">Descripción</v-list-item-title>
+                                            <div >{{item.description}}</div>
+                                        </v-list-item-content>
 
-                                    <v-list-item-content>
-                                    <v-list-item-title>$ {{item.price}}</v-list-item-title>
-                                    </v-list-item-content>
+                                    </v-list-item>
 
-                                    <v-btn icon @click="addItemCart(index)">
-                                        <v-icon>fa-cart-plus</v-icon>
-                                    </v-btn>
-                                </v-list-item>
-                            </v-card-actions>
+                                    <v-list-item class="grow">
+                                    
+                                        <v-list-item-content>
+                                            <v-list-item-title class="subtitle-1 black--text">Ingredientes</v-list-item-title>
+                                        </v-list-item-content>
 
-                        </v-card>
-                        </v-col>
-                    </v-row>
+                                        <v-spacer></v-spacer>
+
+                                        <v-btn
+                                            icon
+                                            @click="show(props,item)"
+                                        >
+                                            <v-icon>{{ props.isExpanded(item) ? 'fa-chevron-up' : 'fa-chevron-down' }}</v-icon>
+                                        </v-btn>
+
+                                    </v-list-item>
+                                </v-list>
+
+                                <v-expand-transition>
+                                    <div v-if="props.isExpanded(item)" >
+                                        <v-divider></v-divider>
+
+                                        <v-list dense>
+                                            <v-list-item
+                                            v-for="(ingredient, index) in item.ingredient"
+                                            :key="index"
+                                            >
+                                                <v-list-item-content class="align-end">{{ ingredient }}</v-list-item-content>
+                                            </v-list-item>
+                                        </v-list>
+                                    </div>
+                                </v-expand-transition>
+                                
+                                <v-divider></v-divider>
+                                <v-card-actions>
+                                    <v-list-item class="grow">
+                                        
+
+                                        <v-list-item-content>
+                                        <v-list-item-title>$ {{item.price}}</v-list-item-title>
+                                        </v-list-item-content>
+
+                                        <v-btn icon @click="addItemCart(index)">
+                                            <v-icon>fa-cart-plus</v-icon>
+                                        </v-btn>
+                                    </v-list-item>
+                                </v-card-actions>
+
+                            </v-card>
+                            </v-col>
+                        </v-row>
                     </template>
                 </v-data-iterator>
             
@@ -115,8 +169,15 @@ export default {
     data () {
       return {
         expand: false,
-        productsPerPageOptions: [10, 15, 20],
-        productsPerPage: 20,
+        itemsPerPageOptions: [2, 4, 8, 12],
+        itemsPerPage: 4,
+        sortDesc: false,
+        search: '',
+        sortBy: 'name',
+        keys: [
+            'name',
+            'price',
+        ],
         products: [
             { name: 'Hawaianaa', image: require('../../static/img/favoritas/pizza1.jpg'), price:27000, flex: 12 },
             { name: 'Peperoni', image: require('../../static/img/favoritas/pizza2.jpg'), price:35000, flex: 6 },
@@ -144,6 +205,16 @@ export default {
             console.log(error);
         });
     },
+
+    computed: {
+        numberOfPages () {
+            return Math.ceil(this.items.length / this.itemsPerPage)
+        },
+        filteredKeys () {
+            return this.keys.filter(key => key !== `Name`)
+        },
+    },
+
     methods:{
 
         addItemCart(index){
