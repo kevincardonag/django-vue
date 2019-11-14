@@ -4,7 +4,7 @@ django-cors-headers==3.0.2
 django-pdb==0.6.2
 django-restframework==0.0.1
 flake8==3.7.8
-Pillow==6.1.0
+Pillow==6.2.0
 pre-commit==1.17.0
 psycopg2==2.8.3
 psycopg2cffi==2.8.1
