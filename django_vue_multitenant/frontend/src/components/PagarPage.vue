@@ -42,122 +42,7 @@
                                     </v-col>
 
                                 </v-row>
-                                <!-- <v-row>
-                                    <v-col
-                                        cols="12"
-                                    >
-
-                                        <v-text-field
-                                            v-model="form.name"
-                                            :rules="nameRules"
-                                            label="Nombre Comprador"
-                                        ></v-text-field>
-
-                                    </v-col>
-
-                                    <v-col
-                                        cols="12"
-                                    >
-
-                                        <v-text-field
-                                            v-model="form.direccion"
-                                            :rules="direccionRules"
-                                            label="Dirección"
-                                        ></v-text-field>
-
-                                    </v-col>
-
-                                    <v-col
-                                        cols="12"
-                                    >
-
-                                        <v-text-field
-                                            v-model="form.email"
-                                            :rules="emailRules"
-                                            label="E-mail"
-                                        ></v-text-field>
-
-                                    </v-col>
-                                    
-                                    <v-col
-                                        cols="12"
-                                        sm="4"
-                                    >
-
-                                        <v-select
-                                            v-model="form.metodo"
-                                            :items="metodosPago"
-                                            :rules="[v => !!v || 'Seleccione un metodo de pago']"
-                                            label="Metodo de pago"
-                                        ></v-select>
-                                        
-                                    </v-col>
-                                        <v-col
-                                            cols="12"
-                                            sm="8"
-                                            v-if="form.metodo==metodosPago[1]"
-                                        >
-
-                                            <v-text-field
-                                                v-model="form.card"
-                                                :rules="cardRules"
-                                                label="Numero"
-                                            ></v-text-field>
-
-                                        </v-col>
-
-                                        <v-col
-                                            cols="12"
-                                            sm="6"
-                                            v-if="form.metodo==metodosPago[1]"
-                                        >
-
-                                            <v-text-field
-                                                v-model="form.datecard"
-                                                :rules="datecardRules"
-                                                label="MM/YY"
-                                            ></v-text-field>
-
-                                        </v-col>
-
-                                        <v-col
-                                            cols="12"
-                                            sm="6"
-                                            v-if="form.metodo==metodosPago[1]"
-                                        >
-
-                                            <v-text-field
-                                                v-model="form.cvccard"
-                                                :rules="cvccardRules"
-                                                label="CVC"
-                                            ></v-text-field>
-
-                                        </v-col>
-
-                                    <v-btn
-                                    :disabled="!valid"
-                                    color="success"
-                                    class="mr-4"
-                                    @click="validate"
-                                    >
-                                    Validate
-                                    </v-btn>
-
-                                    <v-btn
-                                    color="error"
-                                    class="mr-4"
-                                    @click="reset"
-                                    >
-                                    Reset Form
-                                    </v-btn>
-
-                                    <v-btn
-                                    color="warning"
-                                    @click="resetValidation"
-                                    >
-                                    Reset Validation
-                                    </v-btn>
-                                </v-row> -->
+                                
                             </v-form>
 
                         </v-container>
@@ -221,7 +106,7 @@
                             </tfoot>
                         </v-simple-table>
                         <v-card-actions>
-                            <v-btn block color="green" >
+                            <v-btn block color="green" @click="pay">
                                 Generar pedido 
                                 <v-icon>fa-money-bill-wave-alt</v-icon>
                             </v-btn>
@@ -243,139 +128,86 @@ export default {
           
           valid: true,
           
-          nameRules: [
-            v => !!v || 'Nombre es requerido',
-          ],
-          
-          emailRules: [
-            v => !!v || 'E-mail es requerido',
-            v => /.+@.+\..+/.test(v) || 'E-mail invalido',
-          ],
+          inputs:{
 
-          
-          direccionRules: [
-            v => !!v || 'Dirección es requerida',
-          ],
-
-          
-          cardRules: [
-            v => !!v || 'Tarjeta es requerida',
-            v => /^(\d{4}[\s|\-]?){3}(\d{2,}\s{0,})$/.test(v) || 'Tarjeta no valida',
-          ],
-          
-          datecardRules: [
-            v => !!v || 'Fecha de vencimiento es requerida',
-            v => /^([0][0-9]|[1][0-2])\/\d{2}$/.test(v) || 'Fecha no valida',
-          ],
-          
-          cvccardRules: [
-            v => !!v || 'CVC es requerida',
-            v => /^\d{3}$/.test(v) || 'Fecha no valida',
-          ],
-          
-          metodosPago: [
-          'Contra Entrega',
-          'Tarjeta de credito',
-          ],
-          
-          form:{
-
-                name: '',
-                email: '',
-                direccion: '',
-                card: '',
-                datecard: '',
-                cvccard: '',
-                metodo: null,
-
+            name:{
+                value:'', 
+                rules:[v => !!v || 'Nombre es requerido'], 
+                type:'text', 
+                label:"Nombre Comprador",
+                render:true,
+                cols:{cols:"12",sm:"12"},
+            },
+            direction:{
+                value:'', 
+                rules:[v => !!v || 'Dirección es requerida',],
+                type:'text', 
+                label:"Dirección",
+                render:true,
+                cols:{cols:"12",sm:"12"},
+            },
+            email:{
+                value:'', 
+                rules:
+                    [
+                        v => !!v || 'E-mail es requerido',
+                        v => /.+@.+\..+/.test(v) || 'E-mail invalido',
+                    ], 
+                type:'text', 
+                label:"E-mail",
+                render:true,
+                cols:{cols:"12",sm:"12"},
+            },
+            metodo:{
+                value:null, 
+                rules:[v => !!v || 'Metodo de pago es requerido',], 
+                type:'select', 
+                label:"Metodo de pago",
+                select:[
+                    {value:'contra_entrega',text:'Contra Entrega'},
+                    {value:'credit_cart',text:'Tarjeta de credito'},
+                ],
+                render:true,
+                cols:{cols:"12",sm:"4"},
+            },
+            card:{
+                value:'', 
+                rules:
+                    [
+                        v => !!v || 'Tarjeta es requerida',
+                        v => /^(\d{4}[\s|\-]?){3}(\d{2,}\s{0,})$/.test(v) || 'Tarjeta no valida',
+                    ], 
+                type:'text',
+                label:"Numero",
+                render:false,
+                cols:{cols:"12",sm:"8"},
+            },
+            datecard:{
+                value:'', 
+                rules:
+                    [
+                        v => !!v || 'Fecha de vencimiento es requerida',
+                        v => /^([0][0-9]|[1][0-2])\/\d{2}$/.test(v) || 'Fecha no valida',
+                    ], 
+                type:'text', 
+                label:"MM/YY",
+                render:false,
+                cols:{cols:"12",sm:"6"},
+            },
+            cvscard:{
+                value:'', 
+                rules:
+                    [
+                        v => !!v || 'CVS es requerida',
+                        v => /^\d{3}$/.test(v) || 'CVS invalido',
+                    ], 
+                type:'text', 
+                label:"CVS  ",
+                render:false,
+                cols:{cols:"12",sm:"6"},
+            },
           },
-          inputs:[
-
-                {
-                    name:'name',
-                    vale:'', 
-                    rules:[v => !!v || 'Nombre es requerido'], 
-                    type:'text', 
-                    label:"Nombre Comprador",
-                    render:true,
-                    cols:{cols:"12",sm:"12"},
-                },
-                {
-                    name:'direccion',
-                    vale:'', 
-                    rules:
-                        [
-                            v => !!v || 'E-mail es requerido',
-                            v => /.+@.+\..+/.test(v) || 'E-mail invalido',
-                        ],  
-                    type:'text', 
-                    label:"Dirección",
-                    render:true,
-                    cols:{cols:"12",sm:"12"},
-                },
-                {
-                    name:'email',
-                    vale:'', 
-                    rules:[v => !!v || 'Dirección es requerida',],
-                    type:'text', 
-                    label:"E-mail",
-                    render:true,
-                    cols:{cols:"12",sm:"12"},
-                },
-                {
-                    name:'metodo',
-                    vale:null, 
-                    rules:[v => !!v || 'Metodo de pago es requerido',], 
-                    type:'select', 
-                    label:"Metodo de pago",
-                    select:[
-                        'Contra Entrega',
-                        'Tarjeta de credito',
-                    ],
-                    render:true,
-                    cols:{cols:"12",sm:"4"},
-                },
-                {
-                    name:'card',
-                    vale:'', 
-                    rules:
-                        [
-                            v => !!v || 'Tarjeta es requerida',
-                            v => /^(\d{4}[\s|\-]?){3}(\d{2,}\s{0,})$/.test(v) || 'Tarjeta no valida',
-                        ], 
-                    type:'text',
-                    label:"Metodo de pago",
-                    render:true,
-                    cols:{cols:"12",sm:"8"},
-                },
-                {
-                    name:'datecard',
-                    vale:'', 
-                    rules:
-                        [
-                            v => !!v || 'Fecha de vencimiento es requerida',
-                            v => /^([0][0-9]|[1][0-2])\/\d{2}$/.test(v) || 'Fecha no valida',
-                        ], 
-                    type:'text', 
-                    label:"Numero",
-                    render:true,
-                    cols:{cols:"12",sm:"6"},
-                },
-                {
-                    name:'cvccard',
-                    vale:'', 
-                    rules:
-                        [
-                            v => !!v || 'CVC es requerida',
-                            v => /^\d{3}$/.test(v) || 'Fecha no valida',
-                        ], 
-                    type:'text', 
-                    label:"MM/YY",
-                    render:true,
-                    cols:{cols:"12",sm:"6"},
-                },
-
-          ]
+        
       }
     },
     mounted() {
@@ -403,9 +235,65 @@ export default {
 
             return this.carrito.total+this.costoEnvio;
 
+        },
+
+        form:function(){
+            
+            
+            const form={
+                order:{},
+                products:[],
+            };
+            for (const key in this.inputs) {
+                if (this.inputs[key].render) {
+                    
+                    form.order[key]=this.inputs[key].value;
+
+                }
+            }
+            form.order.totalproducts=this.carrito.total;
+            form.order.envio=this.costoEnvio;
+            form.order.total=this.costoTotal;
+
+            form.products=this.carrito.productos.map(element => {
+                return {
+                    id:element.id,
+                    cantidad:element.cantidad,
+                    price:element.price,
+                }
+            });
+            return form;
+        },
+
+
+    },
+
+    watch:{
+
+        inputs:{
+
+            handler: function(val) {
+                let render=false;
+                if( this.inputs.metodo.value=='credit_cart'){
+
+                    render=true;
+
+                }
+
+                for (const key in this.inputs) {
+
+                    if (key.includes('card')) {
+                        
+                        this.inputs[key].render=render;
+
+                    }
+
+                }
+            },
+            deep: true
         }
 
-    },  
+    },
 
     methods:{
 
@@ -414,17 +302,12 @@ export default {
             'addCarrito','fetchCarrito'
         ]),
         
-
-        validate () {
+        pay(){
+            
             if (this.$refs.form.validate()) {
-                this.snackbar = true
+                console.log(this.form)
             }
-        },
-        reset () {
-            this.$refs.form.reset()
-        },
-        resetValidation () {
-            this.$refs.form.resetValidation()
+            
         },
 
     }
