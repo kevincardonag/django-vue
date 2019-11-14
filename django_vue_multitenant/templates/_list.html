@@ -24,7 +24,7 @@
     {% block table_header %}
         {% if create_url %}
             <div class="m-b-1 text-right">
-                <button class="btn btn-primary ajax-modal" data-url="{{ create_url }}">
+                <button class="btn btn-primary {{ class_modal_create }}" data-url="{{ create_url }}">
                     <i class="fa fa-plus"></i> {% blocktrans %} Registrar {{ model_name }} {% endblocktrans%}
                 </button>
             </div>

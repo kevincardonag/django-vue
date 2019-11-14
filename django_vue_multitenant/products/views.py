@@ -1,3 +1,4 @@
+
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
@@ -10,12 +11,11 @@ from django.utils.translation import ugettext as _
 
 from core.datatables_tools.datatables_tools import DatatablesListView
 from core.mixins import MessageMixin, TemplateDataMixin
-from plans.forms import PlanForm
 from plans.models import Plan
 from django.http.response import JsonResponse
 
-from products.forms import IngredientForm
-from products.models import Ingredient
+from products.forms import IngredientForm, ProductForm
+from products.models import Ingredient, Product
 
 
 class IngredientListView(LoginRequiredMixin, TemplateDataMixin, DatatablesListView):
@@ -71,7 +71,7 @@ class IngredientDeleteView(LoginRequiredMixin, MessageMixin, DeleteView):
     def post(self, request, *args, **kwargs):
         if self.request.is_ajax():
             try:
-                plan = get_object_or_404(Plan, pk=kwargs['pk'])
+                plan = get_object_or_404(Ingredient, pk=kwargs['pk'])
                 plan.delete()
                 return JsonResponse({'status': 1, 'message': 'El Ingrediente fue eliminado con éxito', 'type': 'success'})
             except Exception:
@@ -82,3 +82,77 @@ class IngredientDetailView(LoginRequiredMixin, DetailView):
     model = Ingredient
     template_name = 'ingredients/detail.html'
 
+
+class ProductListView(LoginRequiredMixin, TemplateDataMixin, DatatablesListView):
+    model = Product
+    page_title = _("Productos")
+    section_title = _("Listado de Productos")
+    model_name = _("Producto")
+    fields = ["code", "name", "price", "stock"]
+    create_reversible_url = 'products:create_product'
+    class_modal_create = "ajax-modal-large"
+    column_names_and_defs = [_("Codigo"), _("Nombre"), _("Precio"), _("Cantidad")]
+    options_list = [
+        {
+            "label_opcion": _('Editar'),
+            "url_opcion": 'products:update_product',
+            "parametros_url": ["id"],
+            "icono": 'fa-pencil-alt',
+            "confirm_modal": 'ajax-base-modal-large',
+            "class_target_modal": 'ajax-modal-large'
+        },
+        {
+            "label_opcion": _('Consultar'),
+            "url_opcion": 'products:detail_product',
+            "parametros_url": ["id"],
+            "icono": 'fa-eye',
+            "confirm_modal": 'ajax-base-modal-large',
+            "class_target_modal": 'ajax-modal-large'
+        },
+        {
+            "label_opcion": _('Eiminar'),
+            "url_opcion": "products:delete_product",
+            "parametros_url": ["id"],
+            "icono": 'fa-trash',
+            "object_modal_delete": 'dd',
+        }
+    ]
+
+
+class ProductCreateView(LoginRequiredMixin, MessageMixin, CreateView):
+    model = Product
+    form_class = ProductForm
+    template_name = "products/create.html"
+    success_message = "Producto creado exitosamente"
+
+    def get_success_url(self):
+        return reverse('products:index')
+
+
+class ProductUpdateView(LoginRequiredMixin, MessageMixin, UpdateView):
+    model = Product
+    form_class = ProductForm
+    template_name = "products/update.html"
+    success_message = "Producto modificado exitosamente"
+
+    def get_success_url(self):
+        return reverse('products:index')
+
+
+class ProductDeleteView(LoginRequiredMixin, MessageMixin, DeleteView):
+
+    model = Product
+
+    def post(self, request, *args, **kwargs):
+        if self.request.is_ajax():
+            try:
+                plan = get_object_or_404(Product, pk=kwargs['pk'])
+                plan.delete()
+                return JsonResponse({'status': 1, 'message': 'El Producto fue eliminado con éxito', 'type': 'success'})
+            except Exception:
+                return JsonResponse({'status': 0, 'message': 'Ha ocurrido un error', 'type': 'error'})
+
+
+class ProductDetailView(LoginRequiredMixin, DetailView):
+    model = Product
+    template_name = 'products/detail.html'

@@ -1,6 +1,6 @@
 {% if confirm_modal %}
     <li>
-        <a data-toggle="modal" data-target="#{{ confirm_modal }}" href="#" data-url="{{ url }}" onclick="urlModal(this,'{{ confirm_modal }}');" class="font-bold ajax-modal"><i class="fa {{ icon }}"></i> {{ name }}</a>
+        <a data-toggle="modal" data-target="#{{ confirm_modal }}" href="#" data-url="{{ url }}" onclick="urlModal(this,'{{ confirm_modal }}');" class="font-bold {% if not class_target_modal %} ajax-modal {% else %} {{ class_target_modal }}{% endif %}"><i class="fa {{ icon }}"></i> {{ name }}</a>
         {% if tooltip %}<i class="fa fa-question-circle add-tooltip" data-toggle="tooltip" title="{{ tooltip }}"></i>{% endif %}
     </li>
 {% elif object_modal %}
