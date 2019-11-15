@@ -4,8 +4,9 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from .serializers import (ProductSerializer,IngredientSerializer)
+from .serializers import (ProductSerializer,IngredientSerializer,OrderSerializer,OrderDetailSerializer)
 from products.models import (Product,Ingredient)
+from client.models import (Order,OrderDetail)
 
 
 
@@ -48,3 +49,10 @@ def ingredient_list(request,slug):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class OrderViewSet(viewsets.ModelViewSet):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
+
+class OrderDetailViewSet(viewsets.ModelViewSet):
+    queryset = OrderDetail.objects.all()
+    serializer_class = OrderDetailSerializer

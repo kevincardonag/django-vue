@@ -79,7 +79,7 @@ export default {
     mounted() {
         this.fetchCarrito();
 
-        axios.get('http://pizzachimba.localhost:8000/apiREST/products/',
+        axios.get(`${window.location.protocol}//${window.location.host}/apiREST/products/`,
                 {
                     params: {
                         favorites:true,

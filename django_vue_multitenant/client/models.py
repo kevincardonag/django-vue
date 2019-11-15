@@ -5,7 +5,11 @@ from django.db.models import Model
 from products.models import Product
 from datetime import datetime
 
-class Pedido(Model):
+
+
+
+
+class Order(Model):
     client_name = models.CharField(max_length=100, verbose_name=_("Nombre cliente"))
     direction = models.CharField(max_length=100, verbose_name=_("Direccion cliente"))
     email = models.CharField(max_length=100, verbose_name=_("E-mail cliente"))
@@ -24,14 +28,16 @@ class Pedido(Model):
         ('entregado','Entregado'),
 	)
     state =  models.CharField(max_length=22,choices=STATE_CHOICE)
+
+    #orderdetail = models.ManyToManyField(OrderDetail, related_name='detalleorden', verbose_name='Detalle Orden')
     def __str__(self):
         return self.name
 
-class PedidoDetalle(Model):
+class OrderDetail(Model):
     quantity = models.IntegerField(verbose_name='Cantidad')
-    price = models.FloatField(verbose_name='Costo prdocto')
+    price = models.FloatField(verbose_name='Costo prodocto')
 
-    pedido = models.ForeignKey(Pedido, on_delete = models.CASCADE)
+    order = models.ForeignKey(Order, on_delete = models.CASCADE,related_name="products")
     product = models.OneToOneField(Product, on_delete = models.CASCADE)
 
     def __str__(self):
