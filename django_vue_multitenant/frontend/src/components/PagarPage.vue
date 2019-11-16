@@ -130,12 +130,13 @@ export default {
           
           inputs:{
 
-            name:{
+            client_name:{
                 value:'', 
                 rules:[v => !!v || 'Nombre es requerido'], 
                 type:'text', 
                 label:"Nombre Comprador",
                 render:true,
+                required:true,
                 cols:{cols:"12",sm:"12"},
             },
             direction:{
@@ -144,21 +145,23 @@ export default {
                 type:'text', 
                 label:"Dirección",
                 render:true,
+                required:true,
                 cols:{cols:"12",sm:"12"},
             },
-            email:{
-                value:'', 
-                rules:
-                    [
-                        v => !!v || 'E-mail es requerido',
-                        v => /.+@.+\..+/.test(v) || 'E-mail invalido',
-                    ], 
-                type:'text', 
-                label:"E-mail",
-                render:true,
-                cols:{cols:"12",sm:"12"},
-            },
-            metodo:{
+            // email:{
+            //     value:'', 
+            //     rules:
+            //         [
+            //             v => !!v || 'E-mail es requerido',
+            //             v => /.+@.+\..+/.test(v) || 'E-mail invalido',
+            //         ], 
+            //     type:'text', 
+            //     label:"E-mail",
+            //     render:true,
+            //     required:true,
+            //     cols:{cols:"12",sm:"12"},
+            // },
+            payment_method:{
                 value:null, 
                 rules:[v => !!v || 'Metodo de pago es requerido',], 
                 type:'select', 
@@ -168,6 +171,7 @@ export default {
                     {value:'credit_cart',text:'Tarjeta de credito'},
                 ],
                 render:true,
+                required:true,
                 cols:{cols:"12",sm:"4"},
             },
             card:{
@@ -180,6 +184,7 @@ export default {
                 type:'text',
                 label:"Numero",
                 render:false,
+                required:false,
                 cols:{cols:"12",sm:"8"},
             },
             datecard:{
@@ -192,6 +197,7 @@ export default {
                 type:'text', 
                 label:"MM/YY",
                 render:false,
+                required:false,
                 cols:{cols:"12",sm:"6"},
             },
             cvscard:{
@@ -204,6 +210,7 @@ export default {
                 type:'text', 
                 label:"CVS  ",
                 render:false,
+                required:false,
                 cols:{cols:"12",sm:"6"},
             },
           },
@@ -245,21 +252,17 @@ export default {
                 products:[],
             };
             for (const key in this.inputs) {
-                if (this.inputs[key].render) {
+                if (this.inputs[key].required) {
                     
                     form.order[key]=this.inputs[key].value;
 
                 }
             }
-            form.order.totalproducts=this.carrito.total;
-            form.order.envio=this.costoEnvio;
-            form.order.total=this.costoTotal;
 
             form.products=this.carrito.productos.map(element => {
                 return {
                     id:element.id,
                     cantidad:element.cantidad,
-                    price:element.price,
                 }
             });
             return form;
@@ -274,7 +277,7 @@ export default {
 
             handler: function(val) {
                 let render=false;
-                if( this.inputs.metodo.value=='credit_cart'){
+                if( this.inputs.payment_method.value=='credit_cart'){
 
                     render=true;
 
@@ -306,6 +309,14 @@ export default {
             
             if (this.$refs.form.validate()) {
                 console.log(this.form)
+                axios.post(`${window.location.protocol}//${window.location.host}/apiREST/order/`,this.form)
+                .then(response => {
+                    
+                    console.log(response)
+                })
+                .catch(error => {
+                    console.log(error);
+                });
             }
             
         },

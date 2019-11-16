@@ -3,11 +3,13 @@ from rest_framework import viewsets
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from .serializers import (ProductSerializer,IngredientSerializer,OrderSerializer,OrderDetailSerializer)
 from products.models import (Product,Ingredient)
 from client.models import (Order,OrderDetail)
 
+import pdb
 
 
 class ProductViewSet(viewsets.ModelViewSet):
@@ -22,19 +24,6 @@ class ProductViewSet(viewsets.ModelViewSet):
             queryset = Product.objects.all().order_by('name')
         return queryset
             
-
-# class IngredientViewSet(viewsets.ModelViewSet):
-#     queryset = Ingredient.objects.all().order_by('name')
-#     serializer_class = IngredientSerializer
-
-# @api_view(['GET'])
-# def product_list(request,slug):
-#     if request.method == 'GET':
-#         product = Product.objects.all().order_by('name')
-#         serializer = ProductSerializer(product, many=True)
-#         return Response(serializer.data)
-
-
 @api_view(['GET', 'POST'])
 def ingredient_list(request,slug):
     if request.method == 'GET':
@@ -49,9 +38,47 @@ def ingredient_list(request,slug):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class OrderViewSet(viewsets.ModelViewSet):
-    queryset = Order.objects.all()
-    serializer_class = OrderSerializer
+# class OrderViewSet(viewsets.ModelViewSet):
+class OrderViewSet(APIView):
+    # queryset = Order.objects.all()
+    # serializer_class = OrderSerializer
+
+    def get(self, format=None):
+        order=Order.objects.all()
+        serializer = OrderSerializer(order,many=True)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        completedData=self.completeData(request.data)
+        serializer = OrderSerializer(data=completedData)
+
+        if serializer.is_valid():
+            # pdb.set_trace()
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    def completeData(self,data):
+        
+        if data.get('products') == None:
+
+            return False
+
+        data['price_products']=0;     
+
+        for index,product in enumerate(data['products']):
+
+            price=Product.objects.get(pk=product['product']).price
+            data['products'][index]['price']=price
+            data['price_products']+=(price*data['products'][index]['quantity'])
+        
+        data['delivery_cost']=3000
+        data['total']=data['price_products']+data['delivery_cost']
+
+        data['state']='pedido'
+
+        return data
+
 
 class OrderDetailViewSet(viewsets.ModelViewSet):
     queryset = OrderDetail.objects.all()

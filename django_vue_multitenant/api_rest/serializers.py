@@ -4,6 +4,7 @@ from products.models import (Ingredient,Category,Product)
 from client.models import (Order,OrderDetail)
 
 import pdb
+import copy
 
 class IngredientSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -25,10 +26,8 @@ class OrderDetailSerializer(serializers.HyperlinkedModelSerializer):
     
     class Meta:
         model = OrderDetail
-        fields = ('id','quantity','price','order','product')
-    def create(self, data):
-        
-        pdb.set_trace()
+        fields = ('id','quantity','price','product')
+
 class OrderSerializer(serializers.HyperlinkedModelSerializer):
     # orderdetail = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     # products = serializers.PrimaryKeyRelatedField( many=True,
@@ -41,14 +40,14 @@ class OrderSerializer(serializers.HyperlinkedModelSerializer):
 
     def create(self, data):
         
-        pdb.set_trace()
         order_detail = data['products']
-        order = data
-        # print('================================================================================================================================================================================================================================================================')
-        del order['products']
-        order = Order.objects.create(**order)
+        order_data = copy.deepcopy(data)
+        del order_data['products']
+        order = Order.objects.create(**order_data)
         
         for product in order_detail:
             OrderDetail.objects.create(order=order, **product)
+        
+        return data
 
 

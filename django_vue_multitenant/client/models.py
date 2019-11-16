@@ -12,7 +12,7 @@ from datetime import datetime
 class Order(Model):
     client_name = models.CharField(max_length=100, verbose_name=_("Nombre cliente"))
     direction = models.CharField(max_length=100, verbose_name=_("Direccion cliente"))
-    email = models.CharField(max_length=100, verbose_name=_("E-mail cliente"))
+    email = models.CharField(max_length=100, verbose_name=_("E-mail cliente"), null=True)
     PAYMENT_METHOD_CHOICE = (
 		('contra_entrega', 'Contra Entrega'),
 		('credit_cart','Tarjeta de credito'),
@@ -30,15 +30,15 @@ class Order(Model):
     state =  models.CharField(max_length=22,choices=STATE_CHOICE)
 
     #orderdetail = models.ManyToManyField(OrderDetail, related_name='detalleorden', verbose_name='Detalle Orden')
-    def __str__(self):
-        return self.name
+    # def __str__(self):
+    #     return self.name
 
 class OrderDetail(Model):
     quantity = models.IntegerField(verbose_name='Cantidad')
     price = models.FloatField(verbose_name='Costo prodocto')
 
-    order = models.ForeignKey(Order, on_delete = models.CASCADE,related_name="products")
+    order = models.ForeignKey(Order, on_delete = models.CASCADE,related_name="products", null=True)
     product = models.OneToOneField(Product, on_delete = models.CASCADE)
 
-    def __str__(self):
-        return self.name
+    # def __str__(self):
+    #     return self.name
