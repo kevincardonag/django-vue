@@ -120,6 +120,7 @@ django_vue_multitenant/*/migrations/*
 !django_vue_multitenant/*/migrations/__init__.py
 
 .idea/
+.vscode/
 
 django_vue_multitenant/media/.idea/
 django_vue_multitenant/media/
