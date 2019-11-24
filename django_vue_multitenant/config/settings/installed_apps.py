@@ -9,7 +9,8 @@ SHARED_APPS = [
     'django.contrib.humanize',
     'django.contrib.sites',
     'django_tenants',
-    'django_restframework',
+    # 'django_restframework',
+    'rest_framework',
     'bootstrap3',
     'webpack_loader',
     'users',
@@ -28,6 +29,7 @@ TENANT_APPS = [
     'webpack_loader',
     'users',
     "products",
+    "client",
 ]
 
 INSTALLED_APPS = SHARED_APPS + [app for app in TENANT_APPS if app not in SHARED_APPS]
