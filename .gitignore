@@ -121,6 +121,7 @@ django_vue_multitenant/*/migrations/*
 
 .idea/
 .vscode/
+django_vue_multitenant/static_collected/*
 
 django_vue_multitenant/media/.idea/
 django_vue_multitenant/media/
