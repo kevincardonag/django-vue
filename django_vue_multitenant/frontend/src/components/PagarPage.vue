@@ -5,6 +5,14 @@
         fluid
         >
             <p class="font-weight-medium font-italic display-3 text-center green--text  --text-darken-2">Generar Pedido</p>
+            <v-alert
+              v-model="errorproducts"
+              dense
+              outlined 
+              type="error"
+            >
+                No hay productos en el carrito
+            </v-alert>
             <v-row>
                 <v-col
                     sm="12"
@@ -127,7 +135,7 @@ export default {
           costoEnvio:3000,
           
           valid: true,
-          
+
           inputs:{
 
             client_name:{
@@ -220,7 +228,7 @@ export default {
     mounted() {
 
         this.fetchCarrito();
-                
+
     },
     computed:{
 
@@ -238,6 +246,10 @@ export default {
 
         },
 
+        errorproducts:function(){
+            return this.carrito.productos.length==0;
+        },
+
         costoTotal:function(){
 
             return this.carrito.total+this.costoEnvio;
@@ -248,21 +260,20 @@ export default {
             
             
             const form={
-                order:{},
                 products:[],
             };
             for (const key in this.inputs) {
                 if (this.inputs[key].required) {
                     
-                    form.order[key]=this.inputs[key].value;
+                    form[key]=this.inputs[key].value;
 
                 }
             }
 
             form.products=this.carrito.productos.map(element => {
                 return {
-                    id:element.id,
-                    cantidad:element.cantidad,
+                    product:element.id,
+                    quantity:element.cantidad,
                 }
             });
             return form;
@@ -302,21 +313,36 @@ export default {
 
 
         ...mapActions('car',[
-            'addCarrito','fetchCarrito'
+            'addCarrito','fetchCarrito','removeAllCarrito'
         ]),
         
         pay(){
             
             if (this.$refs.form.validate()) {
-                console.log(this.form)
-                axios.post(`${window.location.protocol}//${window.location.host}/apiREST/order/`,this.form)
-                .then(response => {
-                    
-                    console.log(response)
-                })
-                .catch(error => {
-                    console.log(error);
-                });
+                console.log(this.form.products.length)
+                if (!this.errorproducts) {
+
+                    axios.post(`${window.location.protocol}//${window.location.host}/apiREST/order/`,this.form)
+                    .then(response => {
+                        this.$swal.fire({
+                            title: 'Orden creada exitosamente',
+                            type: 'success',
+                            confirmButtonText: 'Si',
+                        }).then((result) => {
+                            if (result.value) {
+    
+                                this.removeAllCarrito();
+                                // location.reload();
+                                window.location.replace(`${window.location.protocol}//${window.location.host}`);
+                                
+                            }
+                        })
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+
+                }
             }
             
         },

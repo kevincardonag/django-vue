@@ -241,10 +241,10 @@ export default {
             'price',
         ],
         products: [
-            { name: 'Hawaianaa', image: require('../../static/img/favoritas/pizza1.jpg'), price:27000, flex: 12 },
-            { name: 'Peperoni', image: require('../../static/img/favoritas/pizza2.jpg'), price:35000, flex: 6 },
-            { name: 'Chorizo', image: require('../../static/img/favoritas/pizza3.jpg'), price:40000, flex: 6 },
-            { name: 'Pollo', image: require('../../static/img/favoritas/pizza3.jpg'), price:40000, flex: 6 },
+            // { name: 'Hawaianaa', image: require('../../static/img/favoritas/pizza1.jpg'), price:27000, flex: 12 },
+            // { name: 'Peperoni', image: require('../../static/img/favoritas/pizza2.jpg'), price:35000, flex: 6 },
+            // { name: 'Chorizo', image: require('../../static/img/favoritas/pizza3.jpg'), price:40000, flex: 6 },
+            // { name: 'Pollo', image: require('../../static/img/favoritas/pizza3.jpg'), price:40000, flex: 6 },
         ],
       }
     },
