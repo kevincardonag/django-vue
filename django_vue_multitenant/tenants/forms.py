@@ -22,6 +22,7 @@ class PizzeriaForm(forms.ModelForm):
     domain = forms.CharField(label='Dominio', max_length=100)
 
     def __init__(self, *args, **kwargs):
+
         super(PizzeriaForm, self).__init__(*args, **kwargs)
 
     class Meta:

@@ -14,7 +14,7 @@ class Pizzeria(ActiveSwitchable, TenantMixin):
     """
     name = models.CharField(max_length=100, verbose_name=_("Nombre de la pizzeria"))
     address = models.CharField(max_length=100, verbose_name=_("Dirección de la pizzeria"))
-    plan = models.OneToOneField(Plan, on_delete=models.CASCADE, null=True, blank=True)
+    plan = models.ForeignKey(Plan, on_delete=models.CASCADE, null=True, blank=True)
     #department = models.ForeignKey('core.Department', verbose_name=_("Departamento"))
     #city = ChainedForeignKey(City, chained_field='department', chained_model_field='department', show_all=False,verbose_name=_("Ciudad"))
     phones = models.CharField(max_length=100, verbose_name=_("Teléfono(s) de la pizzeria"))

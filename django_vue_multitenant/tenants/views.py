@@ -41,6 +41,7 @@ class PizzeriaCreateView(MessageMixin, CreateView):
         instance.phones = request.phone
         instance.email = request.email
         instance.address = request.address
+        instance.plan = request.plan
         instance = form.save()
         domain = Domain()
         domain.domain = form.cleaned_data['domain'].lower().replace(" ", "_") + ".localhost"

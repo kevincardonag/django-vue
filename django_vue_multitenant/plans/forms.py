@@ -12,7 +12,7 @@ class PlanForm(ModelForm):
 
     class Meta:
         model = Plan
-        fields = ['name', 'price', 'description']
+        fields = ['name', 'price', 'description', "custom_ingredients", "custom_products"]
         labels = {
             'name': 'Nombre',
             'price': 'Precio',

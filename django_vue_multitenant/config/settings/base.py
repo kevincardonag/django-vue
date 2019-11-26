@@ -144,6 +144,16 @@ DATABASE_ROUTERS = (
 LOGIN_REDIRECT_URL = '/admin'
 LOGOUT_REDIRECT_URL = 'login'
 
+AUTHENTICATION_BACKENDS = [
+    'social_core.backends.google.GoogleOAuth2',
+    'social_core.backends.facebook.FacebookOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+SOCIAL_AUTH_FACEBOOK_KEY = 541574826607624  # App ID
+SOCIAL_AUTH_FACEBOOK_SECRET = "3210459decc1511fd82b586503a3c304"
+SOCIAL_AUTH_REDIRECT_IS_HTTPS = True
+
 if DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
     EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'sent_emails')
@@ -151,3 +161,5 @@ else:
     # aqui van los correo de produccion
     pass
 
+MAX_PRODUCT_CREATE = 5
+MAX_INGREDIENTS_BY_PRODUCTS = 3
