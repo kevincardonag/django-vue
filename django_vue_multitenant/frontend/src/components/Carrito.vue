@@ -111,17 +111,17 @@ export default {
         
         removeCar(){
             this.$swal.fire({
-            title: 'Esta seguro ?',
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Si',
-            cancelButtonText: 'No'
+                title: 'Esta seguro ?',
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Si',
+                cancelButtonText: 'No'
             }).then((result) => {
-            if (result.value) {
-                
-                this.removeAllCarrito();
-                this.menu=false;
-            }
+                if (result.value) {
+                    
+                    this.removeAllCarrito();
+                    this.menu=false;
+                }
             })
 
         },
