@@ -50,6 +50,7 @@ class PizzeriaCreateView(MessageMixin, CreateView):
         domain.save()
         with tenant_context(instance):
             password = "".join([random.choice(string.ascii_lowercase[:26]) for i in range(8)])
+            # password = 'admin1234'
             user = UserProfile.objects.create(
                 first_name='admin',
                 last_name="admin",

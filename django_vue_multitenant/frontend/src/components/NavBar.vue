@@ -2,7 +2,7 @@
     <div>
     <v-app-bar app >
     
-      <a href="/client">
+      <a :href="base_url">
         
         <v-avatar :tile="true" >
             <img :src="logo" alt="logo">
@@ -28,8 +28,9 @@
           <v-list-item
             v-for="(categoria, index) in categorias" 
             :key="index"
+            :href="categoria.href"
           >
-            <v-list-item-title>{{ categoria }}</v-list-item-title>
+            <v-list-item-title>{{ categoria.name }}</v-list-item-title>
             <v-icon color="green darken-2">fa-pizza-slice</v-icon>
           </v-list-item>
         </v-list>
@@ -40,10 +41,10 @@
       <v-btn v-for="(categoria, index) in categorias" v-bind:key="index"
         text
         class="hidden-sm-and-down"
-        target="_blank"
+        :href="categoria.href"
       >
 
-        <span class="mr-2">{{categoria}}</span>
+        <span class="mr-2">{{categoria.name}}</span>
 
         <v-icon color="green darken-2">fa-pizza-slice</v-icon>
 
@@ -65,10 +66,18 @@ export default {
       Carrito,
     },
     data: () => ({
+        base_url:`${window.location.protocol}//${window.location.host}`,
         logo:require('../../static/img/pizza.png'),
-        categorias:['Pizza1','Pizza2','Pizza3']
+        // categorias:['Pizza1','Pizza2','Pizza3']
+        categorias:[
+          {'name':'Productos','href':'/pizzas'}
+        ]
     }),
 
-    
+    mounted(){
+      
+    }
+
+   
 }
 </script>

@@ -31,11 +31,11 @@
                 >
                 
                     <v-list-item-content>
-                        <v-list-item-title>{{ producto.title }}</v-list-item-title>
+                        <v-list-item-title>{{ producto.name }} X {{ producto.cantidad }}</v-list-item-title>
                     </v-list-item-content>
 
                     <v-list-item-icon>
-                        <v-list-item-title>$ {{ producto.precio }}</v-list-item-title>
+                        <v-list-item-title>$ {{ producto.price }}</v-list-item-title>
                     </v-list-item-icon>
 
                 </v-list-item>
@@ -58,7 +58,7 @@
             <v-card-actions>
                 
                 <v-btn outlined small color="warning" @click="removeCar">Vaciar</v-btn>
-                <v-btn outlined small color="primary"  @click="pagar">Pagar</v-btn>
+                <v-btn outlined small color="primary"  :href="pagar_links">Pagar</v-btn>
 
             </v-card-actions>
 
@@ -72,10 +72,11 @@ export default {
     
     data: () => ({
         
+        pagar_links:`${window.location.protocol}//${window.location.host}/pagar`,
         productos:[
-            {title:'Pizza1',precio:3000},
-            {title:'Pizza2',precio:3000},
-            {title:'Pizza3',precio:3000}
+            {name:'Pizza1',price:3000},
+            {name:'Pizza2',price:3000},
+            {name:'Pizza3',price:3000}
         ],
         fav: true,
         menu: false,
@@ -124,11 +125,6 @@ export default {
             })
 
         },
-
-        pagar(){
-            // this.$store.car.commit('increment');
-            // console.log(this.$store.car.state.count );
-        }
 
     }
 

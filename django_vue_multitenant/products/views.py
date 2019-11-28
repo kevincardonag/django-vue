@@ -135,6 +135,11 @@ class ProductCreateView(LoginRequiredMixin, MessageMixin, CreateView):
                 messages.error(self.request, "Lo sentimos, por favor actualiza tu plan")
                 return redirect(reverse("products:index"))
 
+        if not self.request.tenant.plan.custom_ingredients:
+            if form.cleaned_data['ingredient'].count() > 3:
+                messages.error(self.request, "Lo sentimos, por favor actualiza tu plan")
+                return redirect(reverse("products:index"))
+
         return super().form_valid(form)
 
     def get_success_url(self):
