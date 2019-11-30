@@ -1,6 +1,6 @@
-
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
 from django.views.generic import CreateView
 from django.views.generic import UpdateView
@@ -8,7 +8,9 @@ from django.views.generic import DetailView
 from django.views.generic import DeleteView
 
 from django.utils.translation import ugettext as _
+from django_tenants.utils import get_tenant_model
 
+from config.settings.base import MAX_PRODUCT_CREATE
 from core.datatables_tools.datatables_tools import DatatablesListView
 from core.mixins import MessageMixin, TemplateDataMixin
 from plans.models import Plan
@@ -16,6 +18,7 @@ from django.http.response import JsonResponse
 
 from products.forms import IngredientForm, ProductForm
 from products.models import Ingredient, Product
+from tenants.models import Pizzeria
 
 
 class IngredientListView(LoginRequiredMixin, TemplateDataMixin, DatatablesListView):
@@ -124,6 +127,20 @@ class ProductCreateView(LoginRequiredMixin, MessageMixin, CreateView):
     form_class = ProductForm
     template_name = "products/create.html"
     success_message = "Producto creado exitosamente"
+
+    def form_valid(self, form):
+        if not self.request.tenant.plan.custom_products:
+            count_products = Product.objects.count()
+            if count_products > MAX_PRODUCT_CREATE:
+                messages.error(self.request, "Lo sentimos, por favor actualiza tu plan")
+                return redirect(reverse("plans:upgrade_plan"))
+
+        if not self.request.tenant.plan.custom_ingredients:
+            if form.cleaned_data['ingredient'].count() > 3:
+                messages.error(self.request, "Lo sentimos, por favor actualiza tu plan")
+                return redirect(reverse("plans:upgrade_plan"))
+
+        return super().form_valid(form)
 
     def get_success_url(self):
         return reverse('products:index')

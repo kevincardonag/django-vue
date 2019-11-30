@@ -1,0 +1,103 @@
+{% extends 'base_admin.html' %}
+{% load staticfiles %}
+{% load bootstrap3 %}
+{% load i18n %}
+
+{% block title %}
+    {{ page_title }}
+{% endblock title %}
+
+{% block section_title %}
+{% endblock section_title %}
+
+{% block css %}
+<style>
+    .card-pricing.popular {
+        z-index: 1;
+        border: 3px solid #007bff;
+    }
+    .card-pricing .list-unstyled li {
+        padding: .5rem 0;
+        color: #6c757d;
+    }
+</style>
+{% endblock css %}
+
+{% block panel_content_class %}
+    col-md-12
+{% endblock panel_content_class %}
+
+{% block content %}
+    <div class="container mb-5 mt-5">
+    <div class="pricing card-deck flex-column flex-md-row mb-3">
+
+        {% for object in object_list %}
+        <div class="card card-pricing text-center px-3 mb-4 {% if request.tenant.plan == object %} popular {% endif %}">
+            <span class="h6 w-60 mx-auto px-4 py-1 rounded-bottom bg-primary text-white shadow-sm">{{ object.name }}</span>
+            <div class="bg-transparent card-header pt-4 border-0">
+                <h1 class="h1 font-weight-normal text-primary text-center mb-0" data-pricing-value="15">$<span class="price"> {{ object.price }}</span><span class="h6 text-muted ml-2">/ {% trans 'por mes' %}</span></h1>
+            </div>
+            <div class="card-body pt-0">
+                <ul class="list-unstyled mb-4">
+                    <li>{{ object.description }}</li>
+                    {% if object.custom_products %}
+                        <li>{% trans 'Creación de productos ilimitados' %}</li>
+                    {% else %}
+                        <li>{% trans 'Creación máxima de hasta 5 productos' %}</li>
+                    {% endif %}
+                    {% if object.custom_ingredients %}
+                        <li>{% trans 'Ingredientes ilimitados por producto' %}</li>
+                    {% else %}
+                        <li>{% trans 'Máximo 5 ingredientes por producto' %}</li>
+                    {% endif %}
+                </ul>
+                {% if not object.is_basic %}
+                   <button type="button" data-id={{object.id }} data-toggle="modal" data-target="#exampleModal" class="update-plan btn btn-outline-secondary mb-3">Comprar ahora</button>
+                {% elif request.tenant.plan == object %}
+                    <button type="button" data-id={{object.id }} data-toggle="modal" data-target="#exampleModal" class="update-plan btn btn-outline-secondary mb-3">Renovar suscripción</button>
+                {% endif %}
+
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Datos de pago</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form data-parsley-validate id="form-update-plan" method="post" enctype="multipart/form-data">
+      <div class="modal-body">
+
+            {% csrf_token %}
+            {% bootstrap_form payment_form %}
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button type="submit" class="btn btn-success">Guardar</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+{% block javascript %}
+<script>
+    $(document).on("click", ".update-plan", function () {
+        var resource_id = $(this).data('id');
+        var url = '{% url "plans:upgrade_plan_update" 0 %}';
+        url = url.replace("0", resource_id)
+        console.log(url)
+        $("#form-update-plan").attr("action", url);
+    });
+</script>
+{% endblock javascript %}
