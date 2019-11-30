@@ -1,3 +1,4 @@
+from creditcards.models import CardNumberField, CardExpiryField, SecurityCodeField
 from django.db import models
 from django_tenants.models import TenantMixin, DomainMixin
 from django.utils.translation import ugettext_lazy as _
@@ -25,6 +26,10 @@ class Pizzeria(ActiveSwitchable, TenantMixin):
 
     auto_create_schema = True
     auto_drop_schema = True
+
+    # paid and credit card data
+    cc_number = CardNumberField(_('Número de tarjeta'), null=True, blank=True)
+    date_expired_paid = models.DateField(_('Fecha de expiración'), null=True, blank=True)
 
     has_physical_delivers = models.BooleanField(default=True, verbose_name=_("¿Acepta envíos físicos?"))
 
@@ -58,4 +63,5 @@ class PizzeriaRequest(Model):
     company_name = models.CharField(max_length=100, verbose_name=_("Nombre de la compañia"), null=True)
     address = models.CharField(max_length=100, verbose_name=_("Dirección de la pizzeria"), null=True)
     plan = models.ForeignKey(Plan, null=True, on_delete=models.CASCADE)
+    cc_number = CardNumberField(_('Número de tarjeta'), null=True, blank=True)
 

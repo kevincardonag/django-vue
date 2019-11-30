@@ -133,12 +133,12 @@ class ProductCreateView(LoginRequiredMixin, MessageMixin, CreateView):
             count_products = Product.objects.count()
             if count_products > MAX_PRODUCT_CREATE:
                 messages.error(self.request, "Lo sentimos, por favor actualiza tu plan")
-                return redirect(reverse("products:index"))
+                return redirect(reverse("plans:upgrade_plan"))
 
         if not self.request.tenant.plan.custom_ingredients:
             if form.cleaned_data['ingredient'].count() > 3:
                 messages.error(self.request, "Lo sentimos, por favor actualiza tu plan")
-                return redirect(reverse("products:index"))
+                return redirect(reverse("plans:upgrade_plan"))
 
         return super().form_valid(form)
 

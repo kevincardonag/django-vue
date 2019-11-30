@@ -8,6 +8,7 @@ class Plan(models.Model):
     price = models.FloatField()
     custom_ingredients = models.BooleanField(verbose_name=_("Ingredientes ilimitados"), default=False)
     custom_products = models.BooleanField(verbose_name=_("Productos ilimitados"), default=False)
+    is_basic = models.BooleanField(verbose_name=_("¿Es plan básico?"), default=False)
 
     def __str__(self):
         return self.name

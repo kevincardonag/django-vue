@@ -15,7 +15,8 @@ Including another URLconf
 """
 from django.urls import path
 
-from plans.views import PlanListView, PlanCreateView, PlanDetailView, PlanDeleteView, PlanUpdateView
+from plans.views import PlanListView, PlanCreateView, PlanDetailView, PlanDeleteView, PlanUpdateView, \
+    PlanUpgradeListView, PlanUpgradeUpdateView
 
 app_name = 'plans'
 urlpatterns = [
@@ -24,4 +25,6 @@ urlpatterns = [
     path('delete/<int:pk>/', PlanDeleteView.as_view(), name='delete'),
     path('update/<int:pk>/', PlanUpdateView.as_view(), name='update'),
     path('detail/<int:pk>/', PlanDetailView.as_view(), name='detail'),
+    path('upgrade-plan', PlanUpgradeListView.as_view(), name='upgrade_plan'),
+    path('upgrade-plan-update/<int:pk>/', PlanUpgradeUpdateView.as_view(), name='upgrade_plan_update'),
 ]

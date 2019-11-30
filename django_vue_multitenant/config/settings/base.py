@@ -52,6 +52,7 @@ WEBPACK_LOADER = {
 }
 
 MIDDLEWARE = [
+    'plans.plan_middleware.VerifyActivePlan',
     'django_tenants.middleware.main.TenantMainMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -143,6 +144,13 @@ DATABASE_ROUTERS = (
 
 LOGIN_REDIRECT_URL = '/admin'
 LOGOUT_REDIRECT_URL = 'login'
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    )
+}
 
 AUTHENTICATION_BACKENDS = [
     'social_core.backends.google.GoogleOAuth2',
