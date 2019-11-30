@@ -132,13 +132,14 @@ class PlanUpgradeUpdateView(LoginRequiredMixin, TemplateDataMixin, UpdateView):
         cc_expiry = self.request.POST.get("cc_expiry")
         cc_code = self.request.POST.get("cc_code")
         tenant = self.request.tenant
-        tenant.cc_number = cc_number
-        tenant.cc_expiry = cc_expiry
-        tenant.cc_code = cc_code
+
+        init_cc = cc_number[:-4]
+        cc = list(map(lambda n: "*", init_cc))
+        full_cc_number = "".join(cc) + cc_number[-4:]
+        tenant.cc_number = full_cc_number
         current_day = datetime.date.today()
         date_next_payment = current_day + datetime.timedelta(days=30)
         tenant.date_expired_paid = date_next_payment
-        #import pdb;pdb.set_trace()
         tenant.plan = self.get_object()
         tenant.save()
 
