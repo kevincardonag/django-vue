@@ -17,3 +17,4 @@ django-menu-generator==1.0.4
 django-parsley
 social-auth-app-django
 djangorestframework
+django-credit-cards
