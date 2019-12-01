@@ -7,9 +7,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 def landingpage(request):
     return  render(request=request,
-                   template_name='client/landing.html')
-    # return  HttpResponse('<h2>Hola<h2>')
-    # return TemplateView.as_view(template_name="client/landing.html")
+                   template_name='client/landing.html', context={'title': 'Pizzeria'})
+    # return  render(request, 'client/landing.html',{'title': 'Pizeria'})
 
 def productpage(request):
     return  render(request=request,

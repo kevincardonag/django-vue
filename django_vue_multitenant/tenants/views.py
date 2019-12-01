@@ -6,7 +6,7 @@ from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMix
 from django.http import JsonResponse
 from django.contrib.auth.models import Group
 from django.core.mail import send_mail
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from django.utils.translation import ugettext as _
 from django.views.generic import CreateView, DeleteView, DetailView
 from django.urls import reverse
@@ -38,9 +38,11 @@ class PizzeriaCreateView(MessageMixin, CreateView):
         instance.request = request
         instance.schema_name = instance.name.lower().replace(" ", '_')
         instance.paid_until = datetime.datetime.now() + datetime.timedelta(days=30)
+        instance.date_expired_paid = datetime.date.today() + datetime.timedelta(days=30)
         instance.phones = request.phone
         instance.email = request.email
         instance.address = request.address
+        instance.plan = request.plan
         instance = form.save()
         domain = Domain()
         domain.domain = form.cleaned_data['domain'].lower().replace(" ", "_") + ".localhost"
@@ -148,8 +150,16 @@ class RequestPizzeriaCreateView(MessageMixin, CreateView):
         instance = form.instance
         plan = get_object_or_404(Plan, pk=self.kwargs['pk'])
         instance.plan = plan
+        cc_number = instance.cc_number
+        init_cc = cc_number[:-4]
+        cc = list(map(lambda n: "*", init_cc))
+        full_cc_number = "".join(cc) + cc_number[-4:]
+        instance.cc_number = full_cc_number
         form.save()
         return super(RequestPizzeriaCreateView, self).form_valid(form)
+
+    def form_invalid(self, form):
+        return redirect(reverse("index"))
 
     def get_success_url(self):
             return reverse('index')

@@ -15,4 +15,5 @@ pytz == 2018.7
 django-bootstrap3==11.1.0
 django-menu-generator==1.0.4
 django-parsley
+social-auth-app-django
 djangorestframework
