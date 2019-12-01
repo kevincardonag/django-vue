@@ -67,7 +67,8 @@ export default {
     },
     data: () => ({
         base_url:`${window.location.protocol}//${window.location.host}`,
-        logo:require('../../static/img/pizza.png'),
+        // logo:require('../../static/img/pizza.png'),
+        logo:'',
         // categorias:['Pizza1','Pizza2','Pizza3']
         categorias:[
           {'name':'Productos','href':'/pizzas'}
@@ -75,7 +76,7 @@ export default {
     }),
 
     mounted(){
-      
+      this.logo=`${this.base_url}/static/client-page/img/pizza.png`
     }
 
    
