@@ -6,7 +6,7 @@ django-restframework==0.0.1
 flake8==3.7.8
 Pillow==6.2.0
 pre-commit==1.17.0
-psycopg2==2.8.3
+psycopg2-binary
 pycodestyle==2.5.0
 pycparser==2.19
 django-tenants==2.2.3
