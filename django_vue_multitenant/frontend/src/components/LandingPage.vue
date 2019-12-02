@@ -107,9 +107,12 @@ export default {
 
         addItemCart(index){
 
+            
             const item={
                 id:this.favorites[index].id,
                 name:this.favorites[index].name,
+                description:this.favorites[index].description,
+                image:this.favorites[index].image,
                 price:this.favorites[index].price,
                 price_total:this.favorites[index].price,
                 cantidad:1

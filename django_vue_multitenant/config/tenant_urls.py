@@ -19,6 +19,7 @@ urlpatterns = [
     path('social-auth/', include('social_django.urls', namespace="social")),
     # path('client/', include('client.urls', namespace='clients2')),
     path('products', include('products.urls', namespace='products')),
+    path('orders', include('orders.urls', namespace='orders')),
     path('plans/', include('plans.urls', namespace='plans')),
 
     path('apiREST/', include('api_rest.urls')),
