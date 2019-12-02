@@ -1,6 +1,7 @@
 
 from django.urls import path
 from . import views
+from django.contrib.auth import views as auth_views
 #from tenants.views import PizzeriaListView
 
 app_name = 'client '
@@ -10,4 +11,5 @@ urlpatterns = [
       path('', views.landingpage, name='clientlandingpage'),
       path('pizzas/', views.productpage, name='clientpizzas'),
       path('pagar/', views.pagarpage, name='clientpizzas'),
+      path('client/login/', auth_views.LoginView.as_view(), name='login_cliente'),
 ]
