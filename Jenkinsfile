@@ -5,8 +5,7 @@ node {
             checkout scm
 
         stage 'Test'
-            sh 'scl enable rh-python36 bash'
-            sh 'virtualenv env'
+            sh 'virtualenv -p /opt/rh/rh-python36/root/bin/python3.6 env'
             sh '. env/bin/activate'
             sh 'python --version'
             sh 'env/bin/pip install -r requirements.txt'
