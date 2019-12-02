@@ -5,6 +5,7 @@ node {
             checkout scm
 
         stage 'Test'
+            sh 'scl enable rh-python36 bash'
             sh 'virtualenv env'
             sh '. env/bin/activate'
             sh 'python --version'
