@@ -28,6 +28,14 @@ class Order(Model):
     state =  models.CharField(max_length=22,choices=STATE_CHOICE)
 
     #orderdetail = models.ManyToManyField(OrderDetail, related_name='detalleorden', verbose_name='Detalle Orden')
+
+    @property
+    def detalle(self):
+        try:
+            return OrderDetail.objects.filter(order=self.id)
+        except OrderDetail.DoesNotExist:
+            print('no hay productos')
+
     # def __str__(self):
     #     return self.name
 

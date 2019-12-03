@@ -1,5 +1,5 @@
 <div class="modal-header">
-    <h4 class="modal-title" id="modalLabel">Usuario</h4>
+    <h4 class="modal-title" id="modalLabel">Orden {{ object.id }} | <i>{{ object.get_state_display }}</i></h4>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>
@@ -9,4 +9,22 @@
     <p><b>Nombre Cliente:</b> {{ object.client_name }}</p>
     <p><b>Direccion:</b> {{ object.direction }} </p>
     <p><b>Email:</b> {{ object.email }}</p>
+    
+    <h4><b>Productos</b></h4>
+    <ul>
+        {% for det in object.detalle %}
+            <li>
+                <p>{{ det.product }} X {{ det.quantity }} $ {{ det.price }}</p>
+            </li>
+        {% endfor %}
+        
+    </ul>
+
+    <h4><b>Informacion de pago</b></h4>
+    <p><b>Metodo de pago:</b> {{ object.get_payment_method_display }}</p>
+    <p><b>Fecha de pago:</b> {{ object.date_payment }}</p>
+    <p><b>Costo productos:</b> $ {{ object.price_products }}</p>
+    <p><b>Costo envio:</b> $ {{ object.delivery_cost }}</p>
+    <p><b>Total:</b> $ {{ object.delivery_cost }}</p>
+
 </div>
