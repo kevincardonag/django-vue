@@ -51,7 +51,33 @@
       </v-btn>
 
       <v-spacer></v-spacer>
+      
+      <v-divider vertical></v-divider>
+      <v-btn 
+        v-if="!username" 
+        text 
+        :href="base_url+'/login/'"
+      >
 
+        <span class="mr-2">Log in</span>
+
+      </v-btn>
+      <v-btn 
+        v-if="username" 
+        text 
+      >
+
+        <span class="mr-2">{{username}}</span>
+
+      </v-btn>
+      <v-btn
+        text 
+        :href="base_url+'/logout/'"
+      >
+
+        <span class="mr-2">Log out</span>
+
+      </v-btn>
       <v-divider vertical></v-divider>
 
       <Carrito/>
@@ -67,7 +93,9 @@ export default {
     },
     data: () => ({
         base_url:`${window.location.protocol}//${window.location.host}`,
-        logo:require('../../static/img/pizza.png'),
+        username:"",
+        // logo:require('../../static/img/pizza.png'),
+        logo:'',
         // categorias:['Pizza1','Pizza2','Pizza3']
         categorias:[
           {'name':'Productos','href':'/pizzas'}
@@ -75,7 +103,11 @@ export default {
     }),
 
     mounted(){
-      
+      this.logo=`${this.base_url}/static/client-page/img/pizza.png`;
+      if (typeof usuario !== 'undefined') {
+          console.log(usuario.username)
+          this.username=usuario.username;
+        }
     }
 
    

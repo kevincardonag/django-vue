@@ -41,13 +41,24 @@ def get_secret(setting, secrets=secrets):
 SECRET_KEY = get_secret("SECRET_KEY")
 
 TEMPLATES_DIR = os.path.join(BASE_DIR, '..', 'templates')
-FRONTEND_DIR = os.path.join(BASE_DIR, '..', 'frontend')
+# FRONTEND_DIR = os.path.join(BASE_DIR, '..', 'frontend')
 
+# WEBPACK_LOADER = {
+#     'DEFAULT': {
+#         'CACHE': True,
+#         'BUNDLE_DIR_NAME': '/bundles/',  # must end with slash
+#         'STATS_FILE': os.path.join(FRONTEND_DIR, 'webpack-stats.json'),
+#     }
+# }
+VUE_FRONTEND_DIR = os.path.join(BASE_DIR,'..','frontend')
 WEBPACK_LOADER = {
     'DEFAULT': {
-        'CACHE': True,
-        'BUNDLE_DIR_NAME': '/bundles/',  # must end with slash
-        'STATS_FILE': os.path.join(FRONTEND_DIR, 'webpack-stats.json'),
+        'CACHE': not DEBUG,
+        'BUNDLE_DIR_NAME': 'vue/',  # must end with slash
+        'STATS_FILE': os.path.join(VUE_FRONTEND_DIR, 'webpack-stats.json'),
+        'POLL_INTERVAL': 0.1,
+        'TIMEOUT': None,
+        'IGNORE': [r'.+\.hot-update.js', r'.+\.map']
     }
 }
 

@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from products.models import (Ingredient,Category,Product)
-from client.models import (Order,OrderDetail)
+from orders.models import (Order,OrderDetail)
 
 import pdb
 import copy

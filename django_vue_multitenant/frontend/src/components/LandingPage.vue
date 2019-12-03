@@ -62,11 +62,8 @@ import {mapActions} from 'vuex';
 export default {
     data () {
       return {
-
+        base_url:`${window.location.protocol}//${window.location.host}`,
         items: [
-            {src: require('../../static/img/carousel/pizza1.jpg'),},
-            {src: require('../../static/img/carousel/pizza2.jpg'),},
-            {src: require('../../static/img/carousel/pizza3.jpg'),},
         ],
         favorites: [
             // { name: 'Hawaianaa', image: require('../../static/img/favoritas/pizza1.jpg'), price:27000, flex: 12 },
@@ -77,6 +74,11 @@ export default {
       }
     },
     mounted() {
+        this.items=[
+            {src: `${this.base_url}/static/client-page/img/carousel/pizza1.jpg`,},
+            {src: `${this.base_url}/static/client-page/img/carousel/pizza2.jpg`,},
+            {src: `${this.base_url}/static/client-page/img/carousel/pizza3.jpg`,},
+        ]
         this.fetchCarrito();
 
         axios.get(`${window.location.protocol}//${window.location.host}/apiREST/products/`,
@@ -105,9 +107,12 @@ export default {
 
         addItemCart(index){
 
+            
             const item={
                 id:this.favorites[index].id,
                 name:this.favorites[index].name,
+                description:this.favorites[index].description,
+                image:this.favorites[index].image,
                 price:this.favorites[index].price,
                 price_total:this.favorites[index].price,
                 cantidad:1

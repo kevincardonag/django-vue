@@ -30,6 +30,15 @@ MENUS = {
             ]
         },
         {
+            "name": _("Ordenes"),
+            "url": "orders:index",
+            "icon": "fas fa-fw fa-clipboard-list",
+            "validators": [
+                'menu_generator.validators.is_authenticated',
+                #('menu_generator.validators.user_has_permission', "tenants.list_pizzerias"),
+            ]
+        },
+        {
             "name": _("Actualizar plan"),
             "url": "plans:upgrade_plan",
             "icon": " fas fa-hand-holding",

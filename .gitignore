@@ -111,6 +111,9 @@ venv.bak/
 __pycache__/
 local_settings.py
 
+### Vue statics ###
+/django_vue_multitenant/static/vue
+
 .env
 db.sqlite3
 

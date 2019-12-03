@@ -121,6 +121,14 @@ class ProductListView(LoginRequiredMixin, TemplateDataMixin, DatatablesListView)
         }
     ]
 
+    def dispatch(self, request,*args, **kwargs):
+        group = request.user.groups.filter(user=request.user)[0]
+        
+        if group.name=="client":
+            return redirect('clients:clientlandingpage')
+
+        return super(ProductListView, self).dispatch(request, *args, **kwargs)
+
 
 class ProductCreateView(LoginRequiredMixin, MessageMixin, CreateView):
     model = Product
