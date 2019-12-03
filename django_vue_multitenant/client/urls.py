@@ -11,5 +11,4 @@ urlpatterns = [
       path('', views.landingpage, name='clientlandingpage'),
       path('pizzas/', views.productpage, name='clientpizzas'),
       path('pagar/', views.pagarpage, name='clientpizzas'),
-      path('client/login/', auth_views.LoginView.as_view(), name='login_cliente'),
 ]

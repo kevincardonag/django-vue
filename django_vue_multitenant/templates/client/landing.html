@@ -15,14 +15,20 @@
   <noscript>
     <strong>We're sorry but frontend doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
   </noscript>
-   {% comment %} <img src="{% static 'landing_template/img/pizza-img2.png' %}" alt="" class="img-fluid"> {% endcomment %}
+  <!-- <h4></h4> -->
+  <script>                                                                        
+    usuario={
+        username: "{{ username }}",
+    }
+    // console.log(variables)                                                     
+  </script>  
+
   <div id="app">
       <app></app>
   </div>
 {% render_bundle 'chunk-vendors'%}
 {% render_bundle 'clientlp' %}
-{% comment %} <scrip src='/django_vue_multitenant/static/vue/clientlp.js'></script> {% endcomment %}
-  
+
 </body>
 </html> 
 
