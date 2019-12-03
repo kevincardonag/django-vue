@@ -111,6 +111,9 @@ venv.bak/
 __pycache__/
 local_settings.py
 
+### Vue statics ###
+/django_vue_multitenant/static/vue
+
 .env
 db.sqlite3
 
@@ -125,5 +128,5 @@ django_vue_multitenant/static_collected/*
 
 django_vue_multitenant/media/.idea/
 django_vue_multitenant/media/
-
+django_vue_multitenant/frontend/webpack-stats.json
 

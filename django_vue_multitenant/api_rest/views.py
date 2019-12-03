@@ -8,7 +8,7 @@ from rest_framework.permissions import AllowAny
 
 from .serializers import (ProductSerializer,IngredientSerializer,OrderSerializer,OrderDetailSerializer)
 from products.models import (Product,Ingredient)
-from client.models import (Order,OrderDetail)
+from orders.models import (Order,OrderDetail)
 
 import pdb
 

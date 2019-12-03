@@ -29,6 +29,7 @@ TENANT_APPS = [
     'webpack_loader',
     'users',
     "products",
+    "orders",
     "client",
     "social_django",
 ]
