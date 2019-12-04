@@ -59,25 +59,33 @@
         :href="base_url+'/login/'"
       >
 
-        <span class="mr-2">Log in</span>
+        <span class="mr-2">Ingresar</span>
+        <v-icon color="green darken-2">fa-sign-in-alt</v-icon>
 
       </v-btn>
-      <v-btn 
-        v-if="username" 
-        text 
+      <v-menu 
+        ransition="slide-x-transition"
+        v-else
+        offset-y
       >
-
-        <span class="mr-2">{{username}}</span>
-
-      </v-btn>
-      <v-btn
-        text 
-        :href="base_url+'/logout/'"
-      >
-
-        <span class="mr-2">Log out</span>
-
-      </v-btn>
+        <template v-slot:activator="{ on }">
+          <v-btn
+            text
+            v-on="on"
+          >
+            <span class="mr-2">{{username}}</span>
+          </v-btn>
+        </template>
+        
+        <v-list>
+          <v-list-item
+            :href="base_url+'/logout/'"
+          >
+            <v-list-item-title>Salir</v-list-item-title>
+            <v-icon color="gray darken-2">fa-sign-out-alt</v-icon>
+          </v-list-item>
+        </v-list>
+      </v-menu>
       <v-divider vertical></v-divider>
 
       <Carrito/>

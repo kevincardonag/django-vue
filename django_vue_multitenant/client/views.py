@@ -15,9 +15,15 @@ def landingpage(request):
     # return  render(request, 'client/landing.html',{'title': 'Pizeria'})
 
 def productpage(request):
+    username = ""
+    if request.user.is_authenticated:
+        username = request.user.email
     return  render(request=request,
-                   template_name='client/product.html')
+                   template_name='client/product.html', context={'username': username})
 
 def pagarpage(request):
+    username = ""
+    if request.user.is_authenticated:
+        username = request.user.email
     return  render(request=request,
-                   template_name='client/pagar.html')
+                   template_name='client/pagar.html', context={'username': username})
