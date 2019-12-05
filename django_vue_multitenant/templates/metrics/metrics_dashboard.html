@@ -1,0 +1,160 @@
+{% extends 'base_admin.html' %}
+{% load staticfiles %}
+{% load bootstrap3 %}
+{% load humanize %}
+{% block title %}Métricas | SuperPizzas{% endblock title %}
+{% block section_title %}
+{% endblock section_title %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-lg-3 col-sm-6">
+                    <div class="card border border-warning" >
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-xs-5 text-warning">
+                                    <i class="fas fa-user-minus fa-5x"></i>
+                                </div>
+                                <div class="col-xs-7">
+                                    <div class="text-center">
+                                        <p class="text-xs">Usuarios perdidos</p>
+                                        <h1>{{ customer_lost }}</h1>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer text-muted text-center">
+                           Periodo Actual
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 ">
+                    <div class="card border border-primary" >
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-xs-5 text-primary">
+
+                                    <i class="fas fa-user-clock fa-5x"></i>
+                                </div>
+                                <div class="col-xs-7">
+                                    <div class="text-center">
+                                        <p class="text-xs">Vida media</p>
+                                        <h1>{{ acl }}</h1>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer text-muted text-center">
+                           Vida Media del cliente
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 ">
+                    <div class="card border border-info shadow mb-5" >
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-xs-5 text-info">
+                                    <i class="fas fa-filter fa-5x"></i>
+                                </div>
+                                <div class="col-xs-7">
+                                    <div class="text-center">
+                                        <p class="text-xs">Cantidad</p>
+                                        <h1>{{ crr }}</h1>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer text-muted text-center">
+                           Taza de retención de clientes
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 ">
+                    <div class="card border border-success" >
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-xs-5 text-success">
+                                    <i class="fas fa-dollar-sign fa-5x"></i>
+                                </div>
+                                <div class="col-xs-7">
+                                    <div class="text-center">
+                                        <p class="text-xs">ARPU</p>
+                                        <h5>${{ arpu|floatformat|intcomma }}</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer text-muted text-center">
+                           Ingreso Promedio por usuario
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-sm-6">
+                    <div class="card border border-success" >
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-xs-5 text-success">
+                                    <i class="fas fa-heartbeat fa-5x"></i>
+                                </div>
+                                <div class="col-xs-7">
+                                    <div class="text-center">
+                                        <p class="text-lg">LTV</p>
+                                        <h1>${{ ltv|floatformat|intcomma }}</h1>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer text-muted text-center">
+                            Valor de vida del cliente
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-sm-6">
+                    <div class="card border border-success" >
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-xs-5 text-success">
+                                    <i class="fas fa-money-bill-wave fa-5x"></i>
+                                </div>
+                                <div class="col-xs-7">
+                                    <div class="text-center">
+                                        <p class="text-lg">CAC</p>
+                                        <h1>{{ cac }}</h1>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer text-muted text-center">
+                           Costo de adquisición por cliente
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-sm-6">
+                    <div class="card border border-success" >
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-xs-5 text-success">
+                                    <i class="fas fa-hand-holding-usd fa-5x"></i>
+                                </div>
+                                <div class="col-xs-7">
+                                    <div class="text-center">
+                                        <p class="text-lg">Rentabilidad</p>
+                                        <h1>{{ rentabilidad }}</h1>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer text-muted text-center">
+                           Rentabilidad
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}

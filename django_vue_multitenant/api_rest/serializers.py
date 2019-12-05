@@ -16,7 +16,7 @@ class ProductSerializer(serializers.HyperlinkedModelSerializer):
     # ingredient = IngredientSerializer(many=True)
     class Meta:
         model = Product
-        fields = ('id','name','code','price','image','description','stock','ingredient','category')
+        fields = ('id','name','price','image','description','ingredient','category')
 
 class OrderDetailSerializer(serializers.HyperlinkedModelSerializer):
     #product = serializers.SlugRelatedField(many=True, read_only=True, slug_field='id')

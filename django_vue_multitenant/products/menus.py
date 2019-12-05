@@ -14,7 +14,7 @@ MENUS = {
         {
             "name": _("Ingredientes"),
             "url": "products:list_ingredients",
-            "icon": "fas fa-fw fa-hand-holding",
+            "icon": "fas fa-fw fa-seedling",
             "validators": [
                 'menu_generator.validators.is_authenticated',
                 #('menu_generator.validators.user_has_permission', "tenants.list_pizzerias"),
@@ -23,7 +23,7 @@ MENUS = {
         {
             "name": _("Productos"),
             "url": "products:index",
-            "icon": "fas fa-fw fa-hand-holding",
+            "icon": "fas fa-fw fa-pizza-slice",
             "validators": [
                 'menu_generator.validators.is_authenticated',
                 #('menu_generator.validators.user_has_permission', "tenants.list_pizzerias"),
@@ -41,7 +41,7 @@ MENUS = {
         {
             "name": _("Actualizar plan"),
             "url": "plans:upgrade_plan",
-            "icon": " fas fa-hand-holding",
+            "icon": " fas fa-sync-alt",
             "validators": [
                 'menu_generator.validators.is_authenticated',
                 #('menu_generator.validators.user_has_permission', "tenants.list_pizzerias"),

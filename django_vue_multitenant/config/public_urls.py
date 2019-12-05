@@ -15,7 +15,8 @@ urlpatterns = [
       path('logout/', auth_views.LogoutView.as_view(), name='logout'),
       path('plans/', include('plans.urls', namespace='plans')),
       path('users/', include('users.urls', namespace='users')),
-      path('accounts/', include('django.contrib.auth.urls'))
+      path('accounts/', include('django.contrib.auth.urls')),
+      path('metrics/', include('metrics.urls', namespace='metrics')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 

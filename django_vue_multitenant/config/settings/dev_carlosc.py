@@ -18,10 +18,6 @@ DATABASES = {
         'PASSWORD': get_secret('DATABASE_PASS_SERVER_TEST'),
         'HOST': get_secret('DATABASE_HOST_SERVER_TEST'),
         'PORT': '',
-    },
-    'db_logs': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'logs.db',
     }
 }
 

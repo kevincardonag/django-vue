@@ -27,8 +27,7 @@ nodeenv==1.3.3
 oauthlib==3.1.0
 Pillow==6.2.0
 pre-commit==1.17.0
-psycopg2==2.8.3
-psycopg2cffi==2.8.1
+psycopg2
 pycodestyle==2.5.0
 pycparser==2.19
 pyflakes==2.1.1
@@ -44,5 +43,6 @@ social-auth-core==3.2.0
 sqlparse==0.3.0
 toml==0.10.0
 urllib3==1.25.6
-virtualenv==16.7.7
 zipp==0.6.0
+
+
