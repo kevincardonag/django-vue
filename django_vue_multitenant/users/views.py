@@ -7,7 +7,7 @@ from core.datatables_tools.datatables_tools import DatatablesListView
 from core.mixins import MessageMixin, TemplateDataMixin
 from django.urls import reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import CreateView, UpdateView, DetailView, DeleteView
+from django.views.generic import CreateView, UpdateView, DetailView, DeleteView, ListView
 from users.models import UserProfile
 from .forms import UserForm, UserClientForm
 from django.utils.translation import ugettext as _
@@ -115,6 +115,17 @@ class UserUpdateView(LoginRequiredMixin, UserPermissionMixin, MessageMixin, Upda
     def get_success_url(self):
         return reverse('users:index')
 
+class UserUpdateClientView(LoginRequiredMixin, MessageMixin, UpdateView):
+    model = UserProfile
+    form_class = UserClientForm
+    template_name = 'users/edituser.html'
+    success_message = "El usuario se modificó exitosamente"
+
+    def get_object(self):
+        return get_object_or_404(UserProfile, pk=self.request.user.id)
+
+    def get_success_url(self):
+        return reverse('users:index')
 
 class UserDetailView(LoginRequiredMixin, UserPermissionMixin, DetailView):
     model = UserProfile

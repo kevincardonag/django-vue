@@ -9,21 +9,36 @@ from django.contrib.auth.decorators import login_required
 def landingpage(request):
     username = ""
     if request.user.is_authenticated:
+
         username = request.user.email
+        name = request.user.get_full_name
+        direction = request.user.direction
+
     return  render(request=request,
-                   template_name='client/landing.html', context={'username': username})
+                   template_name='client/landing.html', 
+                   context={'username': username,'name': name, 'direction': direction})
     # return  render(request, 'client/landing.html',{'title': 'Pizeria'})
 
 def productpage(request):
     username = ""
     if request.user.is_authenticated:
+
         username = request.user.email
+        name = request.user.get_full_name
+        direction = request.user.direction
+
     return  render(request=request,
-                   template_name='client/product.html', context={'username': username})
+                   template_name='client/product.html',
+                   context={'username': username,'name': name, 'direction': direction})
 
 def pagarpage(request):
     username = ""
     if request.user.is_authenticated:
+        
         username = request.user.email
+        name = request.user.get_full_name
+        direction = request.user.direction
+
     return  render(request=request,
-                   template_name='client/pagar.html', context={'username': username})
+                   template_name='client/pagar.html', 
+                   context={'username': username,'name': name, 'direction': direction})
