@@ -1,5 +1,6 @@
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
+from django.contrib.auth.models import Group
 from django.contrib.auth.views import PasswordChangeView, PasswordResetView
 
 from core.datatables_tools.datatables_tools import DatatablesListView
@@ -8,9 +9,10 @@ from django.urls import reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import CreateView, UpdateView, DetailView, DeleteView
 from users.models import UserProfile
-from .forms import UserForm
+from .forms import UserForm, UserClientForm
 from django.utils.translation import ugettext as _
 
+from tenants.mixins import UserPermissionMixin
 
 class CustomPasswordChangeView(MessageMixin, PasswordChangeView):
     success_message = 'La contraseña se actualizó correctamente'
@@ -26,7 +28,7 @@ class CustomPasswordResetView(MessageMixin, PasswordResetView):
         return reverse('login')
 
 
-class UsersListView(LoginRequiredMixin, TemplateDataMixin, DatatablesListView):
+class UsersListView(LoginRequiredMixin, UserPermissionMixin, TemplateDataMixin, DatatablesListView):
 
     """
         Autor: Caros Almario
@@ -69,6 +71,7 @@ class UsersListView(LoginRequiredMixin, TemplateDataMixin, DatatablesListView):
 
 
 class UsersCreateView(LoginRequiredMixin, MessageMixin, CreateView):
+    
     model = UserProfile
     form_class = UserForm
     template_name = 'users/create.html'
@@ -85,8 +88,25 @@ class UsersCreateView(LoginRequiredMixin, MessageMixin, CreateView):
         user.groups.add(group)
         return super(UsersCreateView, self).form_valid(form)
 
+class UsersCreateNewView( MessageMixin, CreateView):
+    
+    model = UserProfile
+    form_class = UserClientForm
+    template_name = 'users/createuser.html'
+    success_message = 'El usuario se creó exitosamente'
 
-class UserUpdateView(LoginRequiredMixin, MessageMixin, UpdateView):
+    def get_success_url(self):
+        return reverse('users:index')
+
+    def form_valid(self, form):
+        user = form.instance
+        user.set_password(form.cleaned_data['password'])
+        user.save()
+        group = Group.objects.get(name = 'client')
+        user.groups.add(group)
+        return super(UsersCreateNewView, self).form_valid(form)
+
+class UserUpdateView(LoginRequiredMixin, UserPermissionMixin, MessageMixin, UpdateView):
     model = UserProfile
     form_class = UserForm
     template_name = 'users/update.html'
@@ -96,12 +116,12 @@ class UserUpdateView(LoginRequiredMixin, MessageMixin, UpdateView):
         return reverse('users:index')
 
 
-class UserDetailView(LoginRequiredMixin, DetailView):
+class UserDetailView(LoginRequiredMixin, UserPermissionMixin, DetailView):
     model = UserProfile
     template_name = 'users/detail.html'
 
 
-class UserDeleteView(LoginRequiredMixin, MessageMixin, DeleteView):
+class UserDeleteView(LoginRequiredMixin, UserPermissionMixin, MessageMixin, DeleteView):
     model = UserProfile
     delete_message = "Usuario eliminado con éxito"
 

@@ -19,8 +19,9 @@ from django.http.response import JsonResponse
 
 from tenants.models import Pizzeria
 
+from tenants.mixins import UserPermissionMixin
 
-class PlanListView(LoginRequiredMixin, TemplateDataMixin, DatatablesListView):
+class PlanListView(LoginRequiredMixin, UserPermissionMixin, TemplateDataMixin, DatatablesListView):
     """
         Autor: Caros Almario
         Fecha: Septiembre 29 2019
@@ -51,7 +52,7 @@ class PlanListView(LoginRequiredMixin, TemplateDataMixin, DatatablesListView):
     ]
 
 
-class PlanCreateView(LoginRequiredMixin, MessageMixin, CreateView):
+class PlanCreateView(LoginRequiredMixin, UserPermissionMixin, MessageMixin, CreateView):
     """
         Autor: Caros Almario
         Fecha: Septiembre 29 2019
@@ -66,7 +67,7 @@ class PlanCreateView(LoginRequiredMixin, MessageMixin, CreateView):
         return reverse('plans:index')
 
 
-class PlanUpdateView(LoginRequiredMixin, MessageMixin, UpdateView):
+class PlanUpdateView(LoginRequiredMixin, UserPermissionMixin, MessageMixin, UpdateView):
     """
         Autor: Caros Almario
         Fecha: Septiembre 29 2019
@@ -81,7 +82,7 @@ class PlanUpdateView(LoginRequiredMixin, MessageMixin, UpdateView):
         return reverse('plans:index')
 
 
-class PlanDeleteView(LoginRequiredMixin, MessageMixin, DeleteView):
+class PlanDeleteView(LoginRequiredMixin, UserPermissionMixin, MessageMixin, DeleteView):
     """
         Autor: Caros Almario
         Fecha: Septiembre 29 2019
@@ -99,12 +100,12 @@ class PlanDeleteView(LoginRequiredMixin, MessageMixin, DeleteView):
                 return JsonResponse({'status': 0, 'message': 'Ha ocurrido un error', 'type': 'error'})
 
 
-class PlanDetailView(LoginRequiredMixin, DetailView):
+class PlanDetailView(LoginRequiredMixin, UserPermissionMixin, DetailView):
     model = Plan
     template_name = 'plans/detail.html'
 
 
-class PlanUpgradeListView(LoginRequiredMixin, TemplateDataMixin, ListView):
+class PlanUpgradeListView(LoginRequiredMixin, UserPermissionMixin,TemplateDataMixin, ListView):
     model = Plan
     template_name = 'plans/upgrade_user_plan.html'
     page_title = _("Planes")
@@ -117,7 +118,7 @@ class PlanUpgradeListView(LoginRequiredMixin, TemplateDataMixin, ListView):
         return context
 
 
-class PlanUpgradeUpdateView(LoginRequiredMixin, TemplateDataMixin, UpdateView):
+class PlanUpgradeUpdateView(LoginRequiredMixin, UserPermissionMixin, TemplateDataMixin, UpdateView):
     model = Plan
     form_class = PaymentForm
     template_name = 'plans/upgrade_user_plan.html'

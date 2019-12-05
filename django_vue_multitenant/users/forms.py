@@ -28,3 +28,28 @@ class UserForm(forms.ModelForm):
         }
         model = UserProfile
         fields = ('first_name', 'last_name', 'email')
+
+@parsleyfy
+class UserClientForm(forms.ModelForm):
+
+    password = forms.CharField(widget=forms.PasswordInput, label="Contraseña")
+    password_confirm = forms.CharField(widget=forms.PasswordInput, label="Confirmación de contraseña")
+    
+
+    class Meta:
+        parsley_extras = {
+            'password': {
+                'minlength': "5",
+            },
+            'password_confirm': {
+                'equalto': "password",
+                'error-message': "Las contraseñas ingresadas no son iguales",
+            },
+        }
+        labels = {
+            'first_name': 'Nombre',
+            'last_name': 'Apellido',
+            'email': 'Email',
+        }
+        model = UserProfile
+        fields = ('first_name', 'last_name', 'email')
