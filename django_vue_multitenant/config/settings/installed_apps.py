@@ -32,6 +32,7 @@ TENANT_APPS = [
     "orders",
     "client",
     "social_django",
+    "snowpenguin.django.recaptcha2",
 ]
 
 INSTALLED_APPS = SHARED_APPS + [app for app in TENANT_APPS if app not in SHARED_APPS]

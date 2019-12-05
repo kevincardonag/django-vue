@@ -39,6 +39,7 @@
                                             v-model="input.value"
                                             :rules="input.rules"
                                             :label="input.label"
+                                            :disabled="input.disabled"
                                         ></v-text-field>
                                         <v-select
                                             v-else-if="input.type =='select'"
@@ -46,6 +47,7 @@
                                             :items="input.select"
                                             :rules="input.rules"
                                             :label="input.label"
+                                            :disabled="input.disabled"
                                         ></v-select>
                                     </v-col>
 
@@ -146,6 +148,7 @@ export default {
                 render:true,
                 required:true,
                 cols:{cols:"12",sm:"12"},
+                disabled:false,
             },
             direction:{
                 value:'', 
@@ -155,20 +158,8 @@ export default {
                 render:true,
                 required:true,
                 cols:{cols:"12",sm:"12"},
+                disabled:false,
             },
-            // email:{
-            //     value:'', 
-            //     rules:
-            //         [
-            //             v => !!v || 'E-mail es requerido',
-            //             v => /.+@.+\..+/.test(v) || 'E-mail invalido',
-            //         ], 
-            //     type:'text', 
-            //     label:"E-mail",
-            //     render:true,
-            //     required:true,
-            //     cols:{cols:"12",sm:"12"},
-            // },
             payment_method:{
                 value:null, 
                 rules:[v => !!v || 'Metodo de pago es requerido',], 
@@ -181,6 +172,7 @@ export default {
                 render:true,
                 required:true,
                 cols:{cols:"12",sm:"4"},
+                disabled:false,
             },
             card:{
                 value:'', 
@@ -194,6 +186,7 @@ export default {
                 render:false,
                 required:false,
                 cols:{cols:"12",sm:"8"},
+                disabled:false,
             },
             datecard:{
                 value:'', 
@@ -207,6 +200,7 @@ export default {
                 render:false,
                 required:false,
                 cols:{cols:"12",sm:"6"},
+                disabled:false,
             },
             cvscard:{
                 value:'', 
@@ -220,6 +214,7 @@ export default {
                 render:false,
                 required:false,
                 cols:{cols:"12",sm:"6"},
+                disabled:false,
             },
           },
         
@@ -228,7 +223,18 @@ export default {
     mounted() {
 
         this.fetchCarrito();
+        if (typeof usuario !== 'undefined') {
+            
+            this.inputs.client_name.value=usuario.name;
+            this.inputs.client_name.disabled=true;
 
+            if (usuario.direction!='None') {
+                
+                this.inputs.direction.value=usuario.direction;
+                
+            }
+
+        }
     },
     computed:{
 
