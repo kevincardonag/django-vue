@@ -91,10 +91,10 @@ class ProductListView(LoginRequiredMixin, TemplateDataMixin, DatatablesListView)
     page_title = _("Productos")
     section_title = _("Listado de Productos")
     model_name = _("Producto")
-    fields = ["code", "name", "price", "stock"]
+    fields = ["name", "price"]
     create_reversible_url = 'products:create_product'
     class_modal_create = "ajax-modal-large"
-    column_names_and_defs = [_("Codigo"), _("Nombre"), _("Precio"), _("Cantidad")]
+    column_names_and_defs = [ _("Nombre"), _("Precio")]
     options_list = [
         {
             "label_opcion": _('Editar'),
@@ -137,6 +137,12 @@ class ProductCreateView(LoginRequiredMixin, MessageMixin, CreateView):
     success_message = "Producto creado exitosamente"
 
     def form_valid(self, form):
+        total_ingredients = 0
+        instance = form.instance
+        for ingredient in form.cleaned_data['ingredient']:
+            total_ingredients += ingredient.price
+        instance.price = form.cleaned_data['price'] + total_ingredients
+        form.save()
         if not self.request.tenant.plan.custom_products:
             count_products = Product.objects.count()
             if count_products > MAX_PRODUCT_CREATE:
@@ -148,7 +154,7 @@ class ProductCreateView(LoginRequiredMixin, MessageMixin, CreateView):
                 messages.error(self.request, "Lo sentimos, por favor actualiza tu plan")
                 return redirect(reverse("plans:upgrade_plan"))
 
-        return super().form_valid(form)
+        return super(ProductCreateView, self).form_valid(form)
 
     def get_success_url(self):
         return reverse('products:index')

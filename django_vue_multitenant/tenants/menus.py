@@ -3,6 +3,15 @@ from django.utils.translation import ugettext_lazy as _
 MENUS = {
     "NAV_MENU_LEFT": [
         {
+            "name": _("Métricas"),
+            "url": "metrics:index",
+            "icon": "fas fa-fw fa-chart-bar",
+            "validators": [
+                'menu_generator.validators.is_authenticated',
+                ('menu_generator.validators.user_has_permission', "tenants.list_pizzerias"),
+            ]
+        },
+        {
             "name": _("Solicitudes"),
             "url": "tenants:request_tenant",
             "icon": "fas fa-fw fa-hand-holding",

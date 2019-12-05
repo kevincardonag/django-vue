@@ -14,13 +14,14 @@ class Category(Model):
     name = models.CharField(max_length=100, verbose_name=_("Nombre de categoria"))
     description = models.TextField()
 
+    def __str__(self):
+        return self.name
+
 class Product(models.Model):
     name = models.CharField(max_length=100, verbose_name='Nombre')
-    code = models.CharField(max_length=100, verbose_name='Código', null=True)
     price = models.FloatField(verbose_name='Precio',null=True)
     image = models.ImageField(upload_to='products', null=True, blank=True)
     description = models.TextField(max_length=5000, verbose_name='Descripción')
-    stock = models.IntegerField(default=0, verbose_name='Cantidad')
     ingredient = models.ManyToManyField(Ingredient, related_name='ingredients', verbose_name='Ingredientes')
     category = models.OneToOneField(Category, on_delete = models.CASCADE, null=True)
 

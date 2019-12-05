@@ -9,26 +9,20 @@
     <form data-parsley-validate action="{% url 'products:create_product' %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
             <div class="row">
-                <div class="col-md-4">
-                    {% bootstrap_field form.code %}
-                </div>
-                <div class="col-md-4">
-                    {% bootstrap_field form.stock %}
-                </div>
-                <div class="col-md-4">
+                <div class="col-md-6">
                     {% bootstrap_field form.price %}
                 </div>
-            </div>
-            <div class="row">
                 <div class="col-md-6">
                     {% bootstrap_field form.name %}
                 </div>
-                 <div class="col-md-6">
+            </div>
+            <div class="row">
+                 <div class="col-md-12">
                     {% bootstrap_field form.image %}
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-12">
                     {% bootstrap_field form.ingredient %}
                 </div>
             </div>
