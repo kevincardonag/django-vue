@@ -79,11 +79,18 @@
         
         <v-list>
           <v-list-item
+            :href="base_url+'/users/edit'"
+          >
+            <v-list-item-title>Editar</v-list-item-title>
+            <v-icon color="gray darken-2">fa-sign-out-alt</v-icon>
+          </v-list-item>
+
+          <v-list-item
             :href="base_url+'/logout/'"
           >
             <v-list-item-title>Salir</v-list-item-title>
             <v-icon color="gray darken-2">fa-sign-out-alt</v-icon>
-          </v-list-item>
+          </v-list-item>          
         </v-list>
       </v-menu>
       <v-divider vertical></v-divider>

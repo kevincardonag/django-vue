@@ -8,6 +8,8 @@ from django.contrib.auth.decorators import login_required
 # @login_required(login_url = 'login')
 def landingpage(request):
     username = ""
+    name = ""
+    direction = ""
     if request.user.is_authenticated:
 
         username = request.user.email
@@ -21,6 +23,8 @@ def landingpage(request):
 
 def productpage(request):
     username = ""
+    name = ""
+    direction = ""
     if request.user.is_authenticated:
 
         username = request.user.email
@@ -33,6 +37,8 @@ def productpage(request):
 
 def pagarpage(request):
     username = ""
+    name = ""
+    direction = ""
     if request.user.is_authenticated:
         
         username = request.user.email

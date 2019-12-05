@@ -53,6 +53,7 @@ class UserClientForm(forms.ModelForm):
             'first_name': 'Nombre',
             'last_name': 'Apellido',
             'email': 'Email',
+            'direction': 'Direccion',
         }
         model = UserProfile
-        fields = ('first_name', 'last_name', 'email')
+        fields = ('first_name', 'last_name', 'email','direction')

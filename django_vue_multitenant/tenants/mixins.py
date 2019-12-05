@@ -6,9 +6,10 @@ from django.shortcuts import get_object_or_404, redirect
 class UserPermissionMixin(object):
 
     def dispatch(self, request,*args, **kwargs):
-        group = request.user.groups.filter(user=request.user)[0]
+        group = request.user.groups.filter(user=request.user)
         
-        if group.name=="client":
-            return redirect('clients:clientlandingpage')
+        if group.count():
+            if group[0].name=="client":
+                return redirect('clients:clientlandingpage')
 
         return super(UserPermissionMixin, self).dispatch(request, *args, **kwargs)
