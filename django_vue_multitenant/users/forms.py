@@ -2,6 +2,9 @@ from django import forms
 from django.contrib.auth.models import User, Group
 from users.models import UserProfile
 from parsley.decorators import parsleyfy
+from snowpenguin.django.recaptcha2.fields import ReCaptchaField
+from snowpenguin.django.recaptcha2.widgets import ReCaptchaWidget
+
 
 
 @parsleyfy
@@ -34,7 +37,7 @@ class UserClientForm(forms.ModelForm):
 
     password = forms.CharField(widget=forms.PasswordInput, label="Contraseña")
     password_confirm = forms.CharField(widget=forms.PasswordInput, label="Confirmación de contraseña")
-    
+    captcha = ReCaptchaField(widget=ReCaptchaWidget())
 
     class Meta:
         parsley_extras = {
