@@ -61,23 +61,27 @@ class OrderViewSet(APIView):
     #         }
     #     ]
     # }
-    
     def post(self, request, format=None):
-        completedData=self.completeData(request.data)
+        completedData=self.completeData(request)
         serializer = OrderSerializer(data=completedData)
 
+        # pdb.set_trace()
         if serializer.is_valid():
-            # pdb.set_trace()
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-    def completeData(self,data):
-        
+    def completeData(self,request):
+        data=request.data
+
         if data.get('products') == None:
 
             return False
 
+        if request.user.is_authenticated:
+            data['client']=request.user.id
+            data['client_name']=request.user.get_full_name()
+        
         data['price_products']=0;     
 
         for index,product in enumerate(data['products']):

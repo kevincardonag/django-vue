@@ -225,8 +225,12 @@ export default {
         this.fetchCarrito();
         if (typeof usuario !== 'undefined') {
             
-            this.inputs.client_name.value=usuario.name;
-            this.inputs.client_name.disabled=true;
+            if (usuario.name) {
+                
+                this.inputs.client_name.value=usuario.name;
+                this.inputs.client_name.disabled=true;
+                
+            }
 
             if (usuario.direction!='None') {
                 
@@ -331,7 +335,8 @@ export default {
                     
                     
                     axios.post(`${window.location.protocol}//${window.location.host}/apiREST/order/`,
-                    this.form,)
+                    this.form,
+                    {headers: {"X-CSRFToken": csrftoken}},)
                     .then(response => {
                         this.$swal.fire({
                             title: 'Orden creada exitosamente',

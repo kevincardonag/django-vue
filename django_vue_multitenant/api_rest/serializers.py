@@ -2,6 +2,7 @@ from rest_framework import serializers
 
 from products.models import (Ingredient,Category,Product)
 from orders.models import (Order,OrderDetail)
+from users.models import UserProfile
 
 import pdb
 import copy
@@ -33,10 +34,12 @@ class OrderSerializer(serializers.HyperlinkedModelSerializer):
     # products = serializers.PrimaryKeyRelatedField( many=True,
     #                  queryset=OrderDetail.objects.all())
     products = OrderDetailSerializer(many=True,)
+    client = serializers.PrimaryKeyRelatedField(
+                     queryset=UserProfile.objects.all())
     
     class Meta:
         model = Order
-        fields = ('id','client_name','direction','email','payment_method','price_products','delivery_cost','total','date_payment','state','products')
+        fields = ('id','client_name','direction','email','payment_method','price_products','delivery_cost','total','date_payment','state','products', 'client')
 
     def create(self, data):
         

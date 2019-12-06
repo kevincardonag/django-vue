@@ -261,7 +261,7 @@ export default {
                 }
             });
             this.products=products;
-            console.log(products)
+            
         })
         .catch(response => {
             console.log(error);

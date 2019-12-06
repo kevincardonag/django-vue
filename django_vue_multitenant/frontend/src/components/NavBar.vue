@@ -82,7 +82,7 @@
             :href="base_url+'/users/edit'"
           >
             <v-list-item-title>Editar</v-list-item-title>
-            <v-icon color="gray darken-2">fa-sign-out-alt</v-icon>
+            <v-icon color="gray darken-2">fa-user-edit</v-icon>
           </v-list-item>
 
           <v-list-item

@@ -37,6 +37,13 @@ class Order(Model):
             return OrderDetail.objects.filter(order=self.id)
         except OrderDetail.DoesNotExist:
             print('no hay productos')
+    
+    @property
+    def clientObject(self):
+        try:
+            return UserProfile.objects.get(id=self.client)
+        except UserProfile.DoesNotExist:
+            print('no hay productos')
 
     # def __str__(self):
     #     return self.name
