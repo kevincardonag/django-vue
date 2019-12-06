@@ -9,6 +9,7 @@ from django.utils.translation import ugettext as _
 from plans.models import Plan
 from .mixins import MessageMixin, GetToPostMixin
 
+from django.contrib.auth.views import PasswordChangeView, LoginView
 
 class LandingTemplateView(TemplateView):
     template_name = "landing/index.html"
@@ -32,3 +33,17 @@ class SwitchActiveView(MessageMixin, SingleObjectMixin, GetToPostMixin, View):
         object.switch_active()
         messages.success(request, self.success_message)
         return redirect(self.get_success_url())
+
+
+class CustomLoginUserView(LoginView):
+    
+    def dispatch(self, request,*args, **kwargs):
+        
+        if request.user.is_authenticated:
+            group = request.user.groups.filter(user=request.user)
+            if group.count():
+                if group[0].name=="client":
+                    return redirect('clients:clientlandingpage')
+            return redirect('products:index')
+
+        return super(CustomLoginUserView, self).dispatch(request, *args, **kwargs)

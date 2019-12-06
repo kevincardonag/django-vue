@@ -120,9 +120,8 @@ export default {
     mounted(){
       this.logo=`${this.base_url}/static/client-page/img/pizza.png`;
       if (typeof usuario !== 'undefined') {
-          console.log(usuario.username)
           this.username=usuario.username;
-        }
+      }
     }
 
    

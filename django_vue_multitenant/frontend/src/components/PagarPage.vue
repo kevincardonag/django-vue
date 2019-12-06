@@ -325,10 +325,13 @@ export default {
         pay(){
             
             if (this.$refs.form.validate()) {
-                console.log(this.form.products.length)
+                
                 if (!this.errorproducts) {
-
-                    axios.post(`${window.location.protocol}//${window.location.host}/apiREST/order/`,this.form)
+                    let csrftoken = this.getCookie('csrftoken');
+                    
+                    
+                    axios.post(`${window.location.protocol}//${window.location.host}/apiREST/order/`,
+                    this.form,)
                     .then(response => {
                         this.$swal.fire({
                             title: 'Orden creada exitosamente',
@@ -352,6 +355,22 @@ export default {
             }
             
         },
+
+        getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = cookies[i].trim();
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
 
     }
 
