@@ -11,7 +11,7 @@ from datetime import datetime
 class Order(Model):
     client_name = models.CharField(max_length=100, verbose_name=_("Nombre cliente"))
     direction = models.CharField(max_length=100, verbose_name=_("Direccion cliente"))
-    email = models.EmailField(max_length=100, verbose_name=_("E-mail cliente"), null=True)
+    # email = models.EmailField(max_length=100, verbose_name=_("E-mail cliente"), null=True)
     PAYMENT_METHOD_CHOICE = (
 		('contra_entrega', 'Contra Entrega'),
 		('credit_cart','Tarjeta de credito'),
@@ -41,7 +41,7 @@ class Order(Model):
     @property
     def clientObject(self):
         try:
-            return UserProfile.objects.get(id=self.client)
+            return UserProfile.objects.get(id=self.client_id)
         except UserProfile.DoesNotExist:
             print('no hay productos')
 

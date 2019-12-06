@@ -39,7 +39,7 @@ class OrderSerializer(serializers.HyperlinkedModelSerializer):
     
     class Meta:
         model = Order
-        fields = ('id','client_name','direction','email','payment_method','price_products','delivery_cost','total','date_payment','state','products', 'client')
+        fields = ('id','client_name','direction','payment_method','price_products','delivery_cost','total','date_payment','state','products', 'client')
 
     def create(self, data):
         
