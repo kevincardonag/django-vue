@@ -20,6 +20,9 @@ DATABASES = {
         'PORT': '',
     }
 }
-
-
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# config emails
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'carlos.almario@correounivalle.edu.co'
+EMAIL_HOST_PASSWORD = 'stiph3n0413'
+EMAIL_PORT = '587'
+EMAIL_USE_TLS  = True
