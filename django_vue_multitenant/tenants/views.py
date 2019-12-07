@@ -20,6 +20,7 @@ from users.models import UserProfile
 from tenants.models import Pizzeria, PizzeriaRequest, Domain
 from tenants.forms import PizzeriaRequestForm, PizzeriaForm
 from plans.models import Plan
+from django.core.mail import EmailMessage
 
 
 class PizzeriaCreateView(MessageMixin, CreateView):
@@ -45,7 +46,7 @@ class PizzeriaCreateView(MessageMixin, CreateView):
         instance.plan = request.plan
         instance = form.save()
         domain = Domain()
-        domain.domain = form.cleaned_data['domain'].lower().replace(" ", "_") + ".localhost"
+        domain.domain = form.cleaned_data['domain'].lower().replace(" ", "_") + "."+self.request.tenant.domains.first().domain
         domain.is_primary = True
         domain.tenant = instance
         domain.save()
@@ -71,10 +72,12 @@ class PizzeriaCreateView(MessageMixin, CreateView):
             user.save()
             user.groups.add(group)
 
-        send_mail(subject="Bienvenido a superdroguerias",
-                  message="Su solicitud de franquicia ha sido creado con exito. utilice el usario 'admin' y"
-                          " la contraseña " + password + " para loguearse.",
-                  from_email="administracion@superdroguerias.com", recipient_list=[request.email])
+        send_mail(
+            subject="Bienvenido a SuperPizzas",
+            message="Su solicitud de franquicia ha sido creado con exito. utilice el correo "+request.email+" y"
+                      " la contraseña " + password + " para loguearse. url: "+domain.domain+".com",
+            from_email="administracion@superpizzas.com",
+            recipient_list=[request.email])
 
         request.is_active = False
         request.save()

@@ -16,6 +16,7 @@ from tenants.mixins import UserPermissionMixin
 
 class CustomPasswordChangeView(MessageMixin, PasswordChangeView):
     success_message = 'La contraseña se actualizó correctamente'
+    template_name = 'users/change_password.html'
 
     def get_success_url(self):
         return reverse('login')
@@ -23,6 +24,7 @@ class CustomPasswordChangeView(MessageMixin, PasswordChangeView):
 
 class CustomPasswordResetView(MessageMixin, PasswordResetView):
     success_message = 'El link para recuperar tu contraseña ha sido enviado a tu correo'
+    template_name = 'users/password_reset.html'
 
     def get_success_url(self):
         return reverse('login')

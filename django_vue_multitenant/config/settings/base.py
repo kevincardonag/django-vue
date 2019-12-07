@@ -180,12 +180,5 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'NxZAe9VxWFdRNiiPxzXYqBv0'
 RECAPTCHA_PRIVATE_KEY = '6LdJRsYUAAAAAL0F31JROVQYd63M_z42YHQbSqWL'
 RECAPTCHA_PUBLIC_KEY = '6LdJRsYUAAAAAGFjEexw6dm-PrJ1nGb4zv3FQ1b6'
 
-if DEBUG:
-    EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
-    EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'sent_emails')
-else:
-    # aqui van los correo de produccion
-    pass
-
 MAX_PRODUCT_CREATE = 5
 MAX_INGREDIENTS_BY_PRODUCTS = 3
