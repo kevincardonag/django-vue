@@ -39,6 +39,12 @@ const actions={
         localStorage.removeItem('carrito');
         commit('setCarrito',carrito);
 
+    },
+
+    saveCarrito({commit}){
+
+        commit('saveCarrito');
+
     }
 }; 
 
@@ -64,6 +70,16 @@ const mutations={
 
         localStorage.carrito=JSON.stringify(state.carrito);
     },
+
+    saveCarrito:(state) =>{
+        let total=0;
+        for (const producto of state.carrito.productos) {
+            total += parseInt(producto.price_total);
+        }
+        state.carrito.total=total;
+        localStorage.carrito=JSON.stringify(state.carrito);
+
+    }
 
     
 };

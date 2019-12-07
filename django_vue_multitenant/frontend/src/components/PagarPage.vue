@@ -69,10 +69,53 @@
                                 <v-list-item-content>
                                     <v-list-item-title class="headline mb-4">
                                         {{producto.name}}  
-                                        X {{producto.cantidad}}
-                                        <span class= " hidden-sm-and-down green--text  --text-darken-2">$ {{producto.price.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}}</span>
+                                        X 
+                                         <input
+                                            class= " hidden-sm-and-down"
+                                            style="width:50px"
+                                            @change="changeProduct(index)"
+                                            type="number"
+                                            v-model="producto.cantidad"
+                                            label=""
+                                            data-vv-name="name"
+                                            required
+                                        >
+                                        <v-btn
+                                            class= " hidden-sm-and-down"
+                                            title="Eliminar"
+                                            text
+                                            icon
+                                            small
+                                            @click="removeProduct(index)"
+                                        >
+                                            <v-icon color='red'>fa-times</v-icon>
+                                        </v-btn>
+
+                                        <span class= " hidden-sm-and-down green--text  --text-darken-2">$ {{producto.price_total.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}}</span>
                                     </v-list-item-title>
-                                    <v-list-item-subtitle class= "hidden-md-and-up green--text  --text-darken-2">$ {{producto.price.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}}</v-list-item-subtitle>
+                                    <v-list-item-subtitle>
+                                        <input
+                                            class= "hidden-md-and-up"
+                                            style="width:50px"
+                                            @change="changeProduct(index)"
+                                            type="number"
+                                            v-model="producto.cantidad"
+                                            label=""
+                                            data-vv-name="name"
+                                            required
+                                        >
+                                        <v-btn
+                                            class= "hidden-md-and-up"
+                                            title="Eliminar"
+                                            text
+                                            icon
+                                            small
+                                            @click="removeProduct(index)"
+                                        >
+                                            <v-icon color='red'>fa-times</v-icon>
+                                        </v-btn>
+                                    </v-list-item-subtitle>
+                                    <v-list-item-subtitle class= "hidden-md-and-up green--text  --text-darken-2">$ {{producto.price_total.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}}</v-list-item-subtitle>
                                     <v-list-item-subtitle>{{producto.description}}</v-list-item-subtitle>
                                 </v-list-item-content>
 
@@ -250,7 +293,7 @@ export default {
 
             let cantidad=0;
             for (const producto of this.carrito.productos) {
-                cantidad+=producto.cantidad;
+                cantidad += parseInt(producto.cantidad);
             }
             return cantidad;
 
@@ -323,7 +366,7 @@ export default {
 
 
         ...mapActions('car',[
-            'addCarrito','fetchCarrito','removeAllCarrito'
+            'addCarrito','fetchCarrito','removeAllCarrito','saveCarrito'
         ]),
         
         pay(){
@@ -346,7 +389,7 @@ export default {
                             if (result.value) {
     
                                 this.removeAllCarrito();
-                                // location.reload();
+                                
                                 window.location.replace(`${window.location.protocol}//${window.location.host}`);
                                 
                             }
@@ -360,6 +403,29 @@ export default {
             }
             
         },
+        changeProduct(index){
+
+            // console.log(this.carrito)
+            if (this.carrito.productos[index].cantidad<=0) {
+                this.carrito.productos[index].cantidad=1;
+                // this.carrito.productos.splice(index,1)
+            }else{
+
+                this.carrito.productos[index].price_total=this.carrito.productos[index].price*this.carrito.productos[index].cantidad;
+
+            }
+
+            this.saveCarrito();
+
+        },
+
+        removeProduct(index){
+
+            this.carrito.productos.splice(index,1);
+            this.saveCarrito();
+
+        },
+
 
         getCookie(name) {
             var cookieValue = null;

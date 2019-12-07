@@ -13,6 +13,7 @@
         ransition="slide-x-transition"
         offset-y
       >
+
         <template v-slot:activator="{ on }">
           <v-btn
             text
@@ -25,74 +26,127 @@
         </template>
         
         <v-list>
+
           <v-list-item
             v-for="(categoria, index) in categorias" 
             :key="index"
             :href="categoria.href"
           >
             <v-list-item-title>{{ categoria.name }}</v-list-item-title>
-            <v-icon color="green darken-2">fa-pizza-slice</v-icon>
+            
+            <v-list-item-icon>
+                <v-icon color="green darken-2">fa-pizza-slice</v-icon>
+            </v-list-item-icon>
+
           </v-list-item>
+
+          <v-divider></v-divider>
+
+          <div v-if="!username" >
+
+            <v-list-item  :href="base_url+'/login/'" >
+              <v-list-item-title >Ingresar</v-list-item-title>
+              <v-list-item-icon>
+                <v-icon >fa-sign-in-alt</v-icon>
+              </v-list-item-icon>
+            </v-list-item>
+
+          </div>
+
+          <div v-else>
+
+            <v-list-item>
+              <v-list-item-title>{{username}}</v-list-item-title>
+            </v-list-item>
+
+            <v-divider></v-divider>
+
+            <v-list-item
+              :href="base_url+'/users/edit'"
+            >
+              <v-list-item-title>Editar</v-list-item-title>
+
+              <v-list-item-icon>
+                <v-icon color="gray darken-2">fa-user-edit</v-icon>
+              </v-list-item-icon>
+
+            </v-list-item>
+
+            <v-list-item
+              :href="base_url+'/logout/'"
+            >
+              <v-list-item-title>Salir</v-list-item-title>
+
+              <v-list-item-icon>
+                <v-icon color="gray darken-2">fa-sign-out-alt</v-icon>
+              </v-list-item-icon>
+
+            </v-list-item>
+          </div>
+
         </v-list>
+
       </v-menu>
 
       <v-spacer></v-spacer>
+      <div class="hidden-sm-and-down">
+        <v-btn v-for="(categoria, index) in categorias" v-bind:key="index"
+          text
+          :href="categoria.href"
+        >
 
-      <v-btn v-for="(categoria, index) in categorias" v-bind:key="index"
-        text
-        class="hidden-sm-and-down"
-        :href="categoria.href"
-      >
+          <span class="mr-2">{{categoria.name}}</span>
 
-        <span class="mr-2">{{categoria.name}}</span>
+          <v-icon color="green darken-2">fa-pizza-slice</v-icon>
 
-        <v-icon color="green darken-2">fa-pizza-slice</v-icon>
-
-      </v-btn>
+        </v-btn>
+      </div>
 
       <v-spacer></v-spacer>
+      <div class="hidden-sm-and-down">
       
-      <v-divider vertical></v-divider>
-      <v-btn 
-        v-if="!username" 
-        text 
-        :href="base_url+'/login/'"
-      >
+        <v-divider vertical></v-divider>
+        <v-btn 
+          v-if="!username" 
+          text 
+          :href="base_url+'/login/'"
+        >
 
-        <span class="mr-2">Ingresar</span>
-        <v-icon color="green darken-2">fa-sign-in-alt</v-icon>
+          <span class="mr-2">Ingresar</span>
+          <v-icon color="green darken-2">fa-sign-in-alt</v-icon>
 
-      </v-btn>
-      <v-menu 
-        ransition="slide-x-transition"
-        v-else
-        offset-y
-      >
-        <template v-slot:activator="{ on }">
-          <v-btn
-            text
-            v-on="on"
-          >
-            <span class="mr-2">{{username}}</span>
-          </v-btn>
-        </template>
-        
-        <v-list>
-          <v-list-item
-            :href="base_url+'/users/edit'"
-          >
-            <v-list-item-title>Editar</v-list-item-title>
-            <v-icon color="gray darken-2">fa-user-edit</v-icon>
-          </v-list-item>
+        </v-btn>
+        <v-menu 
+          ransition="slide-x-transition"
+          v-else
+          offset-y
+        >
+          <template v-slot:activator="{ on }">
+            <v-btn
+              text
+              v-on="on"
+            >
+              <span class="mr-2">{{username}}</span>
+            </v-btn>
+          </template>
+          
+          <v-list>
+            <v-list-item
+              :href="base_url+'/users/edit'"
+            >
+              <v-list-item-title>Editar</v-list-item-title>
+              <v-icon color="gray darken-2">fa-user-edit</v-icon>
+            </v-list-item>
 
-          <v-list-item
-            :href="base_url+'/logout/'"
-          >
-            <v-list-item-title>Salir</v-list-item-title>
-            <v-icon color="gray darken-2">fa-sign-out-alt</v-icon>
-          </v-list-item>          
-        </v-list>
-      </v-menu>
+            <v-list-item
+              :href="base_url+'/logout/'"
+            >
+              <v-list-item-title>Salir</v-list-item-title>
+              <v-icon color="gray darken-2">fa-sign-out-alt</v-icon>
+            </v-list-item>          
+          </v-list>
+        </v-menu>
+      </div>
       <v-divider vertical></v-divider>
 
       <Carrito/>

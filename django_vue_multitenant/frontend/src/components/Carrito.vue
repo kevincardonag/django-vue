@@ -97,7 +97,7 @@ export default {
         cantidad:function(){
             let total = 0;
             for (const iterator of this.carrito.productos) {
-                total = total + iterator.cantidad
+                total = total + parseInt(iterator.cantidad)
             }
 
             return total;
