@@ -175,12 +175,5 @@ SOCIAL_AUTH_REDIRECT_IS_HTTPS = True
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '874956280989-7gfq1jtefll2tp3b0l0mfailft520bda.apps.googleusercontent.com'
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'NxZAe9VxWFdRNiiPxzXYqBv0'
 
-if DEBUG:
-    EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
-    EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'sent_emails')
-else:
-    # aqui van los correo de produccion
-    pass
-
 MAX_PRODUCT_CREATE = 5
 MAX_INGREDIENTS_BY_PRODUCTS = 3

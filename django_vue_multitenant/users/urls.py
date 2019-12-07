@@ -20,11 +20,8 @@ from users.views import CustomPasswordChangeView, CustomPasswordResetView, Users
 
 app_name = 'users'
 urlpatterns = [
-    path('change-password/', CustomPasswordChangeView.as_view(template_name='users/change_password.html'),
-         name='change_password'),
-    path('password-reset/', CustomPasswordResetView.as_view(template_name='users/password_reset.html'),
-         name='reset_password'),
-
+    path('change-password/', CustomPasswordChangeView.as_view(), name='change_password'),
+    path('password-reset/', CustomPasswordResetView.as_view(), name='reset_password'),
     path('', UsersListView.as_view(), name='index'),
     path('create', UsersCreateView.as_view(), name='create'),
     path('update/<int:pk>/', UserUpdateView.as_view(), name='update'),

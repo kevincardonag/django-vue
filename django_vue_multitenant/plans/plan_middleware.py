@@ -17,7 +17,6 @@ class VerifyActivePlan:
         response = self.get_response(request)
         if not request.tenant == "public":
             current_date = datetime.date.today()
-            print(current_date)
             if request.tenant.date_expired_paid:
                 if current_date > request.tenant.date_expired_paid:
                     if not request.path == reverse('plans:upgrade_plan'):
