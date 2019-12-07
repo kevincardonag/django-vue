@@ -1,7 +1,7 @@
 
 from django.urls import path
 from tenants.views import PizzeriaListView, RequestPizzeriaCreateView, RequestPizzeriaListView, PizzeriaCreateView, \
-      PizzeriaDeleteView
+      PizzeriaDeleteView, RequestRetirePizzeriaView
 from tenants.views import RequestPizzeriaDetailView, RequestPizzeriaDeleteView
 app_name = 'tenants'
 urlpatterns = [
@@ -12,4 +12,5 @@ urlpatterns = [
       path('detail-request-tenant/<int:pk>/', RequestPizzeriaDetailView.as_view(), name='detail_request_tenant'),
       path('create-pizzeria/<int:pk>/', PizzeriaCreateView.as_view(), name='create_pizzeria'),
       path('delete-pizzeria/<int:pk>/', PizzeriaDeleteView.as_view(), name='delete_pizzeria'),
+      path('requested-to-retire/<int:pk>/', RequestRetirePizzeriaView.as_view(), name='requested_retire'),
 ]
