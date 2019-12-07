@@ -20,6 +20,7 @@ class UserProfile(ActiveSwitchable, AbstractBaseUser, PermissionsMixin):
     date_joined = models.DateTimeField(auto_now_add=True)
     is_staff = models.BooleanField(default=False)
     photo = models.ImageField(upload_to='photo_user/', null=True, blank=True, verbose_name=_('Foto'))
+    direction = models.CharField(max_length=100, verbose_name=_("Direccion cliente"), null=True)
 
     objects = UserManager()
     custom_objects = UserProfileManager()

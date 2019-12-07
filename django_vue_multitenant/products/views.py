@@ -18,10 +18,11 @@ from django.http.response import JsonResponse
 
 from products.forms import IngredientForm, ProductForm
 from products.models import Ingredient, Product
+from tenants.mixins import UserPermissionMixin
 from tenants.models import Pizzeria
 
 
-class IngredientListView(LoginRequiredMixin, TemplateDataMixin, DatatablesListView):
+class IngredientListView(LoginRequiredMixin, UserPermissionMixin, TemplateDataMixin, DatatablesListView):
     model = Ingredient
     page_title = _("Ingredientes")
     section_title = _("Listado de ingredientes")
@@ -47,7 +48,7 @@ class IngredientListView(LoginRequiredMixin, TemplateDataMixin, DatatablesListVi
     ]
 
 
-class IngredientCreateView(LoginRequiredMixin, MessageMixin, CreateView):
+class IngredientCreateView(LoginRequiredMixin, UserPermissionMixin, MessageMixin, CreateView):
     model = Ingredient
     form_class = IngredientForm
     template_name = "ingredients/create.html"
@@ -57,7 +58,7 @@ class IngredientCreateView(LoginRequiredMixin, MessageMixin, CreateView):
         return reverse('products:list_ingredients')
 
 
-class IngredientUpdateView(LoginRequiredMixin, MessageMixin, UpdateView):
+class IngredientUpdateView(LoginRequiredMixin, UserPermissionMixin, MessageMixin, UpdateView):
     model = Ingredient
     form_class = IngredientForm
     template_name = "ingredients/update.html"
@@ -67,7 +68,7 @@ class IngredientUpdateView(LoginRequiredMixin, MessageMixin, UpdateView):
         return reverse('products:list_ingredients')
 
 
-class IngredientDeleteView(LoginRequiredMixin, MessageMixin, DeleteView):
+class IngredientDeleteView(LoginRequiredMixin, UserPermissionMixin, MessageMixin, DeleteView):
 
     model = Ingredient
 
@@ -81,12 +82,12 @@ class IngredientDeleteView(LoginRequiredMixin, MessageMixin, DeleteView):
                 return JsonResponse({'status': 0, 'message': 'Ha ocurrido un error', 'type': 'error'})
 
 
-class IngredientDetailView(LoginRequiredMixin, DetailView):
+class IngredientDetailView(LoginRequiredMixin, UserPermissionMixin, DetailView):
     model = Ingredient
     template_name = 'ingredients/detail.html'
 
 
-class ProductListView(LoginRequiredMixin, TemplateDataMixin, DatatablesListView):
+class ProductListView(LoginRequiredMixin, UserPermissionMixin, TemplateDataMixin, DatatablesListView):
     model = Product
     page_title = _("Productos")
     section_title = _("Listado de Productos")
@@ -121,16 +122,7 @@ class ProductListView(LoginRequiredMixin, TemplateDataMixin, DatatablesListView)
         }
     ]
 
-    def dispatch(self, request,*args, **kwargs):
-        group = request.user.groups.filter(user=request.user)[0]
-        
-        if group.name=="client":
-            return redirect('clients:clientlandingpage')
-
-        return super(ProductListView, self).dispatch(request, *args, **kwargs)
-
-
-class ProductCreateView(LoginRequiredMixin, MessageMixin, CreateView):
+class ProductCreateView(LoginRequiredMixin, UserPermissionMixin, MessageMixin, CreateView):
     model = Product
     form_class = ProductForm
     template_name = "products/create.html"
@@ -160,7 +152,7 @@ class ProductCreateView(LoginRequiredMixin, MessageMixin, CreateView):
         return reverse('products:index')
 
 
-class ProductUpdateView(LoginRequiredMixin, MessageMixin, UpdateView):
+class ProductUpdateView(LoginRequiredMixin, UserPermissionMixin, MessageMixin, UpdateView):
     model = Product
     form_class = ProductForm
     template_name = "products/update.html"
@@ -170,7 +162,7 @@ class ProductUpdateView(LoginRequiredMixin, MessageMixin, UpdateView):
         return reverse('products:index')
 
 
-class ProductDeleteView(LoginRequiredMixin, MessageMixin, DeleteView):
+class ProductDeleteView(LoginRequiredMixin, UserPermissionMixin, MessageMixin, DeleteView):
 
     model = Product
 
@@ -184,6 +176,6 @@ class ProductDeleteView(LoginRequiredMixin, MessageMixin, DeleteView):
                 return JsonResponse({'status': 0, 'message': 'Ha ocurrido un error', 'type': 'error'})
 
 
-class ProductDetailView(LoginRequiredMixin, DetailView):
+class ProductDetailView(LoginRequiredMixin, UserPermissionMixin, DetailView):
     model = Product
     template_name = 'products/detail.html'

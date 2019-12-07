@@ -15,12 +15,13 @@ from core.datatables_tools.datatables_tools import DatatablesListView
 from core.mixins import MessageMixin, TemplateDataMixin
 from django.http.response import JsonResponse
 
+from tenants.mixins import UserPermissionMixin
 from orders.forms import OrderForm
 from orders.models import Order
 
 # Create your views here.
 
-class OrdertListView(LoginRequiredMixin, TemplateDataMixin, DatatablesListView):
+class OrdertListView(LoginRequiredMixin, UserPermissionMixin, TemplateDataMixin, DatatablesListView):
     model = Order
     page_title = _("Ordenes")
     section_title = _("Listado de Ordenes")
@@ -55,7 +56,7 @@ class OrdertListView(LoginRequiredMixin, TemplateDataMixin, DatatablesListView):
         # }
     ]
 
-class OrderUpdateView(LoginRequiredMixin, MessageMixin, UpdateView):
+class OrderUpdateView(LoginRequiredMixin, UserPermissionMixin, MessageMixin, UpdateView):
     model = Order
     form_class = OrderForm
     template_name = "orders/update.html"
@@ -64,6 +65,6 @@ class OrderUpdateView(LoginRequiredMixin, MessageMixin, UpdateView):
     def get_success_url(self):
         return reverse('orders:index')
 
-class OrderDetailView(LoginRequiredMixin, DetailView):
+class OrderDetailView(LoginRequiredMixin, UserPermissionMixin, DetailView):
     model = Order
     template_name = 'orders/detail.html'

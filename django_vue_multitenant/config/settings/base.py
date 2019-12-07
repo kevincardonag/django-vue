@@ -154,12 +154,13 @@ DATABASE_ROUTERS = (
 )
 
 LOGIN_REDIRECT_URL = '/admin'
-LOGOUT_REDIRECT_URL = 'login'
+LOGOUT_REDIRECT_URL = '/'
 
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
     )
 }
 
@@ -167,6 +168,7 @@ AUTHENTICATION_BACKENDS = [
     'social_core.backends.google.GoogleOAuth2',
     'social_core.backends.facebook.FacebookOAuth2',
     'django.contrib.auth.backends.ModelBackend',
+    # 'django.contrib.auth.backends.RemoteUserBackend'
 ]
 
 SOCIAL_AUTH_FACEBOOK_KEY = 541574826607624  # App ID
@@ -174,6 +176,9 @@ SOCIAL_AUTH_FACEBOOK_SECRET = "3210459decc1511fd82b586503a3c304"
 SOCIAL_AUTH_REDIRECT_IS_HTTPS = True
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '874956280989-7gfq1jtefll2tp3b0l0mfailft520bda.apps.googleusercontent.com'
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'NxZAe9VxWFdRNiiPxzXYqBv0'
+
+RECAPTCHA_PRIVATE_KEY = '6LdJRsYUAAAAAL0F31JROVQYd63M_z42YHQbSqWL'
+RECAPTCHA_PUBLIC_KEY = '6LdJRsYUAAAAAGFjEexw6dm-PrJ1nGb4zv3FQ1b6'
 
 if DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'

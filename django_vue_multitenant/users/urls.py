@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.urls import path
 from users.views import CustomPasswordChangeView, CustomPasswordResetView, UsersCreateView, UserUpdateView, \
-    UserDetailView, UserDeleteView, UsersListView
+    UserDetailView, UserDeleteView, UsersListView, UsersCreateNewView, UserUpdateClientView
 
 
 app_name = 'users'
@@ -27,6 +27,8 @@ urlpatterns = [
 
     path('', UsersListView.as_view(), name='index'),
     path('create', UsersCreateView.as_view(), name='create'),
+    path('createuser', UsersCreateNewView.as_view(), name='createuser'),
+    path('edit', UserUpdateClientView.as_view(), name='edit'),
     path('update/<int:pk>/', UserUpdateView.as_view(), name='update'),
     path('detail/<int:pk>/', UserDetailView.as_view(), name='detail'),
     path('delete/<int:pk>/', UserDeleteView.as_view(), name='delete'),
