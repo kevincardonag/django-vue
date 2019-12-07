@@ -12,6 +12,7 @@ django-credit-cards==0.4.1
 django-menu-generator==1.0.4
 django-parsley==0.7
 django-pdb==0.6.2
+django-recaptcha2==1.4.1
 django-restframework==0.0.1
 django-tenants==2.2.3
 django-webpack-loader==0.6.0

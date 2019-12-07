@@ -7,10 +7,10 @@ from django.urls import path, include
 from django.contrib.auth import views as auth_views
 from django.views.generic import TemplateView
 
-from core.views import LandingTemplateView
+from core.views import LandingTemplateView, CustomLoginUserView
 
 urlpatterns = [
-    path('login/', auth_views.LoginView.as_view(), name='login'),
+    path('login/', CustomLoginUserView.as_view(), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('users/', include('users.urls', namespace='users')),
     path('accounts/', include('django.contrib.auth.urls')),

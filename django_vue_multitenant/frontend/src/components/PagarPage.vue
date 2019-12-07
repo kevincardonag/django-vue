@@ -39,6 +39,7 @@
                                             v-model="input.value"
                                             :rules="input.rules"
                                             :label="input.label"
+                                            :disabled="input.disabled"
                                         ></v-text-field>
                                         <v-select
                                             v-else-if="input.type =='select'"
@@ -46,6 +47,7 @@
                                             :items="input.select"
                                             :rules="input.rules"
                                             :label="input.label"
+                                            :disabled="input.disabled"
                                         ></v-select>
                                     </v-col>
 
@@ -67,10 +69,53 @@
                                 <v-list-item-content>
                                     <v-list-item-title class="headline mb-4">
                                         {{producto.name}}  
-                                        X {{producto.cantidad}}
-                                        <span class= " hidden-sm-and-down green--text  --text-darken-2">$ {{producto.price.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}}</span>
+                                        X 
+                                         <input
+                                            class= " hidden-sm-and-down"
+                                            style="width:50px"
+                                            @change="changeProduct(index)"
+                                            type="number"
+                                            v-model="producto.cantidad"
+                                            label=""
+                                            data-vv-name="name"
+                                            required
+                                        >
+                                        <v-btn
+                                            class= " hidden-sm-and-down"
+                                            title="Eliminar"
+                                            text
+                                            icon
+                                            small
+                                            @click="removeProduct(index)"
+                                        >
+                                            <v-icon color='red'>fa-times</v-icon>
+                                        </v-btn>
+
+                                        <span class= " hidden-sm-and-down green--text  --text-darken-2">$ {{producto.price_total.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}}</span>
                                     </v-list-item-title>
-                                    <v-list-item-subtitle class= "hidden-md-and-up green--text  --text-darken-2">$ {{producto.price.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}}</v-list-item-subtitle>
+                                    <v-list-item-subtitle>
+                                        <input
+                                            class= "hidden-md-and-up"
+                                            style="width:50px"
+                                            @change="changeProduct(index)"
+                                            type="number"
+                                            v-model="producto.cantidad"
+                                            label=""
+                                            data-vv-name="name"
+                                            required
+                                        >
+                                        <v-btn
+                                            class= "hidden-md-and-up"
+                                            title="Eliminar"
+                                            text
+                                            icon
+                                            small
+                                            @click="removeProduct(index)"
+                                        >
+                                            <v-icon color='red'>fa-times</v-icon>
+                                        </v-btn>
+                                    </v-list-item-subtitle>
+                                    <v-list-item-subtitle class= "hidden-md-and-up green--text  --text-darken-2">$ {{producto.price_total.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}}</v-list-item-subtitle>
                                     <v-list-item-subtitle>{{producto.description}}</v-list-item-subtitle>
                                 </v-list-item-content>
 
@@ -146,6 +191,7 @@ export default {
                 render:true,
                 required:true,
                 cols:{cols:"12",sm:"12"},
+                disabled:false,
             },
             direction:{
                 value:'', 
@@ -155,20 +201,8 @@ export default {
                 render:true,
                 required:true,
                 cols:{cols:"12",sm:"12"},
+                disabled:false,
             },
-            // email:{
-            //     value:'', 
-            //     rules:
-            //         [
-            //             v => !!v || 'E-mail es requerido',
-            //             v => /.+@.+\..+/.test(v) || 'E-mail invalido',
-            //         ], 
-            //     type:'text', 
-            //     label:"E-mail",
-            //     render:true,
-            //     required:true,
-            //     cols:{cols:"12",sm:"12"},
-            // },
             payment_method:{
                 value:null, 
                 rules:[v => !!v || 'Metodo de pago es requerido',], 
@@ -181,6 +215,7 @@ export default {
                 render:true,
                 required:true,
                 cols:{cols:"12",sm:"4"},
+                disabled:false,
             },
             card:{
                 value:'', 
@@ -194,6 +229,7 @@ export default {
                 render:false,
                 required:false,
                 cols:{cols:"12",sm:"8"},
+                disabled:false,
             },
             datecard:{
                 value:'', 
@@ -207,6 +243,7 @@ export default {
                 render:false,
                 required:false,
                 cols:{cols:"12",sm:"6"},
+                disabled:false,
             },
             cvscard:{
                 value:'', 
@@ -220,6 +257,7 @@ export default {
                 render:false,
                 required:false,
                 cols:{cols:"12",sm:"6"},
+                disabled:false,
             },
           },
         
@@ -228,7 +266,22 @@ export default {
     mounted() {
 
         this.fetchCarrito();
+        if (typeof usuario !== 'undefined') {
+            
+            if (usuario.name) {
+                
+                this.inputs.client_name.value=usuario.name;
+                this.inputs.client_name.disabled=true;
+                
+            }
 
+            if (usuario.direction!='None') {
+                
+                this.inputs.direction.value=usuario.direction;
+                
+            }
+
+        }
     },
     computed:{
 
@@ -240,7 +293,7 @@ export default {
 
             let cantidad=0;
             for (const producto of this.carrito.productos) {
-                cantidad+=producto.cantidad;
+                cantidad += parseInt(producto.cantidad);
             }
             return cantidad;
 
@@ -313,16 +366,20 @@ export default {
 
 
         ...mapActions('car',[
-            'addCarrito','fetchCarrito','removeAllCarrito'
+            'addCarrito','fetchCarrito','removeAllCarrito','saveCarrito'
         ]),
         
         pay(){
             
             if (this.$refs.form.validate()) {
-                console.log(this.form.products.length)
+                
                 if (!this.errorproducts) {
-
-                    axios.post(`${window.location.protocol}//${window.location.host}/apiREST/order/`,this.form)
+                    let csrftoken = this.getCookie('csrftoken');
+                    
+                    
+                    axios.post(`${window.location.protocol}//${window.location.host}/apiREST/order/`,
+                    this.form,
+                    {headers: {"X-CSRFToken": csrftoken}},)
                     .then(response => {
                         this.$swal.fire({
                             title: 'Orden creada exitosamente',
@@ -332,7 +389,7 @@ export default {
                             if (result.value) {
     
                                 this.removeAllCarrito();
-                                // location.reload();
+                                
                                 window.location.replace(`${window.location.protocol}//${window.location.host}`);
                                 
                             }
@@ -346,6 +403,45 @@ export default {
             }
             
         },
+        changeProduct(index){
+
+            // console.log(this.carrito)
+            if (this.carrito.productos[index].cantidad<=0) {
+                this.carrito.productos[index].cantidad=1;
+                // this.carrito.productos.splice(index,1)
+            }else{
+
+                this.carrito.productos[index].price_total=this.carrito.productos[index].price*this.carrito.productos[index].cantidad;
+
+            }
+
+            this.saveCarrito();
+
+        },
+
+        removeProduct(index){
+
+            this.carrito.productos.splice(index,1);
+            this.saveCarrito();
+
+        },
+
+
+        getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = cookies[i].trim();
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
 
     }
 

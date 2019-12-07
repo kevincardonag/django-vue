@@ -3,6 +3,7 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.db.models import Model
 from products.models import Product
+from users.models import UserProfile
 from datetime import datetime
 
 
@@ -10,7 +11,7 @@ from datetime import datetime
 class Order(Model):
     client_name = models.CharField(max_length=100, verbose_name=_("Nombre cliente"))
     direction = models.CharField(max_length=100, verbose_name=_("Direccion cliente"))
-    email = models.CharField(max_length=100, verbose_name=_("E-mail cliente"), null=True)
+    # email = models.EmailField(max_length=100, verbose_name=_("E-mail cliente"), null=True)
     PAYMENT_METHOD_CHOICE = (
 		('contra_entrega', 'Contra Entrega'),
 		('credit_cart','Tarjeta de credito'),
@@ -26,7 +27,8 @@ class Order(Model):
         ('entregado','Entregado'),
 	)
     state =  models.CharField(max_length=22,choices=STATE_CHOICE)
-
+    
+    client = models.OneToOneField(UserProfile, on_delete=models.SET_NULL, null=True)
     #orderdetail = models.ManyToManyField(OrderDetail, related_name='detalleorden', verbose_name='Detalle Orden')
 
     @property
@@ -34,6 +36,13 @@ class Order(Model):
         try:
             return OrderDetail.objects.filter(order=self.id)
         except OrderDetail.DoesNotExist:
+            print('no hay productos')
+    
+    @property
+    def clientObject(self):
+        try:
+            return UserProfile.objects.get(id=self.client_id)
+        except UserProfile.DoesNotExist:
             print('no hay productos')
 
     # def __str__(self):

@@ -218,8 +218,22 @@
                         </v-row>
                     </template>
                 </v-data-iterator>
-            
         </v-container>
+        <v-snackbar
+        color="green"
+        right
+        v-model="snackbar"
+        :timeout="timeout"
+        >
+            Pizza {{ snackbarmessage }} agregado
+            <v-btn
+                color="gray"
+                text
+                @click="snackbar = false"
+            >
+                <v-icon>fa-times</v-icon>
+            </v-btn>
+        </v-snackbar>
     </v-app>
 </template>
 <script>
@@ -228,6 +242,9 @@ import {mapActions} from 'vuex';
 export default {
     data () {
       return {
+        snackbar:false,
+        snackbarmessage:'pizza',
+        timeout:2000,
         expand: false,
         // itemsPerPageOptions: [2, 4, 8, 12],
         itemsPerPageArray: [4, 8, 12],
@@ -261,7 +278,7 @@ export default {
                 }
             });
             this.products=products;
-            console.log(products)
+            
         })
         .catch(response => {
             console.log(error);
@@ -300,7 +317,9 @@ export default {
                 price_total:this.products[index].price,
                 cantidad:1
             }
-            
+
+            this.snackbar=true
+            this.snackbarmessage=this.products[index].name;
 
             this.addCarrito(item);
             
