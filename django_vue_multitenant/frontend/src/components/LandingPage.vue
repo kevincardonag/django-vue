@@ -54,6 +54,22 @@
                 </v-col>
             </v-row>
         </v-container>
+
+        <v-snackbar
+        color="green"
+        right
+        v-model="snackbar"
+        :timeout="timeout"
+        >
+            Pizza {{ snackbarmessage }} agregado
+            <v-btn
+                color="gray"
+                text
+                @click="snackbar = false"
+            >
+                <v-icon>fa-times</v-icon>
+            </v-btn>
+        </v-snackbar>
     </v-app>
 </template>
 <script>
@@ -62,6 +78,9 @@ import {mapActions} from 'vuex';
 export default {
     data () {
       return {
+        snackbar:false,
+        snackbarmessage:'pizza',
+        timeout:2000,
         base_url:`${window.location.protocol}//${window.location.host}`,
         items: [
         ],
@@ -118,7 +137,8 @@ export default {
                 cantidad:1
             }
             
-
+            this.snackbar=true
+            this.snackbarmessage=this.favorites[index].name;
             this.addCarrito(item);
             
         },

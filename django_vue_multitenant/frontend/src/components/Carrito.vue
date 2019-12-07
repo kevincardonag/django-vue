@@ -95,8 +95,12 @@ export default {
         }),
         
         cantidad:function(){
+            let total = 0;
+            for (const iterator of this.carrito.productos) {
+                total = total + iterator.cantidad
+            }
 
-            return this.carrito.productos.length
+            return total;
 
         },
 
