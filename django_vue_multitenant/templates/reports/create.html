@@ -1,0 +1,107 @@
+{% extends 'base_admin.html' %}
+{% load staticfiles %}
+{% load bootstrap3 %}
+{% load humanize %}
+{% block title %}Métricas | SuperPizzas{% endblock title %}
+{% block section_title %}
+{% endblock section_title %}
+
+{% block content %}
+<div class="accordion" id="accordionExample">
+  <div class="card">
+    <div class="card-header" id="headingOne">
+      <h2 class="mb-0">
+        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+          Total de ventas por dia
+        </button>
+      </h2>
+    </div>
+
+    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+      <div class="card-body">
+        <p>Reporte a cerca de precio total de las ventas por día</p>
+
+        <a class="btn btn-success" href="{% url 'reports:create' 1 %}"> Generar </a>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header" id="headingTwo">
+      <h2 class="mb-0">
+        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+          Total de ventas por año
+        </button>
+      </h2>
+    </div>
+    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+      <div class="card-body">
+        <p>Reporte a cerca de precio total de las ventas por año</p>
+
+          <a class="btn btn-success" href="{% url 'reports:create' 2 %}"> Generar </a>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header" id="headingThree">
+      <h2 class="mb-0">
+        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+          Usuarios registrados por mes
+        </button>
+      </h2>
+    </div>
+    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+      <div class="card-body">
+        <p>Reporte a cerca de la cantidad de usuarios registrados por mes</p>
+        <a class="btn btn-success" href="{% url 'reports:create' 3 %}"> Generar </a>
+      </div>
+    </div>
+  </div>
+   <div class="card">
+    <div class="card-header" id="headingThree">
+      <h2 class="mb-0">
+        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+          Total ventas por mes
+        </button>
+      </h2>
+    </div>
+    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+      <div class="card-body">
+        <p></p>
+        <p> Reporte a cerca de precio total de las ventas por mes</p>
+        <a class="btn btn-success" href="{% url 'reports:create' 4 %}"> generar </a>
+      </div>
+    </div>
+  </div>
+    <div class="card">
+    <div class="card-header" id="headingThree">
+      <h2 class="mb-0">
+        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+          Usuarios con mas compras
+        </button>
+      </h2>
+    </div>
+    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+      <div class="card-body">
+        <p> Reporte que indica los usuarios con precio total mayo de compras</p>
+        <a class="btn btn-success" href="{% url 'reports:create' 5 %}"> generar </a>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header" id="headingThree">
+      <h2 class="mb-0">
+        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+          Usuarios registrados por año
+        </button>
+      </h2>
+    </div>
+    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+      <div class="card-body">
+        <p></p>
+        <p> Reporto que indica el total de usuarios registrados por año</p>
+        <a class="btn btn-success" href="{% url 'reports:create' 6 %}"> generar </a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
