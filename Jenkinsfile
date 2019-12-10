@@ -5,7 +5,6 @@ node {
             checkout scm
 
         stage 'Test'
-            sh 'rmvirtualenv env'
             sh 'mkvirtualenv env'
             sh '. env/bin/activate'
             sh 'python --version'
