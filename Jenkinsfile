@@ -5,8 +5,8 @@ node {
             checkout scm
 
         stage 'Test'
-            sh 'sudo yum install python-devel'
-            sh 'mkvirtualenv -p /opt/rh/rh-python36/root/bin/python3.6 env'
+            sh 'rmvirtualenv env'
+            sh 'mkvirtualenv env'
             sh '. env/bin/activate'
             sh 'python --version'
             sh 'env/bin/pip install -r requirements.txt'
