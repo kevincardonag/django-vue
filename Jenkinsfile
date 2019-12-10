@@ -7,7 +7,8 @@ pipeline {
                 sh 'virtualenv -p /opt/rh/rh-python36/root/bin/python3.6 env'
                 sh '. env/bin/activate'
                 sh 'python --version'
-                sh 'env/bin/pip install -r requirements.txt'
+                sh 'env/bin/pip3 install setuptools --upgrade'
+                sh 'env/bin/pip3 install -r requirements.txt'
                 sh 'pwd'
             }
         }
