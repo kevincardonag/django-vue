@@ -5,11 +5,12 @@ node {
             checkout scm
 
         stage 'Test'
-            sh 'virtualenv -p /opt/rh/rh-python36/root/bin/python3.6 env'
+            sh 'yum install python-devel'
+            sh 'mkvirtualenv -p /opt/rh/rh-python36/root/bin/python3.6 env'
             sh '. env/bin/activate'
             sh 'python --version'
             sh 'env/bin/pip install -r requirements.txt'
-            sh 'env/bin/python3.5 manage.py test --testrunner=djtrump.tests.test_runners.NoDbTestRunner'
+            sh 'pwd'
 
         stage 'Deploy'
             sh 'echo desplegando'
