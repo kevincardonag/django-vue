@@ -22,5 +22,6 @@ urlpatterns = [
     path('orders', include('orders.urls', namespace='orders')),
     path('plans/', include('plans.urls', namespace='plans')),
     path('admin/', include('tenants.urls', namespace='tenants')),
+    path('reports/', include('reports.urls', namespace='reports')),
     path('apiREST/', include('api_rest.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

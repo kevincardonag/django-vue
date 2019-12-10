@@ -7,7 +7,6 @@ from users.models import UserProfile
 from datetime import datetime
 
 
-
 class Order(Model):
     client_name = models.CharField(max_length=100, verbose_name=_("Nombre cliente"))
     direction = models.CharField(max_length=100, verbose_name=_("Direccion cliente"))
@@ -47,6 +46,7 @@ class Order(Model):
 
     # def __str__(self):
     #     return self.name
+
 
 class OrderDetail(Model):
     quantity = models.IntegerField(verbose_name='Cantidad')
