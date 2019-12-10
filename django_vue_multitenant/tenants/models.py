@@ -26,6 +26,7 @@ class Pizzeria(ActiveSwitchable, TenantMixin):
     logo = models.ImageField(upload_to="pizzeria_logos/", blank=True, null=True, verbose_name=_("Logo de la pizzeria"))
     #subdomain = models.CharField(max_length=50, unique=True, verbose_name=_("Subdominio"))
 
+    requested_to_retire = models.BooleanField(default=False, verbose_name=_("Solicitó retiro"))
     auto_create_schema = True
     auto_drop_schema = True
 

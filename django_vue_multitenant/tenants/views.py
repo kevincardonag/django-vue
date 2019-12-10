@@ -1,26 +1,37 @@
 import datetime
+import json
+import os
 import random
+import shutil
 import string
 
+from django.conf import settings
+from django.contrib import messages
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
-from django.http import JsonResponse
+from django.http import JsonResponse, FileResponse
 from django.contrib.auth.models import Group
 from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404, redirect
 from django.utils.translation import ugettext as _
+from django.views import View
 from django.views.generic import CreateView, DeleteView, DetailView
 from django.urls import reverse
 
+from api_rest.serializers import OrderJsonSerializer, ProductJsonSerializer, IngredientJsonSerializer, \
+    UserJsonSerializer, TenantJsonSerializer
 from core.datatables_tools.datatables_tools import DatatablesListView
 from core.mixins import TemplateDataMixin, MessageMixin
 from core.views import SwitchActiveView
 from django_tenants.utils import tenant_context
 
+from products.models import Product, Ingredient
 from users.models import UserProfile
 from tenants.models import Pizzeria, PizzeriaRequest, Domain
 from tenants.forms import PizzeriaRequestForm, PizzeriaForm
 from plans.models import Plan
 from django.core.mail import EmailMessage
+
+from orders.models import Order
 
 
 class PizzeriaCreateView(MessageMixin, CreateView):
@@ -101,8 +112,8 @@ class PizzeriaListView(TemplateDataMixin, DatatablesListView):
     page_title = _("Listar Pizzerias")
     section_title = _("Listar Pizzerias")
     model_name = _("Pizzería")
-    fields = ["is_active", "name", "address", "phones", "email", ]
-    column_names_and_defs = [_("Estado"), _("Nombre"), _("Dirección"), _("Telefonos"), _("Email")]
+    fields = ["is_active", "name", "address", "phones", "email", "requested_to_retire"]
+    column_names_and_defs = [_("Estado"), _("Nombre"), _("Dirección"), _("Telefonos"), _("Email"), _("Solicitud de retiro")]
     options_list = [
         {
             "label_opcion": _('Eiminar'),
@@ -126,6 +137,11 @@ class PizzeriaListView(TemplateDataMixin, DatatablesListView):
             else:
                 self.html_value = '<label class="label label-danger">{0}</label>'.format(_('INACTIVO'))
         elif field.name == 'has_physical_delivers':
+            if value:
+                self.html_value = '<span class="display-block text-center">{0}</span>'.format(_('SÍ'))
+            else:
+                self.html_value = '<span class="display-block text-center">{0}</span>'.format(_('NO'))
+        elif field.name == 'requested_to_retire':
             if value:
                 self.html_value = '<span class="display-block text-center">{0}</span>'.format(_('SÍ'))
             else:
@@ -242,3 +258,66 @@ class PizzeriaDeleteView(LoginRequiredMixin, MessageMixin, DeleteView):
             except Exception:
                 return JsonResponse({'status': 0, 'message': 'Ha ocurrido un error', 'type': 'error'})
 
+
+class RequestRetirePizzeriaView(LoginRequiredMixin, MessageMixin, View):
+    model = Pizzeria
+
+    def get(self, request, *args, **kwargs):
+        try:
+            pizzeria = get_object_or_404(Pizzeria, pk=kwargs['pk'])
+            pizzeria.requested_to_retire = True
+            pizzeria.save()
+
+            date = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
+            # Crear carpeta al usuario
+            user_path = os.path.join(settings.BASE_DIR, '..', "user_request_data/", str(request.user.id) + date)
+            user_relative_path = self.create_folder(user_path)
+            print("Se crea la carpeta global para el usuario.")
+
+            orders = Order.objects.all()
+            self.serializer_model(orders, user_relative_path, "ordenes", OrderJsonSerializer)
+
+            products = Product.objects.all()
+            self.serializer_model(products, user_relative_path, "productos", ProductJsonSerializer)
+
+            ingredients = Ingredient.objects.all()
+            self.serializer_model(ingredients, user_relative_path, "ingredientes", IngredientJsonSerializer)
+
+            tenants = [request.tenant]
+            self.serializer_model(tenants, user_relative_path, "pizzeria", TenantJsonSerializer)
+
+            users = UserProfile.objects.all()
+            self.serializer_model(users, user_relative_path, "usuarios", UserJsonSerializer)
+
+            location_zip = os.path.join(settings.BASE_DIR, '..', "user_request_data/", str(request.user.id))
+            shutil.make_archive(location_zip + "/", 'zip', user_relative_path)
+            print("Los datos del usuario se comprimieron con éxito en formato .zip")
+            messages.success(self.request, "Su solicitud ha sido recibida con éxito")
+            return FileResponse(open(location_zip + ".zip", 'rb'))
+
+        except Exception as error:
+            print(error)
+            messages.error(self.request, "Ocurrio un error,intente de nuevo.")
+            return redirect(request.META['HTTP_REFERER'])
+
+    def serializer_model(self, _objects, user_relative_path, name_model, model_serializer):
+        data = []
+        with open(user_relative_path + f"/{name_model}.json", "w+") as file:
+            for _object in _objects:
+                serializer = model_serializer(_object)
+                data.append(serializer.data)
+            json.dump(data, file, ensure_ascii=False, indent=4)
+
+    def create_folder(self, path, obj=None):
+        if obj:
+            relative_path = path + "/" + str(obj.id)
+        else:
+            relative_path = path
+
+        try:
+            os.mkdir(relative_path)
+            return relative_path
+        except OSError as error:
+            print(error)
+            print("Se ha producido un error al tratar de crear la carpeta")
