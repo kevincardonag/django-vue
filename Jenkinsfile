@@ -9,8 +9,8 @@ pipeline {
                 sh 'env/bin/activate'
                 sh 'pwd'
                 sh 'cd superpizzas'
-                sh 'pip3 install setuptools --upgrade'
-                sh 'pip3 install -r requirements.txt'
+                sh 'env/bin/pip3 install setuptools --upgrade'
+                sh 'env/bin/pip3 install -r requirements.txt'
                 sh 'pwd'
             }
         }
