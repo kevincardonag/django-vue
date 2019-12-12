@@ -86,7 +86,7 @@ class PizzeriaCreateView(MessageMixin, CreateView):
         send_mail(
             subject="Bienvenido a SuperPizzas",
             message="Su solicitud de franquicia ha sido creado con exito. utilice el correo "+request.email+" y"
-                      " la contraseña " + password + " para loguearse. url: "+domain.domain+".com",
+                      " la contraseña " + password + " para loguearse. url: "+domain.domain,
             from_email="administracion@superpizzas.com",
             recipient_list=[request.email])
 
