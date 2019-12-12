@@ -33,15 +33,18 @@ class ShowMetricsView(LoginRequiredMixin, TemplateView):
                                                ).exclude(schema_name='public').count()
         price_plan = Plan.objects.filter(is_basic=False).first()
 
-        customer_lost = last_clients + new_clients_current - clients_current
-        churn_rate = customer_lost / last_clients if last_clients  else 0
-        cmrr = (new_clients_current - counts_cancelled) * price_plan.price
-        arpu = cmrr / clients_current
-        context['customer_lost']= customer_lost
-        context['acl'] = str((1/churn_rate)*100)+"%" if churn_rate else "Estable"
-        context['crr'] = 1 - churn_rate
-        context['arpu'] = arpu
-        context['ltv'] = (1/churn_rate)* arpu if churn_rate else arpu
-        context['cac'] = None
-        context['rentabilidad'] = None
-        return context
+        try:
+            customer_lost = last_clients + new_clients_current - clients_current
+            churn_rate = customer_lost / last_clients if last_clients  else 0
+            cmrr = (new_clients_current - counts_cancelled) * price_plan.price
+            arpu = cmrr / clients_current
+            context['customer_lost']= customer_lost
+            context['acl'] = str((1/churn_rate)*100)+"%" if churn_rate else "Estable"
+            context['crr'] = 1 - churn_rate
+            context['arpu'] = arpu
+            context['ltv'] = (1/churn_rate)* arpu if churn_rate else arpu
+            context['cac'] = None
+            context['rentabilidad'] = None
+            return context
+        except Exception:
+            return context

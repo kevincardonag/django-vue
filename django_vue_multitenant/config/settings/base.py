@@ -156,7 +156,6 @@ DATABASE_ROUTERS = (
 LOGIN_REDIRECT_URL = '/admin'
 LOGOUT_REDIRECT_URL = '/'
 
-
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',

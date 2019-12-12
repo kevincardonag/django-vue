@@ -106,7 +106,7 @@ class PizzeriaSwitchActiveView(PermissionRequiredMixin, SwitchActiveView):
     raise_exception = True
 
 
-class PizzeriaListView(TemplateDataMixin, DatatablesListView):
+class PizzeriaListView(LoginRequiredMixin, TemplateDataMixin, DatatablesListView):
     model = Pizzeria
     raise_exception = True
     page_title = _("Listar Pizzerias")
