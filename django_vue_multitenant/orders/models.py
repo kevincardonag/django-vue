@@ -27,7 +27,7 @@ class Order(Model):
 	)
     state =  models.CharField(max_length=22,choices=STATE_CHOICE)
     
-    client = models.OneToOneField(UserProfile, on_delete=models.SET_NULL, null=True)
+    client = models.ForeignKey(UserProfile, on_delete=models.SET_NULL, null=True)
     #orderdetail = models.ManyToManyField(OrderDetail, related_name='detalleorden', verbose_name='Detalle Orden')
 
     @property
