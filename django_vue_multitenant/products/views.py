@@ -158,6 +158,15 @@ class ProductUpdateView(LoginRequiredMixin, UserPermissionMixin, MessageMixin, U
     template_name = "products/update.html"
     success_message = "Producto modificado exitosamente"
 
+    def form_valid(self, form):
+        total_ingredients = 0
+        instance = form.instance
+        for ingredient in form.cleaned_data['ingredient']:
+            total_ingredients += ingredient.price
+        instance.price = form.cleaned_data['price'] + total_ingredients
+        form.save()
+        return super(ProductUpdateView, self).form_valid(form)
+
     def get_success_url(self):
         return reverse('products:index')
 
