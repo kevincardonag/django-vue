@@ -35,7 +35,7 @@ class Pizzeria(ActiveSwitchable, TenantMixin):
     date_expired_paid = models.DateField(_('Fecha de expiración'), null=True, blank=True)
 
     has_physical_delivers = models.BooleanField(default=True, verbose_name=_("¿Acepta envíos físicos?"))
-    created_at = models.DateTimeField(default=datetime.now, blank=True)
+    created_at = models.DateField(default=datetime.now, blank=True)
 
     def is_public(self):
         return self.schema_name == get_public_schema_name()
